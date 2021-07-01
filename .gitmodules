@@ -1,0 +1,6 @@
+[submodule "ox_lib"]
+	path = ox_lib
+	url = https://github.com/AlexOxorn/ox_lib.git
+[submodule "fmt"]
+	path = fmt
+	url = https://github.com/fmtlib/fmt.git
