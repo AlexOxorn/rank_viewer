@@ -5,25 +5,25 @@ project(RANK_VIEWER VERSION 0.5)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(DCMAKE_CXX_FLAGS "-Werror -Wall -Wextra")
+set(DCMAKE_CXX_FLAGS "-Werror -Wall -Wextra -O2")
 
-find_program(
-    CLANG_TIDY_EXE
-    NAMES "clang-tidy"
-)
-if(NOT CLANG_TIDY_EXE)
-    message(STATUS "clang-tidy not found.")
-else()
-    message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(
-        CMAKE_CXX_CLANG_TIDY
-        "${CLANG_TIDY_EXE}"
-        -checks=cppcoreguidelines-*,readability-*,performance-*,clang-analyzer-*,bugprone-*,modernize-*,-modernize-use-trailing-return-type,-cppcoreguidelines-avoid-c-arrays,-cppcoreguidelines-pro-type-reinterpret-cast,-readability-braces-around-statements;
-        -header-filter=src/.*.hpp
-        --warnings-as-errors=performance-*,bugprone-*,-bugprone-exception-escape;
-        -p .;
-    )
-endif()
+# find_program(
+#     CLANG_TIDY_EXE
+#     NAMES "clang-tidy"
+# )
+# if(NOT CLANG_TIDY_EXE)
+#     message(STATUS "clang-tidy not found.")
+# else()
+#     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
+#     set(
+#         CMAKE_CXX_CLANG_TIDY
+#         "${CLANG_TIDY_EXE}"
+#         -checks=cppcoreguidelines-*,readability-*,performance-*,clang-analyzer-*,bugprone-*,modernize-*,-modernize-use-trailing-return-type,-cppcoreguidelines-avoid-c-arrays,-cppcoreguidelines-pro-type-reinterpret-cast,-readability-braces-around-statements;
+#         -header-filter=src/.*.hpp
+#         --warnings-as-errors=performance-*,bugprone-*,-bugprone-exception-escape;
+#         -p .;
+#     )
+# endif()
 
 add_subdirectory("fmt")
 add_subdirectory("ox_lib")

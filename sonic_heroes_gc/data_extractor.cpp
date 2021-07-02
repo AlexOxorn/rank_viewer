@@ -76,7 +76,6 @@ std::array<type, length> get_array_address(dolphin_process& process, u32 address
 }
 
 int get_level(dolphin_process& process) {
-
     int temp = get_address(process, stage_address);
     return temp;
 }

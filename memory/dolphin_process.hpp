@@ -11,8 +11,9 @@
 #include <fstream>
 #include <ox/types.h>
 #include <ox/bytes.h>
+#include "process.hpp"
 
-class dolphin_process {
+class dolphin_process : process {
     static constexpr u32 gc_memory_start = 0x80000000;
     int pid;
     u64 emu_ram_address = 0;
@@ -22,42 +23,23 @@ class dolphin_process {
 public:
     dolphin_process(int _pid);
 
-    ~dolphin_process() {
-        if (mem_file)
-            fclose(mem_file);
-    }
-
-    bool read_memory(u64 address, u8* buffer, size_t size, int length, bool byte_swap) const;
+    bool read_memory(s64 address, void* buffer, size_t size, int length, bool byte_swap = false) const override;
+    bool write_memory(s64 address, void* buffer, size_t size, int length, bool byte_swap = false) const override;
 
     template<typename T> requires std::is_trivially_copyable_v<T>
-    bool read_memory(u64 address, T* result, int length = 1) {
-        if (address > 0x80000000) {
-            address -= 0x80000000;
-        }
-        int seek_res = fseek(mem_file, emu_ram_address + address, SEEK_SET);
-        int read_res = fread(result, sizeof(T), length, mem_file);
-        if constexpr (std::is_integral_v<T>) {
-            for (int i = 0; i < length; i++) {
-                ox::swap(result + i);
-            }
-        }
-        return read_res != length;
+    bool read_memory(u64 address, T* result) {
+        return this->read_memory(address, result, sizeof(T), 1, std::is_integral_v<T>);
     }
 
     template<typename T, std::size_t N> requires std::is_trivially_copyable_v<T>
     bool read_memory(u64 address, std::array<T, N>* result) {
-        if (address > 0x80000000) {
-            address -= 0x80000000;
-        }
-        int seek_res = fseek(mem_file, emu_ram_address + address, SEEK_SET);
-        int read_res = fread(result, sizeof(T), N, mem_file);
+        bool valid_read = this->read_memory(address, result, sizeof(T), N);
         if constexpr (std::is_integral_v<T>) {
-            for (auto& a : *result) {
+            for(auto& a : *result) {
                 ox::swap(&a);
             }
         }
-        return read_res != N;
+        return valid_read;
     }
 
-    bool write_memory(u64 address, u8 value, int length);
 };

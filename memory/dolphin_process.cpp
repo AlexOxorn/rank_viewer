@@ -4,13 +4,10 @@
 #include <algorithm>
 #include <ranges>
 
-dolphin_process::dolphin_process(int _pid) : pid{_pid} {
-    std::filesystem::path proc_dir = std::filesystem::path{"/proc"} / std::to_string(pid);
+dolphin_process::dolphin_process(int _pid) : process{_pid} {
     std::ifstream maps_file{ proc_dir / "maps"};
-    std::filesystem::path mem_path = proc_dir / "mem";
-    mem_file = fopen(mem_path.c_str(), "r+b");
-
     std::string line;
+
     bool mem1_found = false;
     while (getline(maps_file, line)) {
         std::vector<std::string> line_data;
@@ -64,39 +61,18 @@ dolphin_process::dolphin_process(int _pid) : pid{_pid} {
     }
 }
 
-bool dolphin_process::read_memory(u64 address, u8* buffer, size_t size, int length, bool byte_swap) const {
+bool dolphin_process::read_memory(s64 address, void* buffer, size_t size, int length, bool byte_swap) const {
     if (address > dolphin_process::gc_memory_start) {
         address -= dolphin_process::gc_memory_start;
     }
-    u64 ram_address = emu_ram_address + address;
-    int seek_res = fseek(mem_file, static_cast<long>(ram_address), SEEK_SET);
-    int read_res = fread(buffer, size, length, mem_file);
-    if(byte_swap) {
-        for(int i = 0; i < read_res; i++) {
-            switch(size) {
-            case sizeof(u16):
-                ox::swap(reinterpret_cast<u16*>(buffer) + i);
-                break;
-            case sizeof(u32):
-                ox::swap(reinterpret_cast<u32*>(buffer) + i);
-                break;
-            case sizeof(u64):
-                ox::swap(reinterpret_cast<u64*>(buffer) + i);
-                break;
-            }
-        }
-    }
-    return read_res == length;
+    s64 ram_address = emu_ram_address + address;
+    return process::read_memory(ram_address, buffer, size, length, byte_swap);
 }
 
-bool dolphin_process::write_memory(u64 address, u8 value, int length) {
+bool dolphin_process::write_memory(s64 address, void* buffer, size_t size, int length, bool byte_swap) const {
     if (address > dolphin_process::gc_memory_start) {
         address -= dolphin_process::gc_memory_start;
     }
-    u64 ram_address = emu_ram_address + address;
-    int seek_res = fseek(mem_file, static_cast<long>(emu_ram_address + address), SEEK_SET);
-    for (int i = 0; i < length; i++) {
-        fwrite(&value, 1, 1, mem_file);
-    }
-    return true;
+    s64 ram_address = emu_ram_address + address;
+    return process::write_memory(ram_address, buffer, size, length, byte_swap);
 }
