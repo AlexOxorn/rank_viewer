@@ -47,21 +47,17 @@ void print_current_progress(
     int divisor = max_marker / (size.columns * scale) + 1;
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, score_data n) -> int {return sum + n.score;});
 
-    // std::cout << ox::move_cursor{0, 0} << ox::clear_line{ox::escape::all};
     fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
 
     for (auto score : scores) {
         int score_ticks = score.score / divisor;
-        // std::cout << score.color;
         fmt::print("{}", score.color);
         for (int i = 0; i < score_ticks; i++) {
-            // std::cout << '|';
             fmt::print("|");
         }
     }
 
-    std::cout << ox::format{ox::escape::reset};
-    // fmt::print(0, "");
+    fmt::print("{}", ox::format{ox::escape::reset});
 
     for (int i = 0; i < ranks.size(); i++ ) {
         auto rank = ranks[i];
@@ -72,20 +68,10 @@ void print_current_progress(
             fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
             fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
 
-        // std::cout   << ox::move_cursor{0, rank_ticks}
-        //             << (total_points >= rank.score ?
-        //                 ox::format{ox::escape::reset, ox::escape::black, ox::escape::background_green, ox::escape::bold} :
-        //                 ox::format{ox::escape::reset, ox::escape::white, ox::escape::background_red, ox::escape::bold})
-        //             << rank.name
-        //             << ox::move_cursor{i+2, 0}
-        //             << ox::format{ox::escape::reset}
-        //             << rank.name << ": "
-        //             << rank.score
-        //             << ox::clear_line{ox::escape::to_end};
         fmt::print(format, "{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
         fmt::print("{}{}: {}{}", ox::move_cursor{i+2, 0}, rank.name, rank.score, ox::clear_line{ox::escape::to_end});
     }
-    std::cout << ox::format{ox::escape::reset};
+    fmt::print("{}", ox::format{ox::escape::reset});
 }
 
 template<std::size_t N>
@@ -97,18 +83,15 @@ void print_current_progress(
     ox::terminal_size size = ox::get_terminal_size();
     int divisor = ranks.front().seconds / (size.columns * scale) + 1;
 
-    std::cout << ox::move_cursor{0, 0} << ox::clear_line{ox::escape::all};
-    // fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
+    fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
 
     int time_ticks = time.seconds / divisor;
-    std::cout << time.color;
-    // fmt::print("{}", time.color);
+    fmt::print("{}", time.color);
     for (int i = 0; i < time_ticks; i++) {
-        std::cout << '|';
-        // fmt::print("|");
+        fmt::print("|");
     }
 
-    std::cout << ox::format{ox::escape::reset};
+    fmt::print("{}", ox::format{ox::escape::reset});
     // fmt::print(fmt::text_style{}, "");
 
     for(int i = 0; i < ranks.size(); i++) {
@@ -116,29 +99,18 @@ void print_current_progress(
         int rank_ticks = rank.seconds / divisor;
         const std::string& rank_name = rank.name;
 
-        // auto format = time.seconds < rank.seconds ?
-        //   fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
-        //   fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
+        auto format = time.seconds < rank.seconds ?
+          fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
+          fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
 
-      std::cout   << ox::move_cursor{0, rank_ticks}
-                  << (time.seconds < rank.seconds ?
-                      ox::format{ox::escape::reset, ox::escape::black, ox::escape::background_green, ox::escape::bold} :
-                      ox::format{ox::escape::reset, ox::escape::white, ox::escape::background_red, ox::escape::bold})
-                  << rank.name
-                  << ox::move_cursor{i+2, 0}
-                  << ox::format{ox::escape::reset}
-                  << rank.name << ": "
-                  << rank.seconds / 60 << "m "
-                  << rank.seconds % 60 << "s"
-                  << ox::clear_line{ox::escape::to_end};
-        // fmt::print(format, "{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
-        // fmt::print(
-        //     "{}{}: {}m {:02}s{}",
-        //     ox::move_cursor{i+2, 0},
-        //     rank.name,
-        //     rank.seconds / 60,
-        //     rank.seconds % 60,
-        //     ox::clear_line{ox::escape::to_end}
-        // );
+        fmt::print(format, "{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
+        fmt::print(
+            "{}{}: {}m {:02}s{}",
+            ox::move_cursor{i+2, 0},
+            rank.name,
+            rank.seconds / 60,
+            rank.seconds % 60,
+            ox::clear_line{ox::escape::to_end}
+        );
     }
 }

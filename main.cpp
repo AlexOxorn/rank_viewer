@@ -2,6 +2,7 @@
 #include <rank.hpp>
 #include <ox/formating.h>
 #include <sonic_heroes/data_extractor.hpp>
+#include <fmt/core.h>
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>
@@ -54,7 +55,7 @@ int main(int argc, char** argv) {
         std::cout << std::flush;
 
 		if(next != current) {
-			printf("%s%s", ox::format{ox::escape::reset}.c_str(), ox::escape_code<ox::escape::clear_screen>{ox::escape::all}.c_str());
+            fmt::print("{}{}", ox::format{ox::escape::reset}, ox::clear_screen{ox::escape::all});
 			current = next;
 			result = get_ranks(dolphin, current.level, current.team, current.mission, buffer);
 			if((result & TIMED_LEVEL) != 0) {
