@@ -9,5 +9,5 @@ int main(int argc, char** argv) {
 
 	pid = atoi(argv[1]);
 
-    display_ranks(pid);
+    gc::sonic_heroes::display_ranks(pid);
 }
