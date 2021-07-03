@@ -1,11 +1,13 @@
 add_library(
   "sonic_heroes"
   include/sonic_heroes/data_extractor.hpp
+  include/sonic_heroes/rank_view.hpp
   include/sonic_heroes/enum.hpp
   include/sonic_heroes/structs.hpp
   include/sonic_heroes/variables.hpp
 
   src/data_extractor.cpp
+  src/rank_view.cpp
 )
 
 target_link_libraries("sonic_heroes" "ox")
