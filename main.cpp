@@ -1,7 +1,7 @@
 #include "memory/dolphin_process.hpp"
-#include "rank.hpp"
+#include <rank.hpp>
 #include <ox/formating.h>
-#include "sonic_heroes_gc/data_extractor.hpp"
+#include <sonic_heroes/data_extractor.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>

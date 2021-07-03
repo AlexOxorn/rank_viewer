@@ -2,9 +2,9 @@
 #include "structs.hpp"
 #include "variables.hpp"
 #include <concepts>
-#include "../memory/dolphin_process.hpp"
+#include <dolphin_process.hpp>
 #include <ox/formating.h>
-#include "../rank.hpp"
+#include <rank.hpp>
 
 constexpr int EXTRA_MISSION = 1 << 1;
 constexpr int BOSS_LEVEL = 1 << 2;

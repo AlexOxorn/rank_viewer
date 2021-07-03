@@ -1,4 +1,4 @@
-#include "data_extractor.hpp"
+#include <sonic_heroes/data_extractor.hpp>
 
 constexpr int seaside_hill = 2;
 constexpr int rail_canyon = 8;
