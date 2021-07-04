@@ -14,7 +14,7 @@ namespace sa2 {
     constexpr u64 mission3_ranks = 0x173B208;
     constexpr u64 mission4_ranks = 0x173AE70;
     constexpr u64 mission5_ranks = 0x173AFA0;
-    constexpr u64 kart_mission_ranks = 0x173b378;
+    constexpr u64 kart_mission_ranks = 0x173B378;
 
     constexpr std::array<u64, 5> mission_rank_addresses {
         mission1_ranks,

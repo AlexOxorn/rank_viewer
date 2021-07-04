@@ -31,8 +31,8 @@ namespace gc::sonic_heroes {
 
         return std::array{
             rank_data{ranks[0] * 100, "D"},
-            rank_data{ranks[1] * 100, "B"},
-            rank_data{ranks[2] * 100, "C"},
+            rank_data{ranks[1] * 100, "C"},
+            rank_data{ranks[2] * 100, "B"},
             rank_data{ranks[3] * 100, "A"}
         };
     }

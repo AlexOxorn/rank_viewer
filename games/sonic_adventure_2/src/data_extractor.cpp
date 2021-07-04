@@ -80,8 +80,8 @@ namespace sa2 {
         auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks);
         return std::array{
             rank_data{ranks[0] * 100, "D"},
-            rank_data{ranks[1] * 100, "B"},
-            rank_data{ranks[2] * 100, "C"},
+            rank_data{ranks[1] * 100, "C"},
+            rank_data{ranks[2] * 100, "B"},
             rank_data{ranks[3] * 100, "A"}
         };
     }
