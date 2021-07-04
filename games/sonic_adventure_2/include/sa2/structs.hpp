@@ -19,7 +19,7 @@ namespace sa2 {
     };
 
     struct stage_time_rank {
-        u16 level_id;
+        u8 level_id;
         min_second ranks[4];
     };
 

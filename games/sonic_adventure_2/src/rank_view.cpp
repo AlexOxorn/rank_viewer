@@ -14,13 +14,13 @@ namespace sa2 {
 
     	while(true) {
     		usleep(stall_time_milli);
-    		state next{get_level(game), get_mission(game)};
+    		state next{get_level(game), get_mission(game), get_character(game)};
             std::cout << std::flush;
 
     		if(next != current) {
                 fmt::print("{}{}", ox::format{ox::escape::reset}, ox::clear_screen{ox::escape::all});
     			current = next;
-    			result = get_ranks(game, current.level, current.mission, buffer);
+    			result = get_ranks(game, current.level, current.mission, current.character, buffer);
     			if((result & TIMED_LEVEL) != 0) {
     				t_ranks = interpret_time_rank_data(game, reinterpret_cast<stage_time_rank *>(buffer));
     			} else {

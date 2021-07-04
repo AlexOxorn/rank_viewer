@@ -1,7 +1,17 @@
 #include <sa2/data_extractor.hpp>
 
 namespace sa2 {
-    int get_ranks(process& process, int level, int mission, void* buffer) {
+    int get_ranks(process& process, int level, int mission, int character, void* buffer) {
+        if (level == KartRoutes) {
+            int char_offset = character == Characters_Rouge ? sizeof(stage_time_rank) * 5 : 0;
+            auto* rbuffer = reinterpret_cast<stage_time_rank *>(buffer);
+            process.read_memory(
+                kart_mission_ranks + sizeof(*rbuffer) * mission + char_offset,
+                rbuffer
+            );
+            return TIMED_LEVEL;
+        }
+
         auto index_iter = stage_index.find(level);
         if (index_iter == stage_index.end()) {
             return -1;
@@ -32,6 +42,11 @@ namespace sa2 {
 
     int get_level(process& process) {
         int temp = get_address(process, current_level_address);
+        return temp;
+    }
+
+    int get_character(process& process) {
+        int temp = get_address(process, current_character_address);
         return temp;
     }
 

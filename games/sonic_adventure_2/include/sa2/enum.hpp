@@ -4,7 +4,7 @@
 
 namespace sa2 {
     enum Stage {
-        GreenForest = 2,
+        GreenForest = 3,
         WhiteJungle,
         PumpkingHill,
         SkyRail,
@@ -38,5 +38,26 @@ namespace sa2 {
         FinalChase = 40,
         CosmicWall = 43,
         MadSpace,
+        KartRoutes = 70
+    };
+
+    enum Characters {
+    	Characters_Sonic,
+    	Characters_Shadow,
+    	Characters_Tails,
+    	Characters_Eggman,
+    	Characters_Knuckles,
+    	Characters_Rouge,
+    	Characters_MechTails,
+    	Characters_MechEggman,
+    	Characters_Amy,
+    	Characters_SuperSonic,
+    	Characters_SuperShadow,
+    	Characters_B,
+    	Characters_MetalSonic,
+    	Characters_ChaoWalker,
+    	Characters_DarkChaoWalker,
+    	Characters_Tikal,
+    	Characters_Chaos
     };
 }

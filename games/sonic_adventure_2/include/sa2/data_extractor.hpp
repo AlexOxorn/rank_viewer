@@ -11,9 +11,10 @@ namespace sa2 {
     constexpr int TIMED_LEVEL = 1 << 1;
     constexpr int KART_MISSION = 1 << 2;
 
-    int get_ranks(process& process, int level, int mission, void* buffer);
+    int get_ranks(process& process, int level, int mission, int character, void* buffer);
 
     int get_level(process& process);
+    int get_character(process& process);
     int get_mission(process& process);
     int get_score(process& process);
     min_second get_time(process& process);

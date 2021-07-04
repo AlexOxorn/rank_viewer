@@ -13,6 +13,7 @@ namespace sa2 {
     struct state {
     	int level;
     	int mission;
+        int character;
 
     	bool operator==(state other) const {
     		return level == other.level &&
