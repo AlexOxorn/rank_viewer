@@ -8,7 +8,7 @@ namespace sa2 {
         u8 minutes;
         u8 seconds;
 
-        int total_second() {
+        int total_seconds() {
             return minutes * 60 + seconds;
         }
     };

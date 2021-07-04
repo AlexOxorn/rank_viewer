@@ -22,6 +22,7 @@ target_link_libraries("${PROJECT_NAME}" PRIVATE "ox")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "fmt")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "display")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "sonic_heroes")
+target_link_libraries("${PROJECT_NAME}" PRIVATE "sa2")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "memory")
 
 install(TARGETS "${PROJECT_NAME}" DESTINATION bin)

@@ -74,10 +74,10 @@ namespace sa2 {
     std::array<time_rank_data, 4> interpret_time_rank_data(process& process, stage_time_rank* stage) {
         auto ranks = *reinterpret_cast<std::array<min_second, 4> *>(&stage->ranks);
         return std::array{
-            time_rank_data{ranks[0].total_second(), "D"},
-            time_rank_data{ranks[1].total_second(), "C"},
-            time_rank_data{ranks[2].total_second(), "B"},
-            time_rank_data{ranks[3].total_second(), "A"}
+            time_rank_data{ranks[0].total_seconds(), "D"},
+            time_rank_data{ranks[1].total_seconds(), "C"},
+            time_rank_data{ranks[2].total_seconds(), "B"},
+            time_rank_data{ranks[3].total_seconds(), "A"}
         };
     }
 }

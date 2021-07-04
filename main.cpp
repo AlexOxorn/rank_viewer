@@ -1,4 +1,4 @@
-#include <sonic_heroes/rank_view.hpp>
+#include <sa2/rank_view.hpp>
 
 int main(int argc, char** argv) {
 	int pid = -1;
@@ -9,5 +9,5 @@ int main(int argc, char** argv) {
 
 	pid = atoi(argv[1]);
 
-    gc::sonic_heroes::display_ranks(pid);
+    sa2::display_ranks(pid);
 }

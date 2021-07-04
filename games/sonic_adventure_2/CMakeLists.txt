@@ -1,13 +1,13 @@
 add_library(
   "sa2"
   include/sa2/data_extractor.hpp
-  # include/sa2/rank_view.hpp
+  include/sa2/rank_view.hpp
   include/sa2/enum.hpp
   include/sa2/structs.hpp
   include/sa2/variables.hpp
 
   src/data_extractor.cpp
-  # src/rank_view.cpp
+  src/rank_view.cpp
 )
 
 target_link_libraries("sa2" "ox")
