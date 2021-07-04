@@ -6,7 +6,7 @@
 
 namespace sa2 {
     constexpr u64 score_address = 0x174B050;
-    constexpr u64 time_address = 0x174B050;
+    constexpr u64 time_address = 0x174AFDB;
     constexpr u64 rings_address = 0x174B028;
 
     constexpr u64 mission1_ranks = 0x173AD40;
