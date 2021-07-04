@@ -1,5 +1,6 @@
 add_library(
   "memory"
+  helpers.hpp
   dolphin_process.cpp
   dolphin_process.hpp
   process.cpp

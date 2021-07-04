@@ -62,20 +62,6 @@ namespace gc::sonic_heroes {
         return EXTRA_MISSION | TIMED_LEVEL;
     }
 
-    template<std::integral type = int>
-    int get_address(dolphin_process& process, u32 address) {
-        type to_return;
-        process.read_memory(address, &to_return);
-        return to_return;
-    }
-
-    template<std::integral type = u32, int length = 3>
-    std::array<type, length> get_array_address(dolphin_process& process, u32 address) {
-        std::array<type, length> to_return{};
-        process.read_memory(address, &to_return);
-        return to_return;
-    }
-
     int get_level(dolphin_process& process) {
         int temp = get_address(process, stage_address);
         return temp;
@@ -94,7 +80,7 @@ namespace gc::sonic_heroes {
     }
 
     std::array<u32, 3> get_score(dolphin_process& process) {
-        return get_array_address(process, score_address);
+        return get_array_address<u32, 3>(process, score_address);
     }
 
     std::array<u8, 3> get_time(dolphin_process& process) {

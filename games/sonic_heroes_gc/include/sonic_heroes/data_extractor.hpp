@@ -3,6 +3,7 @@
 #include "variables.hpp"
 #include <concepts>
 #include <dolphin_process.hpp>
+#include <helpers.hpp>
 #include <ox/formating.h>
 #include <rank.hpp>
 
