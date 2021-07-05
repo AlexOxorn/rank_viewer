@@ -42,4 +42,19 @@ public:
         return valid_read;
     }
 
+    template<typename T> requires std::is_trivially_copyable_v<T>
+    bool write_memory(u64 address, T* result) {
+        return this->write_memory(address, result, sizeof(T), 1, ox::is_endianable_v<T>);
+    }
+
+    template<typename T, std::size_t N> requires std::is_trivially_copyable_v<T>
+    bool write_memory(u64 address, std::array<T, N>* result) {
+        if constexpr (ox::is_endianable_v<T>) {
+            for(auto& a : *result) {
+                ox::swap(&a);
+            }
+        }
+        bool valid_read = this->write_memory(address, result, sizeof(T), N);
+        return valid_read;
+    }
 };

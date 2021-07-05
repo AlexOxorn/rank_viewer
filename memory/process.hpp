@@ -42,4 +42,14 @@ public:
     bool read_memory(s64 address, std::array<T, N>* result) {
         return this->read_memory(address, result, sizeof(T), N);
     }
+
+    template<typename T> requires std::is_trivially_copyable<T>::value
+    bool write_memory(s64 address, T* result) {
+        return this->write_memory(address, result, sizeof(T), 1);
+    }
+
+    template<typename T, std::size_t N> requires std::is_trivially_copyable<T>::value
+    bool write_memory(s64 address, std::array<T, N>* result) {
+        return this->write_memory(address, result, sizeof(T), N);
+    }
 };
