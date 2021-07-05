@@ -18,6 +18,7 @@ constexpr u32 rings_address3 = 0x801E531C; // 7ea9a2f4
 constexpr u32 stage_data_start = 0x801E7AA4;
 constexpr u32 stage_data_next = 0x801E7B68;
 
+constexpr u32 chao_data_address = 0x81645610;
 
 constexpr u32 stage_data = 0x801F25C4;
 
