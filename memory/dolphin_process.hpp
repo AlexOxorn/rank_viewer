@@ -33,7 +33,7 @@ public:
 
     template<typename T, std::size_t N> requires std::is_trivially_copyable_v<T>
     bool read_memory(u64 address, std::array<T, N>* result) {
-        bool valid_read = this->read_memory(address, result, sizeof(T), N);
+        bool valid_read = this->read_memory(address, result->data(), sizeof(T), N);
         if constexpr (ox::is_endianable_v<T>) {
             for(auto& a : *result) {
                 ox::swap(&a);
@@ -54,7 +54,7 @@ public:
                 ox::swap(&a);
             }
         }
-        bool valid_read = this->write_memory(address, result, sizeof(T), N);
+        bool valid_read = this->write_memory(address, result->data(), sizeof(T), N);
         return valid_read;
     }
 };

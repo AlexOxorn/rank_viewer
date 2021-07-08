@@ -40,7 +40,7 @@ public:
 
     template<typename T, std::size_t N> requires std::is_trivially_copyable<T>::value
     bool read_memory(s64 address, std::array<T, N>* result) {
-        return this->read_memory(address, result, sizeof(T), N);
+        return this->read_memory(address, result->data(), sizeof(T), N);
     }
 
     template<typename T> requires std::is_trivially_copyable<T>::value
@@ -50,6 +50,6 @@ public:
 
     template<typename T, std::size_t N> requires std::is_trivially_copyable<T>::value
     bool write_memory(s64 address, std::array<T, N>* result) {
-        return this->write_memory(address, result, sizeof(T), N);
+        return this->write_memory(address, result->data(), sizeof(T), N);
     }
 };
