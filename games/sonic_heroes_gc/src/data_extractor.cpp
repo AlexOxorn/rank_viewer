@@ -63,12 +63,12 @@ namespace gc::sonic_heroes {
     }
 
     int get_level(dolphin_process& process) {
-        int temp = get_address(process, stage_address);
+        int temp = get_address(process, current_stage_address);
         return temp;
     }
 
     int get_team(dolphin_process& process) {
-        return get_address(process, team_address);
+        return get_address(process, current_team_address);
     }
 
     int get_mission(dolphin_process& process) {
@@ -76,15 +76,15 @@ namespace gc::sonic_heroes {
     }
 
     int get_state(dolphin_process& process) {
-        return get_address(process, game_state);
+        return get_address(process, current_game_state);
     }
 
     std::array<u32, 3> get_score(dolphin_process& process) {
-        return get_array_address<u32, 3>(process, score_address);
+        return get_array_address<u32, 3>(process, current_scores_address);
     }
 
     std::array<u8, 3> get_time(dolphin_process& process) {
-        return get_array_address<u8>(process, time_address);
+        return get_array_address<u8>(process, current_time_address);
     }
 
     std::array<u8, 3> get_cores(dolphin_process& process) {
