@@ -2,6 +2,7 @@
 
 #include <ox/types.h>
 #include "enum.hpp"
+#include "structs.hpp"
 #include <unordered_map>
 #include <helpers.hpp>
 
@@ -28,6 +29,13 @@ namespace sa2 {
     GAME_VARIABLE(int, current_level, 0x1934B70)
     GAME_VARIABLE(int, current_character, 0x1934B80)
     GAME_VARIABLE(int, current_mission, 0x174AFE3)
+
+    GAME_VARIABLE(float_vector, p1_possition_mirror, 0x19ed39C)
+
+    GAME_VARIABLE(ptr<object>, p1_object_ptr, 0x1DEA6E0)
+    GAME_INDIRECT_VARIABLE(object, p1_object, p1_object_ptr, 0x0)
+    GAME_INDIRECT_VARIABLE(ptr<entity_data>, p1_object_entity_ptr, p1_object_ptr, 0x34)
+    GAME_INDIRECT_VARIABLE(float_vector, player1_position, p1_object_entity_ptr, 0x14)
 
     const std::unordered_map<int, int> stage_index{
         {CityEscape, 0},
