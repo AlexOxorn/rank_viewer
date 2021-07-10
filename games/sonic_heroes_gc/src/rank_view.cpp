@@ -15,7 +15,7 @@ namespace gc::sonic_heroes {
 
     	while(true) {
     		usleep(stall_time_milli);
-    		state next{get_level(dolphin), get_team(dolphin), get_mission(dolphin)};
+    		state next{get_current_stage(dolphin), get_current_team(dolphin), get_current_mission(dolphin)};
             std::cout << std::flush;
 
     		if(next != current) {
@@ -41,7 +41,7 @@ namespace gc::sonic_heroes {
     			continue;
 
     		if ((result & TIMED_LEVEL) != 0) {
-    			std::array<u8, 3> time = get_time(dolphin);
+    			std::array<u8, 3> time = get_current_time(dolphin);
     			print_current_progress(t_ranks, {time[0] * 60 + time[1], ox::format{ox::escape::background_white, ox::escape::white}});
     		} else {
     			interpret_score(dolphin);

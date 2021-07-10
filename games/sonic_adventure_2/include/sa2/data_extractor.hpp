@@ -13,12 +13,6 @@ namespace sa2 {
 
     int get_ranks(process& process, int level, int mission, int character, void* buffer);
 
-    int get_level(process& process);
-    int get_character(process& process);
-    int get_mission(process& process);
-    int get_score(process& process);
-    min_second get_time(process& process);
-
     std::array<score_data, 2> interpret_score(process& process);
 
     std::array<rank_data, 4> interpret_score_rank_data(process& process, stage_score_rank* stage);

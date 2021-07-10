@@ -3,30 +3,31 @@
 #include <ox/types.h>
 #include "enum.hpp"
 #include <unordered_map>
+#include <helpers.hpp>
 
 namespace sa2 {
-    constexpr u64 score_address = 0x174B050;
-    constexpr u64 time_address = 0x174AFDB;
-    constexpr u64 rings_address = 0x174B028;
+    GAME_VARIABLE(int, score, 0x174B050)
+    GAME_VARIABLE(min_second, time, 0x174AFDB)
+    GAME_VARIABLE(int, rings, 0x174B028)
 
-    constexpr u64 mission1_ranks = 0x173AD40;
-    constexpr u64 mission2_ranks = 0x173B0D0;
-    constexpr u64 mission3_ranks = 0x173B208;
-    constexpr u64 mission4_ranks = 0x173AE70;
-    constexpr u64 mission5_ranks = 0x173AFA0;
-    constexpr u64 kart_mission_ranks = 0x173B378;
+    GAME_ARRAY_VARIABLE(stage_score_rank, mission1_ranks, 0x173AD40, 30)
+    GAME_ARRAY_VARIABLE(stage_time_rank,  mission2_ranks, 0x173B0D0, 34)
+    GAME_ARRAY_VARIABLE(stage_time_rank,  mission3_ranks, 0x173B208, 30)
+    GAME_ARRAY_VARIABLE(stage_score_rank, mission4_ranks, 0x173AE70, 30)
+    GAME_ARRAY_VARIABLE(stage_score_rank, mission5_ranks, 0x173AFA0, 30)
+    GAME_ARRAY_VARIABLE(stage_time_rank,  kart_mission_ranks, 0x173B378, 10)
 
     constexpr std::array<u64, 5> mission_rank_addresses {
-        mission1_ranks,
-        mission2_ranks,
-        mission3_ranks,
-        mission4_ranks,
-        mission5_ranks
+        mission1_ranks_address,
+        mission2_ranks_address,
+        mission3_ranks_address,
+        mission4_ranks_address,
+        mission5_ranks_address
     };
 
-    constexpr u64 current_level_address = 0x1934B70;
-    constexpr u64 current_character_address = 0x1934B80;
-    constexpr u64 current_mission_address = 0x174AFE3;
+    GAME_VARIABLE(int, current_level, 0x1934B70)
+    GAME_VARIABLE(int, current_character, 0x1934B80)
+    GAME_VARIABLE(int, current_mission, 0x174AFE3)
 
     const std::unordered_map<int, int> stage_index{
         {CityEscape, 0},

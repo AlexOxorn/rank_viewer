@@ -6,7 +6,7 @@ namespace sa2 {
             int char_offset = character == Characters_Rouge ? sizeof(stage_time_rank) * 5 : 0;
             auto* rbuffer = reinterpret_cast<stage_time_rank *>(buffer);
             process.read_memory(
-                kart_mission_ranks + sizeof(*rbuffer) * mission + char_offset,
+                kart_mission_ranks_address + sizeof(*rbuffer) * mission + char_offset,
                 rbuffer
             );
             return TIMED_LEVEL;
@@ -38,28 +38,6 @@ namespace sa2 {
         }
 
         return -1;
-    }
-
-    int get_level(process& process) {
-        int temp = get_address(process, current_level_address);
-        return temp;
-    }
-
-    int get_character(process& process) {
-        int temp = get_address(process, current_character_address);
-        return temp;
-    }
-
-    int get_mission(process& process) {
-        return get_address<u8>(process, current_mission_address);
-    }
-
-    int get_score(process& process) {
-        return get_address(process, score_address);
-    }
-
-    min_second get_time(process& process) {
-        return get_address<min_second>(process, time_address);
     }
 
     std::array<score_data, 2> interpret_score(process& process) {

@@ -14,7 +14,7 @@ namespace sa2 {
 
     	while(true) {
     		usleep(stall_time_milli);
-    		state next{get_level(game), get_mission(game), get_character(game)};
+    		state next{get_current_level(game), get_current_mission(game), get_current_character(game)};
             std::cout << std::flush;
 
     		if(next != current) {

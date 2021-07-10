@@ -15,3 +15,15 @@ std::array<type, length> get_array_address(process& process, u32 address) {
     process.read_memory(address, &to_return);
     return to_return;
 }
+
+#define GAME_VARIABLE(type, name, address) \
+constexpr u64 name##_address = address;\
+inline type get_##name(process& p) {\
+    return get_address<type>(p, address);\
+}
+
+#define GAME_ARRAY_VARIABLE(type, name, address, size) \
+constexpr u64 name##_address = address;\
+inline std::array<type, size> get_##name(process& p) {\
+    return get_array_address<type, size>(p, address);\
+}

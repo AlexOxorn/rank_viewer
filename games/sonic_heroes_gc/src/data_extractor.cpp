@@ -29,7 +29,7 @@ namespace gc::sonic_heroes {
 
         if (level > final_fortress) {
             auto* rbuffer = reinterpret_cast<boss_timed_stages *>(buffer);
-            process.read_memory(boss_times_ranks + sizeof(*rbuffer) * offset, rbuffer);
+            process.read_memory(boss_times_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
             rbuffer->from_endian();
             return BOSS_LEVEL | TIMED_LEVEL;
         }
@@ -41,7 +41,7 @@ namespace gc::sonic_heroes {
             if (offset > rail_canyon - seaside_hill)
                 offset++;
             auto* rbuffer = reinterpret_cast<normal_stages *>(buffer);
-            process.read_memory(normal_stage_ranks + sizeof(*rbuffer) * offset, rbuffer);
+            process.read_memory(normal_stage_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
             rbuffer->from_endian();
             return 0;
         }
@@ -51,51 +51,22 @@ namespace gc::sonic_heroes {
             if (offset >= rail_canyon - seaside_hill)
                 offset++;
             auto* rbuffer = reinterpret_cast<extra_stages *>(buffer);
-            process.read_memory(extra_stage_ranks + sizeof(*rbuffer) * offset, rbuffer);
+            process.read_memory(extra_stage_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
             rbuffer->from_endian();
             return EXTRA_MISSION;
         }
 
         auto* rbuffer = reinterpret_cast<extra_timed_stages *>(buffer);
-        process.read_memory(extra_times_ranks + sizeof(*rbuffer) * offset, rbuffer);
+        process.read_memory(extra_times_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
         rbuffer->from_endian();
         return EXTRA_MISSION | TIMED_LEVEL;
     }
 
-    int get_level(dolphin_process& process) {
-        int temp = get_address(process, current_stage_address);
-        return temp;
-    }
-
-    int get_team(dolphin_process& process) {
-        return get_address(process, current_team_address);
-    }
-
-    int get_mission(dolphin_process& process) {
-        return get_address<u8>(process, extra_flag_address);
-    }
-
-    int get_state(dolphin_process& process) {
-        return get_address(process, current_game_state);
-    }
-
-    std::array<u32, 3> get_score(dolphin_process& process) {
-        return get_array_address<u32, 3>(process, current_scores_address);
-    }
-
-    std::array<u8, 3> get_time(dolphin_process& process) {
-        return get_array_address<u8>(process, current_time_address);
-    }
-
-    std::array<u8, 3> get_cores(dolphin_process& process) {
-        return get_array_address<u8>(process, character_levels);
-    }
-
     std::array<score_data, 5> interpret_score(dolphin_process& process) {
-        int state = get_state(process);
-        std::array<u32, 3> scores = get_score(process);
-        std::array<u8, 3> time = get_time(process);
-        std::array<u8, 3> cores = get_cores(process);
+        int state = get_current_game_state(process);
+        std::array<u32, 3> scores = get_current_scores(process);
+        std::array<u8, 3> time = get_current_time(process);
+        std::array<u8, 3> cores = get_current_character_levels(process);
 
         int seconds = time[0] * seconds_per_minute + time[1];
         int timebonus = max_timebonus - per_second_timebonus_penalty * seconds;

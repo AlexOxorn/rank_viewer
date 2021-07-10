@@ -13,13 +13,6 @@ namespace gc::sonic_heroes {
     constexpr int TIMED_LEVEL = 1 << 3;
 
     int get_ranks(dolphin_process& process, int level, int team, int mission, void* buffer);
-    int get_level(dolphin_process& process);
-    int get_team(dolphin_process& process);
-    int get_mission(dolphin_process& process);
-    int get_state(dolphin_process& process);
-    std::array<u32, 3> get_score(dolphin_process& process);
-    std::array<u8, 3> get_time(dolphin_process& process);
-    std::array<u8, 3> get_cores(dolphin_process& process);
     std::array<score_data, 5> interpret_score(dolphin_process& process);
 
     template<typename rank_type> requires std::is_same_v<rank_type, normal_stages> || std::is_same_v<rank_type, extra_stages>
