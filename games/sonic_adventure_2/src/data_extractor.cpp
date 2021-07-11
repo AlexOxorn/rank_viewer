@@ -45,7 +45,7 @@ namespace sa2 {
         min_second time = get_time(process);
 
         int seconds = time.minutes * 60 + time.seconds;
-        int timebonus = seconds < 90 ? 10000 : 11200 - (seconds) * 20;
+        int timebonus = seconds <= 60 ? 10000 : 11200 - seconds * 20;
         timebonus = timebonus < 0 ? 0 : timebonus;
 
         return std::array{
