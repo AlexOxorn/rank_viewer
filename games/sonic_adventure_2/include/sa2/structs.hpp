@@ -7,12 +7,26 @@
 using ox::ptr;
 
 namespace sa2 {
-    struct min_second {
+    struct minute_second {
         u8 minutes;
         u8 seconds;
 
         int total_seconds() {
             return minutes * 60 + seconds;
+        }
+    };
+
+    struct minute_second_centi {
+        u8 minutes;
+        u8 seconds;
+        u8 centiseconds;
+
+        int total_seconds() {
+            return minutes * 60 + seconds;
+        }
+
+        int total_centiseconds() {
+            return total_seconds() * 100 + centiseconds;
         }
     };
 
@@ -58,7 +72,7 @@ namespace sa2 {
 
     struct stage_time_rank {
         u8 level_id;
-        min_second ranks[4];
+        minute_second ranks[4];
     };
 
     struct stage_score {

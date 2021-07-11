@@ -8,7 +8,8 @@
 
 namespace sa2 {
     GAME_VARIABLE(int, score, 0x174B050)
-    GAME_VARIABLE(min_second, time, 0x174AFDB)
+    GAME_VARIABLE(minute_second, time, 0x174AFDB)
+    GAME_VARIABLE(minute_second_centi, full_time, 0x174AFDB)
     GAME_VARIABLE(int, rings, 0x174B028)
 
     GAME_ARRAY_VARIABLE(stage_score_rank, mission1_ranks, 0x173AD40, 30)
@@ -30,7 +31,7 @@ namespace sa2 {
     GAME_VARIABLE(int, current_character, 0x1934B80)
     GAME_VARIABLE(int, current_mission, 0x174AFE3)
 
-    GAME_VARIABLE(float_vector, p1_possition_mirror, 0x19ed39C)
+    GAME_VARIABLE(float_vector, p1_possition_mirror, 0x19ED3FC)
 
     GAME_VARIABLE(ptr<object>, p1_object_ptr, 0x1DEA6E0)
     GAME_INDIRECT_VARIABLE(object, p1_object, p1_object_ptr, 0x0)

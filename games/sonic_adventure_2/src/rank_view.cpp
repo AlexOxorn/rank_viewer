@@ -1,6 +1,18 @@
 #include <sa2/rank_view.hpp>
 
 namespace sa2 {
+    struct state {
+        int level;
+        int mission;
+        int character;
+
+        bool operator==(state other) const {
+            return level == other.level &&
+                    mission == other.mission;
+        }
+    };
+    constexpr int stall_time_milli = 2500;
+
     void display_ranks(int pid) {
         process game{pid};
     	stage_score_rank prototype{};
@@ -32,7 +44,7 @@ namespace sa2 {
     			continue;
 
     		if ((result & TIMED_LEVEL) != 0) {
-    			min_second time = get_time(game);
+    			minute_second time = get_time(game);
     			print_current_progress(t_ranks, {time.total_seconds(), ox::format{ox::escape::background_white, ox::escape::white}});
     		} else {
     			interpret_score(game);

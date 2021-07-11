@@ -42,7 +42,7 @@ namespace sa2 {
 
     std::array<score_data, 2> interpret_score(process& process) {
         int score = get_score(process);
-        min_second time = get_time(process);
+        minute_second time = get_time(process);
 
         int seconds = time.minutes * 60 + time.seconds;
         int timebonus = seconds <= 60 ? 10000 : 11200 - seconds * 20;
@@ -65,7 +65,7 @@ namespace sa2 {
     }
 
     std::array<time_rank_data, 4> interpret_time_rank_data(process& process, stage_time_rank* stage) {
-        auto ranks = *reinterpret_cast<std::array<min_second, 4> *>(&stage->ranks);
+        auto ranks = *reinterpret_cast<std::array<minute_second, 4> *>(&stage->ranks);
         return std::array{
             time_rank_data{ranks[0].total_seconds(), "D"},
             time_rank_data{ranks[1].total_seconds(), "C"},

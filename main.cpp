@@ -1,6 +1,8 @@
 #include <sa2/rank_view.hpp>
+#include <sa2/position_view.hpp>
 #include <ox/formating.h>
 #include <iostream>
+#include <filesystem>
 
 int main(int argc, char** argv) {
 	int pid = -1;
@@ -11,15 +13,15 @@ int main(int argc, char** argv) {
 
 	pid = atoi(argv[1]);
 
-    // sa2::display_ranks(pid);
-    using namespace sa2;
-    process p{pid};
-    while(true) {
-        float_vector pos = sa2::get_player1_position(p);
-        fmt::print("{}", ox::clear_screen{ox::escape::all});
-        fmt::print("{}{:g}", ox::move_cursor{1, 0}, pos.x);
-        fmt::print("{}{:g}", ox::move_cursor{2, 0}, pos.y);
-        fmt::print("{}{:g}", ox::move_cursor{3, 0}, pos.z);
-        std::cout << std::flush;
-    }
+    std::filesystem::path dir = "./sa2_pos_dummp_test";
+    sa2::print_position(dir, pid);
+    // process game{pid};
+    // while(true) {
+    //     fmt::print("{}{}", ox::clear_screen{ox::escape::all}, ox::move_cursor{1, 1});
+    //     auto position = sa2::get_p1_possition_mirror(game);
+    //     fmt::print("{:g}\n{:g}\n{:g}", position.x, position.y, position.z);
+    //     // auto position = sa2::get_p1_object_entity_ptr(game);
+    //     // fmt::print("{:x}", static_cast<u32>(position));
+    //     fflush(stdout);
+    // }
 }

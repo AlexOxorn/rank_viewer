@@ -9,6 +9,7 @@
 #include <iostream>
 #include <ox/types.h>
 #include <ox/bytes.h>
+#include <fcntl.h>
 
 class process {
 protected:
