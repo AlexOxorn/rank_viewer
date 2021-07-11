@@ -2,6 +2,7 @@
 
 #include <ox/types.h>
 #include <ox/bytes.h>
+#include <common.hpp>
 
 using ox::ptr;
 
@@ -13,18 +14,6 @@ namespace sa2 {
         int total_seconds() {
             return minutes * 60 + seconds;
         }
-    };
-
-    struct int_vector {
-        s32 x;
-        s32 y;
-        s32 z;
-    };
-
-    struct float_vector {
-        float x;
-        float y;
-        float z;
     };
 
     struct entity_data {

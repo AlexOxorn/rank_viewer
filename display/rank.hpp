@@ -11,26 +11,7 @@
 #include <ox/terminal.h>
 #include <fmt/core.h>
 #include <fmt/color.h>
-
-struct rank_data {
-    int score;
-    std::string name;
-};
-
-struct time_rank_data {
-    int seconds;
-    std::string name;
-};
-
-struct score_data {
-    int score;
-    std::string color;
-};
-
-struct time_data {
-    int seconds;
-    std::string color;
-};
+#include "common.hpp"
 
 template<std::size_t N, std::size_t M>
 void print_current_progress(

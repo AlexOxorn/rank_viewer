@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     using namespace sa2;
     process p{pid};
     while(true) {
-        sa2::float_vector pos = sa2::get_player1_position(p);
+        float_vector pos = sa2::get_player1_position(p);
         fmt::print("{}", ox::clear_screen{ox::escape::all});
         fmt::print("{}{:g}", ox::move_cursor{1, 0}, pos.x);
         fmt::print("{}{:g}", ox::move_cursor{2, 0}, pos.y);
