@@ -7,13 +7,13 @@
 int main(int argc, char** argv) {
 	int pid = -1;
 
-	if (argc != 2) {
+	if (argc != 3) {
 		return -1;
 	}
 
 	pid = atoi(argv[1]);
 
-    std::filesystem::path dir = "./sa2_pos_dummp_test";
+    std::filesystem::path dir = argv[2];
     sa2::print_position(dir, pid);
     // process game{pid};
     // while(true) {
