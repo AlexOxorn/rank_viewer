@@ -27,6 +27,9 @@ public:
         mem_file = fopen(mem_path.c_str(), "r+b");
     }
 
+    process(const process& p) = delete;
+    process& operator=(const process& p) = delete;
+
     virtual ~process() {
         int result = fclose(mem_file);
     }

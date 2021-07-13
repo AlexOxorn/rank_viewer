@@ -60,6 +60,7 @@ namespace sa2 {
         ptr<entity_data> object_data1;
         ptr<void> entity_data2;
         ptr<void> unknow_ptrA;
+        ptr<void> object_data2;
         ptr<char> name;
         ptr<char> name_again;
         ptr<void> field_4C;
