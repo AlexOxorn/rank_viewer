@@ -22,4 +22,4 @@ struct time_data {
 };
 
 using float_vector = ox::triple<float>;
-using int_vector = ox::triple<s32>;
+using int_vector = ox::triple<i32>;

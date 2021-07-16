@@ -18,7 +18,7 @@ namespace gc::sonic_heroes {
 
     GAME_VARIABLE(int, high_scores, 0x803E7798);
     GAME_ARRAY_VARIABLE(u8, current_time, 0x8042C2FB, 3);
-    GAME_VARIABLE(int, current_mission, 0x80452C48);
+    GAME_VARIABLE(u8, current_mission, 0x80452C48);
 
     GAME_ARRAY_VARIABLE(u8, current_character_levels, 0x809D9A38, 3);
 }

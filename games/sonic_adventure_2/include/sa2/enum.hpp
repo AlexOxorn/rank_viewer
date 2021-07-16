@@ -42,22 +42,22 @@ namespace sa2 {
     };
 
     enum Characters {
-    	Characters_Sonic,
-    	Characters_Shadow,
-    	Characters_Tails,
-    	Characters_Eggman,
-    	Characters_Knuckles,
-    	Characters_Rouge,
-    	Characters_MechTails,
-    	Characters_MechEggman,
-    	Characters_Amy,
-    	Characters_SuperSonic,
-    	Characters_SuperShadow,
-    	Characters_B,
-    	Characters_MetalSonic,
-    	Characters_ChaoWalker,
-    	Characters_DarkChaoWalker,
-    	Characters_Tikal,
-    	Characters_Chaos
+        Characters_Sonic,
+        Characters_Shadow,
+        Characters_Tails,
+        Characters_Eggman,
+        Characters_Knuckles,
+        Characters_Rouge,
+        Characters_MechTails,
+        Characters_MechEggman,
+        Characters_Amy,
+        Characters_SuperSonic,
+        Characters_SuperShadow,
+        Characters_B,
+        Characters_MetalSonic,
+        Characters_ChaoWalker,
+        Characters_DarkChaoWalker,
+        Characters_Tikal,
+        Characters_Chaos
     };
 }

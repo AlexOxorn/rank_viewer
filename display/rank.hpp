@@ -40,10 +40,9 @@ void print_current_progress(
 
     fmt::print("{}", ox::format{ox::escape::reset});
 
-    for (int i = 0; i < ranks.size(); i++ ) {
+    for (int i = 0; i < static_cast<int>(ranks.size()); i++ ) {
         auto rank = ranks[i];
         int rank_ticks = rank.score / divisor;
-        const std::string& rank_name = rank.name;
 
         auto format = total_points >= rank.score ?
             fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
@@ -73,12 +72,10 @@ void print_current_progress(
     }
 
     fmt::print("{}", ox::format{ox::escape::reset});
-    // fmt::print(fmt::text_style{}, "");
 
-    for(int i = 0; i < ranks.size(); i++) {
+    for(int i = 0; i < static_cast<int>(ranks.size()); i++) {
         auto rank = ranks[i];
         int rank_ticks = rank.seconds / divisor;
-        const std::string& rank_name = rank.name;
 
         auto format = time.seconds < rank.seconds ?
           fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :

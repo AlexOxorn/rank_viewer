@@ -5,7 +5,9 @@ project(rank_viewer VERSION 0.5)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(DCMAKE_CXX_FLAGS "-Werror -Wall -Wextra -O2")
+# set(CMAKE_C_COMPILER "clang-10")
+# set(CMAKE_CXX_COMPILER "/usr/bin/clang++-10")
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -O2")
 
 add_subdirectory("fmt")
 add_subdirectory("ox_lib")

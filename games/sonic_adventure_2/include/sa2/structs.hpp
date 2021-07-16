@@ -31,12 +31,12 @@ namespace sa2 {
     };
 
     struct entity_data {
-        s8 action;
-        s8 next_action;
-        s8 field_2;
-        s8 index;
-        s16 status;
-        s16 field_6;
+        i8 action;
+        i8 next_action;
+        i8 field_2;
+        i8 index;
+        i16 status;
+        i16 field_6;
         int_vector rotation;
         float_vector position;
         float_vector scale;

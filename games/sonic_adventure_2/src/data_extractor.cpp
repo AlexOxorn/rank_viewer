@@ -54,7 +54,7 @@ namespace sa2 {
         };
     }
 
-    std::array<rank_data, 4> interpret_score_rank_data(process& process, stage_score_rank* stage) {
+    std::array<rank_data, 4> interpret_score_rank_data(stage_score_rank* stage) {
         auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks);
         return std::array{
             rank_data{ranks[0] * 100, "D"},
@@ -64,7 +64,7 @@ namespace sa2 {
         };
     }
 
-    std::array<time_rank_data, 4> interpret_time_rank_data(process& process, stage_time_rank* stage) {
+    std::array<time_rank_data, 4> interpret_time_rank_data(stage_time_rank* stage) {
         auto ranks = *reinterpret_cast<std::array<minute_second, 4> *>(&stage->ranks);
         return std::array{
             time_rank_data{ranks[0].total_seconds(), "D"},

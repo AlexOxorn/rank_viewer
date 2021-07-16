@@ -16,7 +16,7 @@ namespace gc::sonic_heroes {
     std::array<score_data, 5> interpret_score(dolphin_process& process);
 
     template<typename rank_type> requires std::is_same_v<rank_type, normal_stages> || std::is_same_v<rank_type, extra_stages>
-    std::array<rank_data, 4> interpret_score_rank_data(dolphin_process& process, rank_type* stage, int team) {
+    std::array<rank_data, 4> interpret_score_rank_data(rank_type* stage, int team) {
         if constexpr (std::is_same_v<rank_type, extra_stages>) {
             team = team > 0;
         }
@@ -31,7 +31,7 @@ namespace gc::sonic_heroes {
     }
 
     template<typename rank_type> requires std::is_same_v<rank_type, extra_timed_stages> || std::is_same_v<rank_type, boss_timed_stages>
-    std::array<time_rank_data, 4> interpret_time_rank_data(dolphin_process& process, rank_type* stage, int team) {
+    std::array<time_rank_data, 4> interpret_time_rank_data(rank_type* stage, int team) {
         if constexpr (std::is_same_v<rank_type, extra_timed_stages>) {
             team = team - 1;
         }
