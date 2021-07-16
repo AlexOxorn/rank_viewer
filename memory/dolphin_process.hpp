@@ -25,6 +25,6 @@ protected:
 public:
     dolphin_process(int _pid);
 
-    bool read_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap = false) const override;
-    bool write_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap = false) const override;
+    bool read_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap = false) override;
+    bool write_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap = false) override;
 };

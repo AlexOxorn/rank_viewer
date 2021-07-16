@@ -1,5 +1,6 @@
 #pragma once
 #include <ox/types.h>
+#include <ox/triple.h>
 
 struct rank_data {
     int score;
