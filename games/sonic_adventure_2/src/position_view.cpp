@@ -14,7 +14,7 @@ namespace sa2 {
         process game{pid};
 
         int current_level = -1;
-        FILE *stage_file = nullptr;
+        ox::file stage_file = nullptr;
 
         while(true) {
             std::cout << std::flush;
@@ -24,7 +24,6 @@ namespace sa2 {
             if(next_level != current_level) {
                 if(stage_file) {
                     fmt::print("closing file\n");
-                    fclose(stage_file);
                     stage_file = nullptr;
                 }
                 current_level = next_level;
@@ -33,10 +32,10 @@ namespace sa2 {
                 std::filesystem::path outfile_path = dir / file_name;
                 if (temp_index != stage_index.end()) {
                     fmt::print("opening file: {}\n", outfile_path.c_str());
-                    stage_file = fopen(
+                    stage_file = ox::file{
                         outfile_path.c_str(),
                         "w"
-                    );
+                    };
                 }
             }
 
