@@ -1,13 +1,8 @@
 #pragma once
 
-#include <exception>
-#include <string>
 #include <filesystem>
-#include <cstdio>
 #include <array>
 #include <type_traits>
-#include <iostream>
-#include <fcntl.h>
 #include <ox/file.h>
 #include <ox/types.h>
 

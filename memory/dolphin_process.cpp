@@ -3,6 +3,8 @@
 #include <ranges>
 #include <algorithm>
 #include <ranges>
+#include <filesystem>
+#include <fstream>
 
 dolphin_process::dolphin_process(int _pid) : process{_pid} {
     std::ifstream maps_file{ proc_dir / "maps"};

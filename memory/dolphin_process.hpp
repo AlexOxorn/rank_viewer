@@ -1,14 +1,5 @@
 #pragma once
 
-#include <exception>
-#include <string>
-#include <filesystem>
-#include <cstdio>
-#include <array>
-#include <type_traits>
-#include <iostream>
-#include <sys/uio.h>
-#include <fstream>
 #include <ox/types.h>
 #include <ox/bytes.h>
 #include "process.hpp"
