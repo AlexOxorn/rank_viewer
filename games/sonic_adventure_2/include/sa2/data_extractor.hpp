@@ -1,9 +1,7 @@
 #pragma once
 #include "structs.hpp"
 #include "variables.hpp"
-#include <concepts>
 #include <process.hpp>
-#include <helpers.hpp>
 #include <ox/formating.h>
 #include <rank.hpp>
 

@@ -1,4 +1,5 @@
 #include <sa2/data_extractor.hpp>
+#include <helpers.hpp>
 
 namespace sa2 {
     int get_ranks(process& process, int level, int mission, int character, void* buffer) {
@@ -12,12 +13,10 @@ namespace sa2 {
             return TIMED_LEVEL;
         }
 
-        auto index_iter = stage_index.find(level);
-        if (index_iter == stage_index.end()) {
+        auto index = stage_index[level];
+        if (index < 0) {
             return -1;
         }
-
-        int index = index_iter->second;
 
         if (mission == 0 || mission == 3 || mission == 4) {
             auto* rbuffer = reinterpret_cast<stage_score_rank *>(buffer);

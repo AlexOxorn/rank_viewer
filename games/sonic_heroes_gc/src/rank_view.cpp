@@ -1,4 +1,10 @@
 #include <sonic_heroes/rank_view.hpp>
+#include <dolphin_process.hpp>
+#include <rank.hpp>
+#include <ox/formating.h>
+#include <sonic_heroes/data_extractor.hpp>
+#include <fmt/core.h>
+#include <iostream>
 
 namespace gc::sonic_heroes {
     void display_ranks(int pid) {

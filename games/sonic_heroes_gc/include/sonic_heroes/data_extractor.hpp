@@ -1,11 +1,8 @@
 #pragma once
+#include <dolphin_process.hpp>
+#include <rank.hpp>
 #include "structs.hpp"
 #include "variables.hpp"
-#include <concepts>
-#include <dolphin_process.hpp>
-#include <helpers.hpp>
-#include <ox/formating.h>
-#include <rank.hpp>
 
 namespace gc::sonic_heroes {
     constexpr int EXTRA_MISSION = 1 << 1;
@@ -15,33 +12,9 @@ namespace gc::sonic_heroes {
     int get_ranks(dolphin_process& process, int level, int team, int mission, void* buffer);
     std::array<score_data, 5> interpret_score(dolphin_process& process);
 
-    template<typename rank_type> requires std::is_same_v<rank_type, normal_stages> || std::is_same_v<rank_type, extra_stages>
-    std::array<rank_data, 4> interpret_score_rank_data(rank_type* stage, int team) {
-        if constexpr (std::is_same_v<rank_type, extra_stages>) {
-            team = team > 0;
-        }
-        auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks_array[team]);
+    template<typename rank_type>
+    std::array<rank_data, 4> interpret_score_rank_data(rank_type* stage, int team);
 
-        return std::array{
-            rank_data{ranks[0] * 100, "D"},
-            rank_data{ranks[1] * 100, "C"},
-            rank_data{ranks[2] * 100, "B"},
-            rank_data{ranks[3] * 100, "A"}
-        };
-    }
-
-    template<typename rank_type> requires std::is_same_v<rank_type, extra_timed_stages> || std::is_same_v<rank_type, boss_timed_stages>
-    std::array<time_rank_data, 4> interpret_time_rank_data(rank_type* stage, int team) {
-        if constexpr (std::is_same_v<rank_type, extra_timed_stages>) {
-            team = team - 1;
-        }
-        auto ranks = *reinterpret_cast<std::array<std::array<u8, 2>, 4> *>(&stage->ranks_array[team]);
-        return std::array{
-            time_rank_data{ranks[0][0] * 60 + ranks[0][1], "D"},
-            time_rank_data{ranks[1][0] * 60 + ranks[1][1], "C"},
-            time_rank_data{ranks[2][0] * 60 + ranks[2][1], "B"},
-            time_rank_data{ranks[3][0] * 60 + ranks[3][1], "A"}
-        };
-    }
-
+    template<typename rank_type>
+    std::array<time_rank_data, 4> interpret_time_rank_data(rank_type* stage, int team);
 }

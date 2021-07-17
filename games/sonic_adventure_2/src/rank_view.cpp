@@ -1,4 +1,9 @@
 #include <sa2/rank_view.hpp>
+#include <dolphin_process.hpp>
+#include <rank.hpp>
+#include <ox/formating.h>
+#include <sa2/data_extractor.hpp>
+#include <fmt/core.h>
 
 namespace sa2 {
     struct state {

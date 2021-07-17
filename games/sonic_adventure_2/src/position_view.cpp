@@ -2,6 +2,10 @@
 #include <ox/common.h>
 #include <chrono>
 #include <thread>
+#include <fmt/core.h>
+#include <iostream>
+#include <sa2/variables.hpp>
+#include <position_dump.hpp>
 
 namespace sa2 {
     using namespace std::literals::chrono_literals;
@@ -27,10 +31,10 @@ namespace sa2 {
                     stage_file = nullptr;
                 }
                 current_level = next_level;
-                auto temp_index = stage_index.find(current_level);
+                auto index = stage_index[current_level];
                 std::string file_name = std::to_string(current_level) + ".csv";
                 std::filesystem::path outfile_path = dir / file_name;
-                if (temp_index != stage_index.end()) {
+                if (index >= 0) {
                     fmt::print("opening file: {}\n", outfile_path.c_str());
                     stage_file = ox::file{
                         outfile_path.c_str(),

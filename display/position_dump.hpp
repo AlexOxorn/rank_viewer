@@ -3,6 +3,7 @@
 #include "common.hpp"
 #include <stdio.h>
 #include <ranges>
+#include <fmt/core.h>
 #include <ox/algorithms.h>
 
 template <std::ranges::range T>
