@@ -32,7 +32,6 @@ namespace gc::sonic_heroes {
         if (level > final_fortress) {
             auto* rbuffer = reinterpret_cast<boss_timed_stages *>(buffer);
             process.read_memory(boss_times_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
-            rbuffer->from_endian();
             return BOSS_LEVEL | TIMED_LEVEL;
         }
 
@@ -44,7 +43,6 @@ namespace gc::sonic_heroes {
                 offset++;
             auto* rbuffer = reinterpret_cast<normal_stages *>(buffer);
             process.read_memory(normal_stage_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
-            rbuffer->from_endian();
             return 0;
         }
 
@@ -54,13 +52,11 @@ namespace gc::sonic_heroes {
                 offset++;
             auto* rbuffer = reinterpret_cast<extra_stages *>(buffer);
             process.read_memory(extra_stage_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
-            rbuffer->from_endian();
             return EXTRA_MISSION;
         }
 
         auto* rbuffer = reinterpret_cast<extra_timed_stages *>(buffer);
         process.read_memory(extra_times_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
-        rbuffer->from_endian();
         return EXTRA_MISSION | TIMED_LEVEL;
     }
 

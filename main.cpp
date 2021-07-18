@@ -1,9 +1,14 @@
-#include <sa2/rank_view.hpp>
-#include <sonic_heroes/rank_view.hpp>
-#include <sa2/position_view.hpp>
+#include <dolphin_process.hpp>
 #include <ox/formating.h>
+#include <fmt/core.h>
+#include <common.hpp>
 #include <iostream>
 #include <filesystem>
+
+#include <sa2/rank_view.hpp>
+#include <sa2/position_view.hpp>
+#include <sonic_heroes/rank_view.hpp>
+#include <sonic_heroes/variables.hpp>
 
 #include <stdio.h>
 #include <execinfo.h>
@@ -35,8 +40,14 @@ int main(int argc, char** argv) {
 
     pid = atoi(argv[1]);
 
-    gc::sonic_heroes::display_ranks(pid);
+    // gc::sonic_heroes::display_ranks(pid);
 
-    //std::filesystem::path dir = argv[2];
-    //sa2::print_position(dir, pid);
+    dolphin_process game{pid};
+    while (true) {
+        float_vector spd = gc::sonic_heroes::get_lead_position(game);
+        fmt::print("{}", ox::move_cursor{1, 1});
+        fmt::print("{}x: {:g}\n", ox::clear_line{ox::escape::all}, spd.x);
+        fmt::print("{}y: {:g}\n", ox::clear_line{ox::escape::all}, spd.y);
+        fmt::print("{}z: {:g}\n", ox::clear_line{ox::escape::all}, spd.z);
+    }
 }

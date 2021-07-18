@@ -22,12 +22,10 @@ namespace gc::sonic_heroes {
             u16 ranks_array[4][4];
         };
 
-        void from_endian() {
-            ox::swap(reinterpret_cast<u32*>(&level_id));
-            for(int i = 0; i < 4; i++) ox::swap(reinterpret_cast<u16*>(&sonic_ranks[i]));
-            for(int i = 0; i < 4; i++) ox::swap(reinterpret_cast<u16*>(&dark_ranks[i]));
-            for(int i = 0; i < 4; i++) ox::swap(reinterpret_cast<u16*>(&rose_ranks[i]));
-            for(int i = 0; i < 4; i++) ox::swap(reinterpret_cast<u16*>(&chaotix_ranks[i]));
+        void endian_swap() {
+            ox::swap(&level_id);
+            for(int i = 0; i < 4; i++)
+                ox::swap(&ranks_array[i], 4);
         }
     };
 
@@ -41,10 +39,10 @@ namespace gc::sonic_heroes {
             u16 ranks_array[2][4];
         };
 
-        void from_endian() {
-            ox::swap(reinterpret_cast<u32*>(&level_id));
-            for(int i = 0; i < 4; i++) ox::swap(reinterpret_cast<u16*>(&sonic_ranks[i]));
-            for(int i = 0; i < 4; i++) ox::swap(reinterpret_cast<u16*>(&chaotix_ranks[i]));
+        void endian_swap() {
+            ox::swap(&level_id);
+            for(int i = 0; i < 2; i++)
+                ox::swap(&ranks_array[i], 4);
         }
     };
 
@@ -58,8 +56,8 @@ namespace gc::sonic_heroes {
             u8 ranks_array[2][4][2];
         };
 
-        void from_endian() {
-            ox::swap(reinterpret_cast<u32*>(&level_id));
+        void endian_swap() {
+            ox::swap(&level_id);
         }
     };
 
@@ -75,8 +73,8 @@ namespace gc::sonic_heroes {
             u8 ranks_array[4][4][2];
         };
 
-        void from_endian() {
-            ox::swap(reinterpret_cast<u32*>(&level_id));
+        void endian_swap() {
+            ox::swap(&level_id);
         }
     };
 
@@ -102,5 +100,37 @@ namespace gc::sonic_heroes {
         saved_time rose_extra;
         saved_score chaotix_normal;
         saved_score chaotix_extra;
+    };
+
+    struct player_object2 {
+        u16 action;
+        u16 action_mirror;
+        u16 _flag_04;
+        u16 status_flags;
+        u16 _flag_08;
+        u16 _flag_0C;
+        u16 x_rotation;
+        u16 _flag_10;
+        u16 y_rotation;
+        u16 _flag_14;
+        u16 z_rotation;
+        float x_position;
+        float y_position;
+        float z_position;
+    };
+
+    struct player_object3 {
+        float x_speed;
+        float y_speed;
+        float z_speed;
+        float x_forced_speed;
+        float y_forced_speed;
+        float z_forced_speed;
+        u16 _flag_18;
+        u16 x_final_rotation;
+        u16 _flag_1C;
+        u16 y_final_rotation;
+        u16 _flag_20;
+        u16 z_final_rotation;
     };
 }

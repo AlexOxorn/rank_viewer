@@ -63,18 +63,18 @@ dolphin_process::dolphin_process(int _pid) : process{_pid} {
     }
 }
 
-bool dolphin_process::read_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap) {
+int dolphin_process::read_memory_raw(i64 address, void* buffer, size_t size, int length) {
     if (address > dolphin_process::gc_memory_start) {
         address -= dolphin_process::gc_memory_start;
     }
     i64 ram_address = emu_ram_address + address;
-    return process::read_memory_raw(ram_address, buffer, size, length, byte_swap);
+    return process::read_memory_raw(ram_address, buffer, size, length);
 }
 
-bool dolphin_process::write_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap) {
+int dolphin_process::write_memory_raw(i64 address, void* buffer, size_t size, int length) {
     if (address > dolphin_process::gc_memory_start) {
         address -= dolphin_process::gc_memory_start;
     }
     i64 ram_address = emu_ram_address + address;
-    return process::write_memory_raw(ram_address, buffer, size, length, byte_swap);
+    return process::write_memory_raw(ram_address, buffer, size, length);
 }

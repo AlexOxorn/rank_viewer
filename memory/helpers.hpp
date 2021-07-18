@@ -3,14 +3,7 @@
 #include <process.hpp>
 
 template<typename type = int> requires std::is_trivially_copyable_v<type>
-type get_address(process& process, u32 address) {
-    type to_return;
-    process.read_memory(address, &to_return);
-    return to_return;
-}
-
-template<typename type, typename ptr_type = u32> requires std::is_trivially_copyable_v<type>
-type get_indirect_address(process& process, u32 address, u32 offset) {
+type get_address(process& process, u32 address, u32 offset = 0) {
     type to_return;
     process.read_memory(address + offset, &to_return);
     return to_return;
@@ -31,7 +24,12 @@ inline type get_##name(process& p) {\
 
 #define GAME_INDIRECT_VARIABLE(type, name, base, offset) \
 inline type get_##name(process& p) {\
-    return get_indirect_address<type>(p, get_##base(p), offset);\
+    return get_address<type>(p, get_##base(p), offset);\
+}
+
+#define GAME_VARIABLE_OFFSET(type, name, address, offset) \
+inline type get_##name(process& p) {\
+    return get_address<type>(p, address, get_##offset(p) * sizeof(type));\
 }
 
 #define GAME_ARRAY_VARIABLE(type, name, address, size) \

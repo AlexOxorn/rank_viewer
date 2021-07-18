@@ -10,12 +10,12 @@ class dolphin_process : public process {
     u64 mem2_address = 0;
     bool mem2_present = false;
 protected:
-    virtual bool wrong_endian() override {
-        return ox::O32_HOST_ORDER() != ox::O32_BIG_ENDIAN;
+    virtual bool wrong_endian() const override {
+        return ox::O32_HOST_ORDER != ox::O32_BIG_ENDIAN;
     }
 public:
     dolphin_process(int _pid);
 
-    bool read_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap = false) override;
-    bool write_memory_raw(i64 address, void* buffer, size_t size, int length, bool byte_swap = false) override;
+    int read_memory_raw(i64 address, void* buffer, size_t size, int length) override;
+    int write_memory_raw(i64 address, void* buffer, size_t size, int length) override;
 };
