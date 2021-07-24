@@ -7,6 +7,7 @@
 
 #include <sa2/rank_view.hpp>
 #include <sa2/position_view.hpp>
+#include <sonic_heroes/position_view.hpp>
 #include <sonic_heroes/rank_view.hpp>
 #include <sonic_heroes/variables.hpp>
 
@@ -40,14 +41,5 @@ int main(int argc, char** argv) {
 
     pid = atoi(argv[1]);
 
-    // gc::sonic_heroes::display_ranks(pid);
-
-    dolphin_process game{pid};
-    while (true) {
-        float_vector spd = gc::sonic_heroes::get_lead_position(game);
-        fmt::print("{}", ox::move_cursor{1, 1});
-        fmt::print("{}x: {:g}\n", ox::clear_line{ox::escape::all}, spd.x);
-        fmt::print("{}y: {:g}\n", ox::clear_line{ox::escape::all}, spd.y);
-        fmt::print("{}z: {:g}\n", ox::clear_line{ox::escape::all}, spd.z);
-    }
+    gc::sonic_heroes::print_position("casual", pid);
 }
