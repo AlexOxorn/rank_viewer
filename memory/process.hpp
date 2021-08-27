@@ -45,7 +45,7 @@ public:
     template<typename T, std::size_t N> requires std::is_trivially_copyable<T>::value
     int read_memory(i64 address, std::array<T, N>* result) {
         auto amount_read = this->read_memory_raw(address, result, sizeof(T), N);
-        if (should_endian_swap<T>()) ox::swap(result, amount_read);
+        if (should_endian_swap<T>()) ox::swap(result->data(), amount_read);
         return amount_read;
     }
 

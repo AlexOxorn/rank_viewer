@@ -25,7 +25,7 @@ namespace gc::sonic_heroes {
         void endian_swap() {
             ox::swap(&level_id);
             for(int i = 0; i < 4; i++)
-                ox::swap(&ranks_array[i], 4);
+                ox::swap(&ranks_array[i][0], 4);
         }
     };
 

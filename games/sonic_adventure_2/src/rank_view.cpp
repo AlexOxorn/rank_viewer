@@ -11,10 +11,7 @@ namespace sa2 {
         int mission;
         int character;
 
-        bool operator==(state other) const {
-            return level == other.level &&
-                    mission == other.mission;
-        }
+        auto operator<=>(const state& other) const = default;
     };
     constexpr int stall_time_milli = 2500;
 

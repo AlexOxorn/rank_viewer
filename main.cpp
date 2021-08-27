@@ -41,5 +41,5 @@ int main(int argc, char** argv) {
 
     pid = atoi(argv[1]);
 
-    gc::sonic_heroes::print_position("casual", pid);
+    sa2::display_ranks(pid);
 }

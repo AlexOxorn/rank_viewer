@@ -19,9 +19,9 @@ namespace sa2 {
     GAME_ARRAY_VARIABLE(stage_score_rank, mission5_ranks, 0x173AFA0, 30)
     GAME_ARRAY_VARIABLE(stage_time_rank,  kart_mission_ranks, 0x173B378, 10)
 
-    GAME_VARIABLE(int, current_level, 0x1934B70)
+    GAME_VARIABLE(i16, current_level, 0x1934B70)
     GAME_VARIABLE(int, current_character, 0x1934B80)
-    GAME_VARIABLE(int, current_mission, 0x174AFE3)
+    GAME_VARIABLE(i8, current_mission, 0x174AFE3)
 
     GAME_VARIABLE(float_vector, p1_possition_mirror, 0x19ED3FC)
 

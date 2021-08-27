@@ -6,11 +6,7 @@ namespace gc::sonic_heroes {
         int team;
         int mission;
 
-        bool operator==(state other) const {
-            return level == other.level &&
-                    team == other.team &&
-                    mission == other.mission;
-        }
+        bool operator<=>(const state& other) const = default;
     };
 
     void display_ranks(int pid);
