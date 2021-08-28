@@ -2,5 +2,5 @@
 #include <filesystem>
 
 namespace gc::sonic_heroes {
-    void print_position(std::filesystem::path p, int pid);
+    [[noreturn]] void print_position(const std::filesystem::path& p, int pid);
 }

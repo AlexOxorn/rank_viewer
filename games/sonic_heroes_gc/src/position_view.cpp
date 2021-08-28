@@ -14,7 +14,7 @@ namespace gc::sonic_heroes {
     using namespace std::literals::chrono_literals;
     constexpr auto stall_time = 100ms;
 
-    void print_position(std::filesystem::path dir, int pid) {
+    [[noreturn]] void print_position(const std::filesystem::path& dir, int pid) {
         dolphin_process game{pid};
 
         state current{-1, -1, -1};

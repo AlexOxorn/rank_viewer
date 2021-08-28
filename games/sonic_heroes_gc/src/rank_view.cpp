@@ -7,7 +7,7 @@
 #include <iostream>
 
 namespace gc::sonic_heroes {
-    void display_ranks(int pid) {
+    [[noreturn]] void display_ranks(int pid) {
         dolphin_process dolphin{pid};
         normal_stages prototype{};
         void* buffer = &prototype;

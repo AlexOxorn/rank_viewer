@@ -9,23 +9,23 @@ namespace gc::sonic_heroes {
     constexpr int final_fortress =15;
     constexpr int egg_hawk = 16;
     constexpr int metal_madness = 23;
-    constexpr int metal_overloard = 24;
+    constexpr int metal_overlord = 24;
 
     constexpr int seconds_per_minute = 60;
     constexpr int max_timebonus = 50000;
     constexpr int per_second_timebonus_penalty = 80;
-    constexpr int max_timebonus_threashold = 90;
+    constexpr int max_timebonus_threshold = 90;
     constexpr int points_per_level = 500;
     constexpr int state_level_completed = 0xC;
 
     int get_ranks(dolphin_process& process, int level, int team, int mission, void* buffer) {
-        if (level != chaotix_rail_canyon && (level < seaside_hill || mission > 1 || level > metal_overloard)) {
+        if (level != chaotix_rail_canyon && (level < seaside_hill || mission > 1 || level > metal_overlord)) {
             return -1;
         }
 
-        // Metal Overloard
-        level = level == metal_overloard ? metal_madness : level;
-        // Chatorix Rail Canyon
+        // Metal Overlord
+        level = level == metal_overlord ? metal_madness : level;
+        // Chaotix Rail Canyon
         level = level == chaotix_rail_canyon ? rail_canyon : level;
         int offset = level - egg_hawk;
 
@@ -68,7 +68,7 @@ namespace gc::sonic_heroes {
 
         int seconds = time[0] * seconds_per_minute + time[1];
         int timebonus = max_timebonus - per_second_timebonus_penalty * seconds;
-        int timebonus_rest = seconds <= max_timebonus_threashold ? max_timebonus - timebonus : 0;
+        int timebonus_rest = seconds <= max_timebonus_threshold ? max_timebonus - timebonus : 0;
         timebonus = timebonus < 0 ? 0 : timebonus;
 
         if (state != state_level_completed) {

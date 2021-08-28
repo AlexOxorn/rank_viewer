@@ -6,7 +6,7 @@ namespace sa2 {
     enum Stage {
         GreenForest = 3,
         WhiteJungle,
-        PumpkingHill,
+        PumpkinHill,
         SkyRail,
         AquaticMine,
         SecurityHall,

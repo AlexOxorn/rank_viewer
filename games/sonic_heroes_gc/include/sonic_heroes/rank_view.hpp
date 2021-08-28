@@ -9,5 +9,5 @@ namespace gc::sonic_heroes {
         bool operator<=>(const state& other) const = default;
     };
 
-    void display_ranks(int pid);
+    [[noreturn]] void display_ranks(int pid);
 }

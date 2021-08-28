@@ -1,3 +1,3 @@
 namespace sa2 {
-    void display_ranks(int pid);
+    [[noreturn]] void display_ranks(int pid);
 }

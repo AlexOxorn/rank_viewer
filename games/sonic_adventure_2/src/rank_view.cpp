@@ -15,7 +15,7 @@ namespace sa2 {
     };
     constexpr int stall_time_milli = 2500;
 
-    void display_ranks(int pid) {
+    [[noreturn]] void display_ranks(int pid) {
         process game{pid};
         stage_score_rank prototype{};
         void* buffer = &prototype;

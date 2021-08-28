@@ -25,9 +25,9 @@ namespace sa2 {
 
     GAME_VARIABLE(float_vector, p1_possition_mirror, 0x19ED3FC)
 
-    GAME_VARIABLE(ptr<object>, p1_object_ptr, 0x1DEA6E0)
+    GAME_VARIABLE(u32, p1_object_ptr, 0x1DEA6E0)
     GAME_INDIRECT_VARIABLE(object, p1_object, p1_object_ptr, 0x0)
-    GAME_INDIRECT_VARIABLE(ptr<entity_data>, p1_object_entity_ptr, p1_object_ptr, 0x34)
+    GAME_INDIRECT_VARIABLE(u32, p1_object_entity_ptr, p1_object_ptr, 0x34)
     GAME_INDIRECT_VARIABLE(float_vector, player1_position, p1_object_entity_ptr, 0x14)
 
     constexpr std::array<u64, 5> mission_rank_addresses {
@@ -44,7 +44,7 @@ namespace sa2 {
         static_cast<char>(-1),
         static_cast<char>( 4),     // 3:  GreenForest
         static_cast<char>(23),     // 4:  WhiteJungle
-        static_cast<char>( 5),     // 5:  PumpkingHill
+        static_cast<char>( 5),     // 5:  PumpkinHill
         static_cast<char>(24),     // 6:  SkyRail
         static_cast<char>( 7),     // 7:  AquaticMine
         static_cast<char>(22),     // 8:  SecurityHall

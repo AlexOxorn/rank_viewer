@@ -13,7 +13,7 @@ namespace sa2 {
         u8 minutes;
         u8 seconds;
 
-        int total_seconds() {
+        [[nodiscard]] int total_seconds() const {
             return minutes * 60 + seconds;
         }
     };
@@ -23,7 +23,7 @@ namespace sa2 {
         u8 seconds;
         u8 centiseconds;
 
-        int total_seconds() {
+        [[nodiscard]] int total_seconds() const {
             return minutes * 60 + seconds;
         }
 
@@ -61,7 +61,7 @@ namespace sa2 {
         ptr<void> set_data;
         ptr<entity_data> object_data1;
         ptr<void> entity_data2;
-        ptr<void> unknow_ptrA;
+        ptr<void> unknown_ptrA;
         ptr<void> object_data2;
         ptr<char> name;
         ptr<char> name_again;

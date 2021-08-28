@@ -14,7 +14,7 @@ namespace sa2 {
     };
     constexpr auto stall_time = 100ms;
 
-    void print_position(std::filesystem::path dir, int pid) {
+    [[noreturn]] void print_position(std::filesystem::path dir, int pid) {
         process game{pid};
 
         int current_level = -1;

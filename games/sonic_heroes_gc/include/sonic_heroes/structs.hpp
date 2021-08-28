@@ -23,9 +23,9 @@ namespace gc::sonic_heroes {
         };
 
         void endian_swap() {
-            ox::swap(&level_id);
-            for(int i = 0; i < 4; i++)
-                ox::swap(&ranks_array[i][0], 4);
+            ox::bswap(&level_id);
+            for(auto & i : ranks_array)
+                ox::bswap(&i[0], 4);
         }
     };
 
@@ -40,9 +40,9 @@ namespace gc::sonic_heroes {
         };
 
         void endian_swap() {
-            ox::swap(&level_id);
-            for(int i = 0; i < 2; i++)
-                ox::swap(&ranks_array[i], 4);
+            ox::bswap(&level_id);
+            for(auto & i : ranks_array)
+                ox::bswap(&i[0], 4);
         }
     };
 
@@ -57,7 +57,7 @@ namespace gc::sonic_heroes {
         };
 
         void endian_swap() {
-            ox::swap(&level_id);
+            ox::bswap(&level_id);
         }
     };
 
@@ -74,7 +74,7 @@ namespace gc::sonic_heroes {
         };
 
         void endian_swap() {
-            ox::swap(&level_id);
+            ox::bswap(&level_id);
         }
     };
 

@@ -11,10 +11,11 @@
 #include <sonic_heroes/rank_view.hpp>
 #include <sonic_heroes/variables.hpp>
 
-#include <stdio.h>
+#include <cstdio>
 #include <execinfo.h>
-#include <signal.h>
-#include <stdlib.h>
+#include <csignal>
+#include <cstdlib>
+#include <string>
 #include <unistd.h>
 
 
@@ -33,13 +34,12 @@ void handler(int sig) {
 
 int main(int argc, char** argv) {
     signal(SIGSEGV, handler);
-    int pid = -1;
 
     if (argc < 2) {
         return -1;
     }
 
-    pid = atoi(argv[1]);
+    int pid = std::stoi(argv[1]);
 
     sa2::display_ranks(pid);
 }
