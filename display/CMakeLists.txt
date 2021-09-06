@@ -1,8 +1,9 @@
 add_library(
-  "display"
-  rank.hpp
-  position_dump.hpp
-  common.hpp
+        "display"
+        rank.hpp
+        rankX.hpp
+        position_dump.hpp
+        common.hpp
 )
 
 target_link_libraries("display" "ox")

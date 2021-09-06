@@ -1,7 +1,9 @@
 #include <sa2/rank_view.hpp>
 #include <dolphin_process.hpp>
 #include <rank.hpp>
-#include <ox/formating.h>
+#include <rankX.hpp>
+#include <ox/formatting.h>
+#include <ox/X11Test.h>
 #include <sa2/data_extractor.hpp>
 #include <fmt/core.h>
 
@@ -53,5 +55,56 @@ namespace sa2 {
                 print_current_progress(s_ranks, interpret_score(game), 10000);
             }
         }
+    }
+
+    void display_ranksX(int pid) {
+        process game{pid};
+        stage_score_rank prototype{};
+        void* buffer = &prototype;
+
+        std::array<rank_data, 4> s_ranks{};
+        std::array<time_rank_data, 4> t_ranks{};
+
+        state current{-1, -1, -1};
+        ox::X11Window rank_display{{10, 10}, {1080, 100}};
+        int result = 0;
+
+        rank_display.register_event_callback(ConfigureNotify, [](ox::X11Window<>& win) {
+            XGetWindowAttributes(win.display, win.window, &win.attr);
+            return true;
+        });
+
+        rank_display.register_continuous_callback([&](ox::X11Window<>& win) {
+            state next{get_current_level(game), get_current_mission(game), get_current_character(game)};
+            XFlush(win.display);
+
+            if(next != current) {
+                fmt::print("{} {} {}\n", next.character, next.mission, next.level);
+                current = next;
+                result = get_ranks(game, current.level, current.mission, current.character, buffer);
+                if((result & TIMED_LEVEL) != 0) {
+                    fmt::print("Timed continue\n");
+                    return false;
+//                    t_ranks = interpret_time_rank_data(reinterpret_cast<stage_time_rank *>(buffer));
+                } else {
+                    s_ranks = interpret_score_rank_data(reinterpret_cast<stage_score_rank *>(buffer));
+                }
+            }
+
+            if (result == -1)
+                return false;
+
+            if ((result & TIMED_LEVEL) != 0) {
+                return false;
+                minute_second time = get_time(game);
+                print_current_progress(t_ranks, {time.total_seconds(), ox::format{ox::escape::background_white, ox::escape::white}});
+            } else {
+                draw_score_progress(win, s_ranks, interpret_score(game), 10000);
+            }
+            return false;
+        });
+
+        std::thread renderer{std::move(rank_display)};
+        renderer.join();
     }
 }

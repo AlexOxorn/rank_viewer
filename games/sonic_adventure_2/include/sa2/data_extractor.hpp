@@ -2,7 +2,7 @@
 #include "structs.hpp"
 #include "variables.hpp"
 #include <process.hpp>
-#include <ox/formating.h>
+#include <ox/formatting.h>
 #include <rank.hpp>
 
 namespace sa2 {

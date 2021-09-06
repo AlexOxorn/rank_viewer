@@ -1,6 +1,6 @@
 #include <sonic_heroes/data_extractor.hpp>
 #include <helpers.hpp>
-#include <ox/formating.h>
+#include <ox/formatting.h>
 
 namespace gc::sonic_heroes {
     constexpr int seaside_hill = 2;

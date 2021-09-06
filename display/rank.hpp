@@ -7,7 +7,7 @@
 #include <concepts>
 #include <numeric>
 #include <iostream>
-#include <ox/formating.h>
+#include <ox/formatting.h>
 #include <ox/terminal.h>
 #include <fmt/core.h>
 #include <fmt/color.h>
@@ -26,7 +26,7 @@ void print_current_progress(
         max_marker = max_marker < min ? min : max_marker;
     }
     int divisor = max_marker / (size.columns * scale) + 1;
-    int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, score_data n) -> int {return sum + n.score;});
+    int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
 
     fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
 

@@ -1,5 +1,5 @@
 #include <dolphin_process.hpp>
-#include <ox/formating.h>
+#include <ox/formatting.h>
 #include <fmt/core.h>
 #include <common.hpp>
 #include <iostream>
@@ -11,12 +11,14 @@
 #include <sonic_heroes/rank_view.hpp>
 #include <sonic_heroes/variables.hpp>
 
+#include <ox/X11Test.h>
+
 #include <cstdio>
 #include <execinfo.h>
 #include <csignal>
 #include <cstdlib>
-#include <string>
 #include <unistd.h>
+#include <fstream>
 
 
 void handler(int sig) {
@@ -41,5 +43,8 @@ int main(int argc, char** argv) {
 
     int pid = std::stoi(argv[1]);
 
-    sa2::display_ranks(pid);
+    sa2::display_ranksX(pid);
+
+//    ox::foo();
+//    printX11Colours();
 }

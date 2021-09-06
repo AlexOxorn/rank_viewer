@@ -1,7 +1,7 @@
 #include <sonic_heroes/rank_view.hpp>
 #include <dolphin_process.hpp>
 #include <rank.hpp>
-#include <ox/formating.h>
+#include <ox/formatting.h>
 #include <sonic_heroes/data_extractor.hpp>
 #include <fmt/core.h>
 #include <iostream>
