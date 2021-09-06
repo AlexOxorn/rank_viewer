@@ -43,9 +43,12 @@ void draw_score_progress(
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
 
     int currentX = size.start_x;
-    for (auto score : scores) {
+    XSetForeground(window.display,window.gc,BlackPixel(window.display, window.screen));
+
+    for (score_data& score : scores) {
         int score_ticks = score.score / divisor;
         int draw_width = std::min(score_ticks, width - currentX);
+        XSetForeground(window.display, window.gc, score.foreground.rgb.rgb255());
         XDrawRectangle(
                 window.display,
                 window.window,
@@ -56,5 +59,24 @@ void draw_score_progress(
                 size.height
                 );
         currentX += draw_width;
+    }
+
+    for (auto& rank : ranks) {
+        int rank_ticks = rank.score / divisor;
+        XSetForeground(
+                window.display,
+                window.gc,
+                total_points < rank.score ?
+                    ox::rgb255({.rgb = {255, 0 , 0}}) :
+                    ox::rgb255({.rgb = {0, 255 , 0}})
+        );
+        XDrawLine( window.display,
+                   window.window,
+                   window.gc,
+                   rank_ticks + size.start_x,
+                   size.start_y,
+                   rank_ticks + size.start_x,
+                   size.start_y + size.height
+                   );
     }
 }

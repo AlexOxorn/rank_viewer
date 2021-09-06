@@ -10,4 +10,5 @@ namespace gc::sonic_heroes {
     };
 
     [[noreturn]] void display_ranks(int pid);
+    void display_ranksX(int pid);
 }

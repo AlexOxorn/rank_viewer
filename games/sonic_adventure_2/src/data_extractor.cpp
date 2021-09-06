@@ -48,8 +48,8 @@ namespace sa2 {
         timebonus = timebonus < 0 ? 0 : timebonus;
 
         return std::array{
-            score_data{timebonus, ox::format{ox::escape::background_cyan, ox::escape::cyan}},
-            score_data{score, ox::format{ox::escape::background_blue, ox::escape::blue}},
+            score_data{timebonus, ox::named_colors::cyan, ox::named_colors::black},
+            score_data{score, ox::named_colors::blue, ox::named_colors::black}
         };
     }
 

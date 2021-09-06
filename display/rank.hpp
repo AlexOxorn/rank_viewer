@@ -32,7 +32,9 @@ void print_current_progress(
 
     for (auto score : scores) {
         int score_ticks = score.score / divisor;
-        fmt::print("{}", score.color);
+        fmt::print("{}{}",
+                   ox::format{ox::escape::direct_color, 2, score.foreground.rgb.r, score.foreground.rgb.r, score.foreground.rgb.r},
+                   ox::format{ox::escape::background_direct, 2, score.background.rgb.r, score.background.rgb.r, score.background.rgb.r});
         for (int i = 0; i < score_ticks; i++) {
             fmt::print("|");
         }
@@ -57,7 +59,7 @@ void print_current_progress(
 template<std::size_t N>
 void print_current_progress(
     std::array<time_rank_data, N> ranks,
-    time_data time,
+    time_data<std::string> time,
     double scale = 0.75
 ) {
     ox::terminal_size size = ox::get_terminal_size();
@@ -66,7 +68,11 @@ void print_current_progress(
     fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
 
     int time_ticks = time.seconds / divisor;
-    fmt::print("{}", time.color);
+    fmt::print(
+            "{}{}",
+            ox::format{ox::escape::direct_color, 2, time.foreground.rgb.r, time.foreground.rgb.r, time.foreground.rgb.r},
+            ox::format{ox::escape::background_direct, 2, time.background.rgb.r, time.background.rgb.r, time.background.rgb.r}
+            );
     for (int i = 0; i < time_ticks; i++) {
         fmt::print("|");
     }

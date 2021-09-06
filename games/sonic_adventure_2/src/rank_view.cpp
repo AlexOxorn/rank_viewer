@@ -49,7 +49,7 @@ namespace sa2 {
 
             if ((result & TIMED_LEVEL) != 0) {
                 minute_second time = get_time(game);
-                print_current_progress(t_ranks, {time.total_seconds(), ox::format{ox::escape::background_white, ox::escape::white}});
+                print_current_progress(t_ranks, {time.total_seconds(), {{0xFF, 0xFF, 0xFF}}, {{0xFF, 0xFF, 0xFF}}});
             } else {
                 interpret_score(game);
                 print_current_progress(s_ranks, interpret_score(game), 10000);
@@ -79,7 +79,6 @@ namespace sa2 {
             XFlush(win.display);
 
             if(next != current) {
-                fmt::print("{} {} {}\n", next.character, next.mission, next.level);
                 current = next;
                 result = get_ranks(game, current.level, current.mission, current.character, buffer);
                 if((result & TIMED_LEVEL) != 0) {
@@ -97,7 +96,7 @@ namespace sa2 {
             if ((result & TIMED_LEVEL) != 0) {
                 return false;
                 minute_second time = get_time(game);
-                print_current_progress(t_ranks, {time.total_seconds(), ox::format{ox::escape::background_white, ox::escape::white}});
+                print_current_progress(t_ranks, {time.total_seconds(), ox::named_colors::grey50});
             } else {
                 draw_score_progress(win, s_ranks, interpret_score(game), 10000);
             }

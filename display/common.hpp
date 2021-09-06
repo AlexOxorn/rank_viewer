@@ -1,6 +1,7 @@
 #pragma once
 #include <ox/types.h>
 #include <ox/triple.h>
+#include <ox/colors.h>
 
 struct rank_data {
     int score;
@@ -13,13 +14,16 @@ struct time_rank_data {
 };
 
 struct score_data {
-    int score;
-    std::string color;
+    int score = 0;
+    ox::color foreground = ox::named_colors::black;
+    ox::color background = foreground;
 };
 
+template <typename color_type>
 struct time_data {
-    int seconds;
-    std::string color;
+    int seconds = 0;
+    ox::color foreground = ox::named_colors::black;
+    ox::color background = foreground;
 };
 
 using float_vector = ox::triple<float>;

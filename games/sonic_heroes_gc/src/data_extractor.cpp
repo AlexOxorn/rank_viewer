@@ -78,11 +78,11 @@ namespace gc::sonic_heroes {
         }
 
         return std::array{
-            score_data{timebonus, ox::format{ox::escape::background_white, ox::escape::white}},
-            score_data{static_cast<int>(scores[0]), ox::format{ox::escape::background_blue, ox::escape::blue}},
-            score_data{static_cast<int>(scores[1]), ox::format{ox::escape::background_yellow, ox::escape::yellow}},
-            score_data{static_cast<int>(scores[2]), ox::format{ox::escape::background_red, ox::escape::red}},
-            score_data{timebonus_rest, ox::format{ox::escape::reset, ox::escape::white}}
+            score_data{timebonus, ox::named_colors::grey50},
+            score_data{static_cast<int>(scores[0]), ox::named_colors::blue},
+            score_data{static_cast<int>(scores[1]), ox::named_colors::yellow},
+            score_data{static_cast<int>(scores[2]), ox::named_colors::red},
+            score_data{timebonus_rest, ox::named_colors::gray30}
         };
     }
 
