@@ -110,7 +110,6 @@ namespace gc::sonic_heroes {
             return false;
         });
 
-        std::thread renderer{std::move(rank_display)};
-        renderer.join();
+        rank_display();
     }
 }

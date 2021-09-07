@@ -37,14 +37,15 @@ void handler(int sig) {
 int main(int argc, char** argv) {
     signal(SIGSEGV, handler);
 
-//    if (argc < 2) {
-//        return -1;
-//    }
+    if (argc < 2) {
+        return -1;
+    }
 
-//    int pid = std::stoi(argv[1]);
+    int pid = std::stoi(argv[1]);
 
-//    gc::sonic_heroes::display_ranksX(pid);
-        ox::printX11Colours();
+//    sa2::display_ranksX(pid);
+    gc::sonic_heroes::display_ranksX(pid);
+//        ox::printX11Colours();
 //    ox::foo();
 //    printX11Colours();
 }

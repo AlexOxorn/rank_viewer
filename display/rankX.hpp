@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <exception>
 #include <string>
 #include <utility>
@@ -42,23 +43,26 @@ void draw_score_progress(
     int divisor = static_cast<int>(max_marker / (width * size.scale)) + 1;
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
 
-    int currentX = size.start_x;
+    double currentX = size.start_x;
     XSetForeground(window.display,window.gc,BlackPixel(window.display, window.screen));
 
     for (score_data& score : scores) {
-        int score_ticks = score.score / divisor;
-        int draw_width = std::min(score_ticks, width - currentX);
+        double score_ticks = static_cast<double>(score.score) / divisor;
+        double nextX = std::min(currentX + score_ticks, static_cast<double>(width));
+        int currentI = static_cast<int>(lround(currentX));
+        int nextI = static_cast<int>(lround(nextX));
+
         XSetForeground(window.display, window.gc, score.foreground.rgb.rgb255());
-        XDrawRectangle(
+        XFillRectangle(
                 window.display,
                 window.window,
                 window.gc,
-                currentX,
+                currentI,
                 size.start_y,
-                draw_width,
+                nextI - currentI,
                 size.height
                 );
-        currentX += draw_width;
+        currentX = nextX;
     }
 
     for (auto& rank : ranks) {
@@ -67,8 +71,8 @@ void draw_score_progress(
                 window.display,
                 window.gc,
                 total_points < rank.score ?
-                    ox::rgb255({.rgb = {255, 0 , 0}}) :
-                    ox::rgb255({.rgb = {0, 255 , 0}})
+                    ox::named_colors::DarkRed.rgb.rgb255() :
+                    ox::named_colors::DarkGreen.rgb.rgb255()
         );
         XDrawLine( window.display,
                    window.window,

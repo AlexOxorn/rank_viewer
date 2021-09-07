@@ -103,7 +103,6 @@ namespace sa2 {
             return false;
         });
 
-        std::thread renderer{std::move(rank_display)};
-        renderer.join();
+        rank_display();
     }
 }
