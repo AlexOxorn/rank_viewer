@@ -6,6 +6,7 @@
 
 class dolphin_process : public process {
     static constexpr u32 gc_memory_start = 0x80000000;
+    static constexpr u32 wii_memory_start = 0x90000000;
     u64 emu_ram_address = 0;
     u64 mem2_address = 0;
     bool mem2_present = false;
@@ -13,6 +14,8 @@ protected:
     [[nodiscard]] bool wrong_endian() const override {
         return ox::O32_HOST_ORDER != ox::O32_BIG_ENDIAN;
     }
+
+    [[nodiscard]] u64 mapped_address(u64 address) const;
 public:
     explicit dolphin_process(int _pid);
 

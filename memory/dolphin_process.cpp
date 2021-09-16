@@ -5,6 +5,7 @@
 #include <ranges>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 dolphin_process::dolphin_process(int _pid) : process{_pid} {
     std::ifstream maps_file{ proc_dir / "maps"};
@@ -43,10 +44,10 @@ dolphin_process::dolphin_process(int _pid) : process{_pid} {
         u64 firstAddress = 0;
         u64 SecondAddress = 0;
         size_t indexDash = line_data[0].find('-');
-        std::string first_address_sring("0x" + line_data[0].substr(0, indexDash));
+        std::string first_address_string("0x" + line_data[0].substr(0, indexDash));
         std::string second_address_string("0x" + line_data[0].substr(indexDash + 1));
 
-        firstAddress = std::stol(first_address_sring, nullptr, 16);
+        firstAddress = std::stol(first_address_string, nullptr, 16);
         SecondAddress = std::stol(second_address_string, nullptr, 16);
 
         if (SecondAddress - firstAddress == 0x4000000 && offset == 0x2040000) {
@@ -64,17 +65,18 @@ dolphin_process::dolphin_process(int _pid) : process{_pid} {
 }
 
 size_t dolphin_process::read_memory_raw(u64 address, void* buffer, size_t size, int length) {
-    if (address > dolphin_process::gc_memory_start) {
-        address -= dolphin_process::gc_memory_start;
-    }
-    u64 ram_address = emu_ram_address + address;
-    return process::read_memory_raw(ram_address, buffer, size, length);
+    return process::read_memory_raw(mapped_address(address), buffer, size, length);
 }
 
 size_t dolphin_process::write_memory_raw(u64 address, void* buffer, size_t size, int length) {
-    if (address > dolphin_process::gc_memory_start) {
-        address -= dolphin_process::gc_memory_start;
+    return process::write_memory_raw(mapped_address(address), buffer, size, length);
+}
+
+u64 dolphin_process::mapped_address(u64 address) const {
+    if (mem2_present && address > dolphin_process::wii_memory_start) {
+        return address - dolphin_process::wii_memory_start + mem2_address;
+    } else if (address > dolphin_process::gc_memory_start) {
+        return address - dolphin_process::gc_memory_start + emu_ram_address;
     }
-    u64 ram_address = emu_ram_address + address;
-    return process::write_memory_raw(ram_address, buffer, size, length);
+    return address;
 }

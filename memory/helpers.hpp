@@ -16,6 +16,13 @@ std::array<type, length> get_array_address(process& process, u32 address) {
     return to_return;
 }
 
+template<typename type = int, int length = 3> requires std::is_trivially_copyable_v<type>
+type get_array_address_at(process& process, u32 address, unsigned index) {
+    type to_return{};
+    process.read_memory(address + (index * sizeof(type)), &to_return);
+    return to_return;
+}
+
 #define GAME_VARIABLE(type, name, address) \
 constexpr u64 name##_address = address;\
 inline type get_##name(process& p) {\
@@ -36,4 +43,7 @@ inline type get_##name(process& p) {\
 constexpr u64 name##_address = address;\
 inline std::array<type, size> get_##name(process& p) {\
     return get_array_address<type, size>(p, address);\
+}\
+inline type get_##name##_at(process& p, unsigned index) {\
+    return get_array_address_at<type, size>(p, address, index);\
 }
