@@ -33,8 +33,8 @@ void print_current_progress(
     for (auto score : scores) {
         int score_ticks = score.score / divisor;
         fmt::print("{}{}",
-                   ox::format{ox::escape::direct_color, 2, score.foreground.rgb.r, score.foreground.rgb.r, score.foreground.rgb.r},
-                   ox::format{ox::escape::background_direct, 2, score.background.rgb.r, score.background.rgb.r, score.background.rgb.r});
+                   ox::format{ox::escape::direct_color, 2, score.foreground.rgb.r, score.foreground.rgb.g, score.foreground.rgb.b},
+                   ox::format{ox::escape::background_direct, 2, score.background.rgb.r, score.background.rgb.g, score.background.rgb.b});
         for (int i = 0; i < score_ticks; i++) {
             fmt::print("|");
         }

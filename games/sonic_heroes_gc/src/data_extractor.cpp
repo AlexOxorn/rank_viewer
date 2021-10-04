@@ -78,11 +78,11 @@ namespace gc::sonic_heroes {
         }
 
         return std::array{
-            score_data{timebonus, ox::named_colors::grey50},
-            score_data{static_cast<int>(scores[0]), ox::named_colors::RoyalBlue},
-            score_data{static_cast<int>(scores[1]), ox::named_colors::gold},
-            score_data{static_cast<int>(scores[2]), ox::named_colors::IndianRed3},
-            score_data{timebonus_rest, ox::named_colors::gray30}
+            score_data{.score = timebonus, .foreground = ox::named_colors::grey50, .name = "Time Bonus"},
+            score_data{.score = static_cast<int>(scores[0]), .foreground = ox::named_colors::RoyalBlue, .name = "Speed Score"},
+            score_data{.score = static_cast<int>(scores[1]), .foreground = ox::named_colors::gold, .name = "Fly Score"},
+            score_data{.score = static_cast<int>(scores[2]), .foreground = ox::named_colors::IndianRed3, .name = "Power Score"},
+            score_data{.score = timebonus_rest, .foreground = ox::named_colors::gray30, .name = "Under 90s Bonus"}
         };
     }
 

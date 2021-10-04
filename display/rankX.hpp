@@ -14,6 +14,7 @@
 #include <fmt/core.h>
 #include <fmt/color.h>
 #include <ox/X11Test.h>
+#include <ox/canvas.h>
 #include "common.hpp"
 
 struct dimensions {
@@ -44,9 +45,12 @@ void draw_score_progress(
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
 
     double currentX = size.start_x;
-    XSetForeground(window.display,window.gc,BlackPixel(window.display, window.screen));
+    XSetForeground(window.display, window.gc, BlackPixel(window.display, window.screen));
 
     for (score_data& score : scores) {
+        if (score.score == 0) {
+            continue;
+        }
         double score_ticks = static_cast<double>(score.score) / divisor;
         double nextX = std::min(currentX + score_ticks, static_cast<double>(width));
         int currentI = static_cast<int>(lround(currentX));
@@ -54,13 +58,14 @@ void draw_score_progress(
 
         XSetForeground(window.display, window.gc, score.foreground.rgb.rgb255());
         XFillRectangle(
-                window.display,
-                window.window,
-                window.gc,
-                currentI,
-                size.start_y,
-                nextI - currentI,
-                size.height
+                window.display, window.window, window.gc,
+                currentI, size.start_y, nextI - currentI, size.height
+                );
+        XSetForeground(window.display, window.gc, BlackPixel(window.display, window.screen));
+        XDrawString(
+                window.display, window.window, window.gc,
+                currentI, size.start_y + size.height,
+                score.name.c_str(), static_cast<int>(score.name.length())
                 );
         currentX = nextX;
     }

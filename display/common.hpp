@@ -17,6 +17,7 @@ struct score_data {
     int score = 0;
     ox::color foreground = ox::named_colors::black;
     ox::color background = foreground;
+    std::string name{};
 };
 
 template <typename color_type>

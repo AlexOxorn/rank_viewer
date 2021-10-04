@@ -49,7 +49,7 @@ namespace sa2 {
 
         return std::array{
             score_data{timebonus, ox::named_colors::DarkTurquoise},
-            score_data{score, ox::named_colors::SkyBlue1}
+            score_data{score, ox::named_colors::DodgerBlue3}
         };
     }
 
