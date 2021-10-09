@@ -59,7 +59,7 @@ void print_current_progress(
 template<std::size_t N>
 void print_current_progress(
     std::array<time_rank_data, N> ranks,
-    time_data<std::string> time,
+    time_data time,
     double scale = 0.75
 ) {
     ox::terminal_size size = ox::get_terminal_size();

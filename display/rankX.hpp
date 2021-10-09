@@ -26,14 +26,18 @@ struct dimensions {
 
 template<std::size_t N, std::size_t M>
 void draw_score_progress(
-        const ox::X11Window<>& window,
+        ox::sdl_instance& win,
         std::array<rank_data, N> ranks,
         std::array<score_data, M> scores,
         int min = -1,
         dimensions size = dimensions{}
 ) {
-    XClearWindow(window.display, window.window);
-    int width = window.attr.width - 2 * size.start_x;
+    win.set_renderer_color(ox::named_colors::black);
+    win.clear_render();
+    int fullwidth, fullheight;
+    SDL_GetWindowSize(win.window(), &fullwidth, &fullheight);
+    
+    int width = fullwidth - 2 * size.start_x;
     if (width <= 0)
         return;
 
@@ -45,7 +49,6 @@ void draw_score_progress(
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
 
     double currentX = size.start_x;
-    XSetForeground(window.display, window.gc, BlackPixel(window.display, window.screen));
 
     for (score_data& score : scores) {
         if (score.score == 0) {
@@ -56,36 +59,52 @@ void draw_score_progress(
         int currentI = static_cast<int>(lround(currentX));
         int nextI = static_cast<int>(lround(nextX));
 
-        XSetForeground(window.display, window.gc, score.foreground.rgb.rgb255());
-        XFillRectangle(
-                window.display, window.window, window.gc,
-                currentI, size.start_y, nextI - currentI, size.height
-                );
-        XSetForeground(window.display, window.gc, BlackPixel(window.display, window.screen));
-        XDrawString(
-                window.display, window.window, window.gc,
-                currentI, size.start_y + size.height,
-                score.name.c_str(), static_cast<int>(score.name.length())
-                );
+        win.set_renderer_color(score.foreground);
+        SDL_Rect r{currentI, size.start_y, nextI - currentI, size.height};
+        SDL_RenderFillRect(win.screen_renderer(), &r);
+        auto text = win.get_texture(score.name);
+        if (text) {
+            text->render(r.x, r.y);
+        }
         currentX = nextX;
     }
 
     for (auto& rank : ranks) {
         int rank_ticks = rank.score / divisor;
-        XSetForeground(
-                window.display,
-                window.gc,
-                total_points < rank.score ?
-                    ox::named_colors::DarkRed.rgb.rgb255() :
-                    ox::named_colors::DarkGreen.rgb.rgb255()
-        );
-        XDrawLine( window.display,
-                   window.window,
-                   window.gc,
-                   rank_ticks + size.start_x,
-                   size.start_y,
-                   rank_ticks + size.start_x,
-                   size.start_y + size.height
-                   );
+        win.set_renderer_color(total_points < rank.score ? ox::named_colors::DarkRed :  ox::named_colors::DarkGreen);
+        SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
+        SDL_RenderFillRect(win.screen_renderer(), &r);
+    }
+}
+
+template<std::size_t N>
+void draw_time_progress(
+    ox::sdl_instance& win,
+    std::array<time_rank_data, N> ranks,
+    time_data time,
+    dimensions size = dimensions{}
+) {
+    win.set_renderer_color(ox::named_colors::black);
+    win.clear_render();
+    int fullwidth, fullheight;
+    SDL_GetWindowSize(win.window(), &fullwidth, &fullheight);
+
+    int width = fullwidth - 2 * size.start_x;
+    if (width <= 0)
+        return;
+    
+    int max_marker = ranks.front().seconds;
+    double divisor = (max_marker / (width * size.scale));
+
+    int time_ticks = static_cast<int>(time.seconds / divisor);
+    win.set_renderer_color(time.foreground);
+    SDL_Rect r{size.start_x, size.start_y, time_ticks, size.height};
+    SDL_RenderFillRect(win.screen_renderer(), &r);
+
+    for (auto& rank : ranks) {
+        int rank_ticks = rank.seconds / divisor;
+        win.set_renderer_color(time.seconds >= rank.seconds ? ox::named_colors::DarkRed :  ox::named_colors::DarkGreen);
+        SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
+        SDL_RenderFillRect(win.screen_renderer(), &r);
     }
 }

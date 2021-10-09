@@ -9,7 +9,7 @@
 #include <sa2/position_view.hpp>
 
 //#include <sonic_heroes/position_view.hpp>
-//#include <sonic_heroes/rank_view.hpp>
+#include <sonic_heroes/rank_view.hpp>
 //#include <sonic_heroes/variables.hpp>
 //
 //#include <sonic_colors/position_view.hpp>
@@ -43,17 +43,17 @@ void handler(int sig) {
 int main(int argc, char** argv) {
     signal(SIGSEGV, handler);
 
-    // if (argc < 2) {
-    //     exit(-1);
-    // }
+    if (argc < 2) {
+        exit(-1);
+    }
 
-    // int pid = std::stoi(argv[1]);
+    int pid = std::stoi(argv[1]);
 //    ox::foo();
     // sa2::display_ranks(pid);
 
-//    gc::sonic_heroes::display_ranksX(pid);
+   gc::sonic_heroes::display_ranksX(pid);
 //        ox::printX11Colours();
-   ox::foo();
+  //  ox::foo2();
 //    printX11Colours();
 
 //    dolphin_process d{pid};

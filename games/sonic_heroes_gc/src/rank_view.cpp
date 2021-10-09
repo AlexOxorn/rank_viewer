@@ -6,7 +6,7 @@
 #include <sonic_heroes/data_extractor.hpp>
 #include <fmt/core.h>
 #include <iostream>
-#include <ox/X11Test.h>
+#include <ox/canvas.h>
 
 namespace gc::sonic_heroes {
     [[noreturn]] void display_ranks(int pid) {
@@ -57,32 +57,43 @@ namespace gc::sonic_heroes {
         }
     }
 
-    void display_ranksX(int pid) {
+    void display_ranksX(int pid) {    
+        using namespace std::chrono_literals;
+
         dolphin_process dolphin{pid};
         normal_stages prototype{};
         void* buffer = &prototype;
-
         std::array<rank_data, 4> s_ranks{};
         std::array<time_rank_data, 4> t_ranks{};
-
         state current{-1, -1, -1};
-        ox::X11Window rank_display{{10, 10}, {2160, 100}};
         int result = 0;
 
-        rank_display.register_event_callback(ConfigureNotify, [](ox::X11Window<>& win) {
-            XGetWindowAttributes(win.display, win.window, &win.attr);
-            return true;
-        });
+        SDL_Event e;
+        ox::sdl_instance rank_display{"Sonic Hereos Ranks", true, {1920, 100}, {10, 10}};
+        const std::chrono::milliseconds render_sleep = 16ms;
 
-        rank_display.register_continuous_callback([&](ox::X11Window<>& win) {
+        rank_display.load_text("Time Bonus", rank_font, rank_font_size, "Time Bonus");
+        rank_display.load_text("Speed Score", rank_font, rank_font_size, "Speed Score");
+        rank_display.load_text("Fly Score", rank_font, rank_font_size, "Fly Score");
+        rank_display.load_text("Power Score", rank_font, rank_font_size, "Power Score");
+        rank_display.load_text("Under 90s Bonus", rank_font, rank_font_size, "90s Bonus");
+
+        while(true) {
+            ox::sdl_check_error();
+            auto now = std::chrono::steady_clock::now();
+            auto end = now + render_sleep;
+            while(SDL_PollEvent( &e )) {
+                switch (e.type) {
+                case SDL_QUIT:
+                    goto end;
+                }
+            }
             state next{get_current_stage(dolphin), get_current_team(dolphin), get_current_mission(dolphin)};
-            XFlush(win.display);
-
+            rank_display.redraw();
             if(next != current) {
                 current = next;
                 result = get_ranks(dolphin, current.level, current.team, current.mission, buffer);
                 if((result & TIMED_LEVEL) != 0) {
-                    return false;
                     if((result & BOSS_LEVEL) != 0) {
                         t_ranks = interpret_time_rank_data(reinterpret_cast<boss_timed_stages *>(buffer), current.team);
                     } else if ((result & EXTRA_MISSION) != 0) {
@@ -98,18 +109,18 @@ namespace gc::sonic_heroes {
             }
 
             if (result == -1)
-                return false;
+                continue;
 
             if ((result & TIMED_LEVEL) != 0) {
-                return false;
                 std::array<u8, 3> time = get_current_time(dolphin);
-                print_current_progress(t_ranks, {time[0] * 60 + time[1], ox::named_colors::grey50});
+                draw_time_progress(rank_display, t_ranks, {time[0] * 60 + time[1], ox::named_colors::grey50});
             } else {
-                draw_score_progress(win, s_ranks, interpret_score(dolphin), 50000);
+                draw_score_progress(rank_display, s_ranks, interpret_score(dolphin), 50000);
             }
-            return false;
-        });
+            std::this_thread::sleep_until(end);
+        }
 
-        rank_display();
+        end:
+        return;
     }
 }

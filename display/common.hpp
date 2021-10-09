@@ -2,6 +2,10 @@
 #include <ox/types.h>
 #include <ox/triple.h>
 #include <ox/colors.h>
+#include <filesystem>
+
+inline const std::filesystem::path rank_font{"/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf"};
+inline constexpr int rank_font_size = 24;
 
 struct rank_data {
     int score;
@@ -20,7 +24,6 @@ struct score_data {
     std::string name{};
 };
 
-template <typename color_type>
 struct time_data {
     int seconds = 0;
     ox::color foreground = ox::named_colors::black;
