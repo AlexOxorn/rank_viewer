@@ -71,6 +71,7 @@ namespace gc::sonic_heroes {
         SDL_Event e;
         ox::sdl_instance rank_display{"Sonic Hereos Ranks", true, {1920, 100}, {10, 10}};
         const std::chrono::milliseconds render_sleep = 16ms;
+        bool quit = false;
 
         rank_display.load_text("Time Bonus", rank_font, rank_font_size, "Time Bonus");
         rank_display.load_text("Speed Score", rank_font, rank_font_size, "Speed Score");
@@ -78,18 +79,20 @@ namespace gc::sonic_heroes {
         rank_display.load_text("Power Score", rank_font, rank_font_size, "Power Score");
         rank_display.load_text("Under 90s Bonus", rank_font, rank_font_size, "90s Bonus");
 
-        while(true) {
+        while(!quit) {
             ox::sdl_check_error();
             auto now = std::chrono::steady_clock::now();
             auto end = now + render_sleep;
             while(SDL_PollEvent( &e )) {
                 switch (e.type) {
                 case SDL_QUIT:
-                    goto end;
+                    quit = true;
+                    continue;
                 }
             }
             state next{get_current_stage(dolphin), get_current_team(dolphin), get_current_mission(dolphin)};
             rank_display.redraw();
+
             if(next != current) {
                 current = next;
                 result = get_ranks(dolphin, current.level, current.team, current.mission, buffer);
@@ -108,8 +111,10 @@ namespace gc::sonic_heroes {
                 }
             }
 
-            if (result == -1)
+            if (result == -1) {
+                std::this_thread::sleep_until(end);
                 continue;
+            }
 
             if ((result & TIMED_LEVEL) != 0) {
                 std::array<u8, 3> time = get_current_time(dolphin);
@@ -119,8 +124,5 @@ namespace gc::sonic_heroes {
             }
             std::this_thread::sleep_until(end);
         }
-
-        end:
-        return;
     }
 }

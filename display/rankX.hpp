@@ -13,12 +13,11 @@
 #include <ox/terminal.h>
 #include <fmt/core.h>
 #include <fmt/color.h>
-#include <ox/X11Test.h>
 #include <ox/canvas.h>
 #include "common.hpp"
 
 struct dimensions {
-    int height = 50;
+    int height = 25;
     int start_x = 5;
     int start_y = 5;
     double scale = 0.75;
@@ -69,11 +68,18 @@ void draw_score_progress(
         currentX = nextX;
     }
 
+    int text_y = size.start_y + size.height + 5;
     for (auto& rank : ranks) {
         int rank_ticks = rank.score / divisor;
         win.set_renderer_color(total_points < rank.score ? ox::named_colors::DarkRed :  ox::named_colors::DarkGreen);
         SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
         SDL_RenderFillRect(win.screen_renderer(), &r);
+
+        auto text = win.get_texture(rank.name + "_text");
+        if (text) {
+            text->render(size.start_x, text_y);
+        }
+        text_y += (size.height);
     }
 }
 
@@ -101,10 +107,17 @@ void draw_time_progress(
     SDL_Rect r{size.start_x, size.start_y, time_ticks, size.height};
     SDL_RenderFillRect(win.screen_renderer(), &r);
 
+    int text_y = size.start_y + size.height + 5;
     for (auto& rank : ranks) {
         int rank_ticks = rank.seconds / divisor;
         win.set_renderer_color(time.seconds >= rank.seconds ? ox::named_colors::DarkRed :  ox::named_colors::DarkGreen);
         SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
         SDL_RenderFillRect(win.screen_renderer(), &r);
+
+        auto text = win.get_texture(rank.name + "_text");
+        if (text) {
+            text->render(size.start_x, text_y);
+        }
+        text_y += (size.height);
     }
 }

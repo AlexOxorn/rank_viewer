@@ -6,7 +6,6 @@
 #include <sonic_colors/data_extractor.hpp>
 #include <fmt/core.h>
 #include <iostream>
-#include <ox/X11Test.h>
 
 namespace gc::sonic_heroes {
     void display_ranks(int pid) {}
