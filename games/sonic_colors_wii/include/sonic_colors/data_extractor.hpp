@@ -5,16 +5,11 @@
 #include "variables.hpp"
 
 namespace gc::sonic_colors {
-    constexpr int EXTRA_MISSION = 1 << 1;
-    constexpr int BOSS_LEVEL = 1 << 2;
-    constexpr int TIMED_LEVEL = 1 << 3;
+    extern const std::array<std::string, 21> score_names;
 
-    int get_ranks(dolphin_process& process, int level, int team, int mission, void* buffer);
-    std::array<score_data, 5> interpret_score(dolphin_process& process);
+    int read_stage_data(dolphin_process& process, int zone, int act, stage_data& buffer);
 
-    template<typename rank_type>
-    std::array<rank_data, 4> interpret_score_rank_data(rank_type* stage, int team);
+    std::array<score_data, 28> interpret_score(dolphin_process& process, stage_data& stage);
 
-    template<typename rank_type>
-    std::array<time_rank_data, 4> interpret_time_rank_data(rank_type* stage, int team);
+    std::array<rank_data, 4> interpret_score_rank_data(stage_data& stage);
 }

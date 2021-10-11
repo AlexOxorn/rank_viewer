@@ -99,14 +99,18 @@ namespace gc::sonic_heroes {
                 if((result & TIMED_LEVEL) != 0) {
                     if((result & BOSS_LEVEL) != 0) {
                         t_ranks = interpret_time_rank_data(reinterpret_cast<boss_timed_stages *>(buffer), current.team);
+                        load_requirement_text(rank_display, t_ranks);
                     } else if ((result & EXTRA_MISSION) != 0) {
                         t_ranks = interpret_time_rank_data(reinterpret_cast<extra_timed_stages *>(buffer), current.team);
+                        load_requirement_text(rank_display, t_ranks);
                     }
                 } else {
                     if((result & EXTRA_MISSION) != 0) {
                         s_ranks = interpret_score_rank_data(reinterpret_cast<extra_stages *>(buffer), current.team);
+                        load_requirement_text(rank_display, s_ranks);
                     } else {
                         s_ranks = interpret_score_rank_data(reinterpret_cast<normal_stages *>(buffer), current.team);
+                        load_requirement_text(rank_display, s_ranks);
                     }
                 }
             }

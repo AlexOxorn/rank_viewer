@@ -33,8 +33,8 @@ void print_current_progress(
     for (auto score : scores) {
         int score_ticks = score.score / divisor;
         fmt::print("{}{}",
-                   ox::format{ox::escape::direct_color, 2, score.foreground.rgb.r, score.foreground.rgb.g, score.foreground.rgb.b},
-                   ox::format{ox::escape::background_direct, 2, score.background.rgb.r, score.background.rgb.g, score.background.rgb.b});
+                   ox::format{ox::escape::direct_color, 2, score.foreground.r, score.foreground.g, score.foreground.b},
+                   ox::format{ox::escape::background_direct, 2, score.background.r, score.background.g, score.background.b});
         for (int i = 0; i < score_ticks; i++) {
             fmt::print("|");
         }
@@ -70,8 +70,8 @@ void print_current_progress(
     int time_ticks = time.seconds / divisor;
     fmt::print(
             "{}{}",
-            ox::format{ox::escape::direct_color, 2, time.foreground.rgb.r, time.foreground.rgb.r, time.foreground.rgb.r},
-            ox::format{ox::escape::background_direct, 2, time.background.rgb.r, time.background.rgb.r, time.background.rgb.r}
+            ox::format{ox::escape::direct_color, 2, time.foreground.r, time.foreground.r, time.foreground.r},
+            ox::format{ox::escape::background_direct, 2, time.background.r, time.background.r, time.background.r}
             );
     for (int i = 0; i < time_ticks; i++) {
         fmt::print("|");

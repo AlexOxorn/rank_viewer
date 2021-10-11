@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 # set(CMAKE_C_COMPILER "clang-10")
 # set(CMAKE_CXX_COMPILER "/usr/bin/clang++-10")
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -O2")
+set(CMAKE_CXX_FLAGS "-g -rdynamic -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-variable -Og")
 
 add_subdirectory("fmt")
 add_subdirectory("ox_lib")

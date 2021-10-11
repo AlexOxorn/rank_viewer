@@ -17,8 +17,5 @@ namespace gc::sonic_colors {
     GAME_ARRAY_VARIABLE(stage_data, stage_data, 0x90BFD860, 75)
 
     GAME_VARIABLE(i32, state1, 0x808511D4)
-    GAME_VARIABLE(i32, state2, 0x808511D4)
+    GAME_VARIABLE(i32, state2, 0x808511C8)
 }
-
-#undef EACH_HERO_BASE_POINTER
-#undef EACH_HERO_INDIRECT

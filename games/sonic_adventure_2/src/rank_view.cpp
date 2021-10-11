@@ -48,23 +48,11 @@ namespace sa2 {
 
             if ((result & TIMED_LEVEL) != 0) {
                 minute_second time = get_time(game);
-                print_current_progress(t_ranks, {time.total_seconds(), {{0xFF, 0xFF, 0xFF}}, {{0xFF, 0xFF, 0xFF}}});
+                print_current_progress(t_ranks, {time.total_seconds(), {0xFF, 0xFF, 0xFF}, {0xFF, 0xFF, 0xFF}});
             } else {
                 interpret_score(game);
                 print_current_progress(s_ranks, interpret_score(game), 10000);
             }
-        }
-    }
-
-    void load_requirement_text(ox::sdl_instance& win, std::array<rank_data, 4>& s_ranks) {
-        for (auto& rank : s_ranks) {
-            win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}: {}", rank.name, rank.score), {255, 255, 255, 255});
-        }
-    }
-
-    void load_requirement_text(ox::sdl_instance& win, std::array<time_rank_data, 4>& t_ranks) {
-        for (auto& rank : t_ranks) {
-            win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}: {}m {}s", rank.name, rank.seconds / 60, rank.seconds % 60), {255, 255, 255, 255});
         }
     }
 

@@ -35,19 +35,21 @@ void draw_score_progress(
     win.clear_render();
     int fullwidth, fullheight;
     SDL_GetWindowSize(win.window(), &fullwidth, &fullheight);
-    
     int width = fullwidth - 2 * size.start_x;
     if (width <= 0)
         return;
 
-    int max_marker = ranks.back().score;
+    auto max_marker_iter = std::max_element(ranks.begin(), ranks.end());
+    auto max_marker = max_marker_iter->score;
     if (min > 0) {
         max_marker = std::max(min, max_marker);
     }
     int divisor = static_cast<int>(max_marker / (width * size.scale)) + 1;
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
-
     double currentX = size.start_x;
+
+    SDL_Rect last_text_rect;
+    const ox::sdl_instance::texture* last_text_texture = nullptr;
 
     for (score_data& score : scores) {
         if (score.score == 0) {
@@ -57,16 +59,21 @@ void draw_score_progress(
         double nextX = std::min(currentX + score_ticks, static_cast<double>(width));
         int currentI = static_cast<int>(lround(currentX));
         int nextI = static_cast<int>(lround(nextX));
+        auto text = win.get_texture(score.name);
 
         win.set_renderer_color(score.foreground);
         SDL_Rect r{currentI, size.start_y, nextI - currentI, size.height};
-        SDL_RenderFillRect(win.screen_renderer(), &r);
-        auto text = win.get_texture(score.name);
         if (text) {
-            text->render(r.x, r.y);
+            if(last_text_texture)
+                last_text_texture->render(last_text_rect.x, last_text_rect.y);
+            last_text_rect = r;
+            last_text_texture = text;
         }
+        SDL_RenderFillRect(win.screen_renderer(), &r);
         currentX = nextX;
     }
+    if(last_text_texture)
+        last_text_texture->render(last_text_rect.x, last_text_rect.y);
 
     int text_y = size.start_y + size.height + 5;
     for (auto& rank : ranks) {

@@ -10,7 +10,7 @@
 
 #include <position_dump.hpp>
 
-namespace gc::sonic_heroes {
+namespace gc::sonic_colors {
     using namespace std::literals::chrono_literals;
     constexpr auto stall_time = 100ms;
 }
