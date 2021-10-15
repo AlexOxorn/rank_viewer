@@ -5,9 +5,12 @@
 #include <ox/canvas.h>
 #include <fmt/core.h>
 #include <filesystem>
+#include <ox/canvas.h>
 
-inline const std::filesystem::path rank_font{"/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf"};
-inline constexpr int rank_font_size = 24;
+extern const std::filesystem::path rank_font;
+extern const int rank_font_size;
+
+void load_rank_images(ox::sdl_instance& s);
 
 struct rank_data {
     int score;
@@ -45,7 +48,8 @@ struct time_data {
 template <std::size_t N>
 void load_requirement_text(ox::sdl_instance& win, std::array<rank_data, N>& s_ranks) {
     for (auto& rank : s_ranks) {
-        win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}: {}", rank.name, rank.score), {255, 255, 255, 255});
+        win.load_text(fmt::format("{}_text_with_name", rank.name), rank_font, rank_font_size, fmt::format("{}: {}", rank.name, rank.score), {255, 255, 255, 255});
+        win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}", rank.score), {255, 255, 255, 255});
     }
 }
 

@@ -31,6 +31,7 @@ void draw_score_progress(
         int min = -1,
         dimensions size = dimensions{}
 ) {
+    SDL_Rect rank_image{0, 0, size.height, size.height};
     win.set_renderer_color(ox::named_colors::black);
     win.clear_render();
     int fullwidth, fullheight;
@@ -78,13 +79,27 @@ void draw_score_progress(
     int text_y = size.start_y + size.height + 5;
     for (auto& rank : ranks) {
         int rank_ticks = rank.score / divisor;
-        win.set_renderer_color(total_points < rank.score ? ox::named_colors::DarkRed :  ox::named_colors::DarkGreen);
-        SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
-        SDL_RenderFillRect(win.screen_renderer(), &r);
+        bool pass = total_points >= rank.score;
+        auto image = win.get_texture(fmt::format("{}{}", rank.name, pass));
+        auto image_pass = pass ? image : win.get_texture(fmt::format("{}true", rank.name));
 
-        auto text = win.get_texture(rank.name + "_text");
+        if (image) {
+            image->render(rank_ticks + size.start_x, size.start_y, &rank_image);
+        } else {
+            win.set_renderer_color(pass ? ox::named_colors::DarkGreen : ox::named_colors::DarkRed);
+            SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
+            SDL_RenderFillRect(win.screen_renderer(), &r);
+        }
+
+        auto text = win.get_texture(rank.name + (image_pass ? "_text" : "_text_with_name"));
         if (text) {
-            text->render(size.start_x, text_y);
+            int score_start = size.start_x;
+            if (image_pass) {
+                image_pass->render(score_start, text_y, &rank_image);
+                score_start += size.height + 5;
+            }
+
+            text->render(score_start, text_y);
         }
         text_y += (size.height);
     }

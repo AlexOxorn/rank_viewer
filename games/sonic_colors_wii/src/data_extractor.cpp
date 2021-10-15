@@ -22,7 +22,7 @@ namespace gc::sonic_colors {
         "Enemy",
         "Steel Box",
         "Rings",
-        "_1A8",
+        "Blue Rings",
         "Lost Rings",
         "Special",
         "_1B4",
@@ -31,7 +31,7 @@ namespace gc::sonic_colors {
         "Spike",
         "Rocket",
         "Frenzy",
-        "_1CC",
+        "Hover",
     };
 
     int read_stage_data(dolphin_process& process, int zone, int act, stage_data& buffer) {
@@ -95,7 +95,7 @@ namespace gc::sonic_colors {
             int part = stage.no_miss_bonus[j - 1] - partial;
             partial += part;
             to_return.at(i++) = {
-                .score = deaths < j ? part : 0,
+                .score = timebonus > 0 && deaths < j ? part : 0,
                 .foreground = c,
                 .name = j == max_no_of_deaths ? "Death Bonus" : std::string{}
             };

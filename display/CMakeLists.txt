@@ -4,6 +4,7 @@ add_library(
         rankX.hpp
         position_dump.hpp
         common.hpp
+        common.cpp
 )
 
 target_link_libraries("display" "ox")

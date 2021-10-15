@@ -33,6 +33,7 @@ namespace gc::sonic_colors {
         rank_display.load_text("Death Bonus", rank_font, rank_font_size, "Death Bonus");
         rank_display.load_text("Time Bonus", rank_font, rank_font_size, "Time Bonus");
         rank_display.load_text("Ring Bonus", rank_font, rank_font_size, "Ring Bonus");
+        load_rank_images(rank_display);
 
         while(!quit) {
             ox::sdl_check_error();
