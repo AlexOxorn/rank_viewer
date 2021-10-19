@@ -7,6 +7,7 @@
 #include <fmt/core.h>
 #include <ox/canvas.h>
 #include <iostream>
+#include <ranges>
 
 namespace gc::sonic_colors {
     void display_ranks(int pid) {}
@@ -17,7 +18,7 @@ namespace gc::sonic_colors {
         dolphin_process game{pid};
         stage_data stage{};
 
-        std::array<rank_data, 4> ranks{};
+        std::array<score_data, 4> ranks{};
 
         state current{-1, -1};
         int result = 0;
@@ -34,6 +35,8 @@ namespace gc::sonic_colors {
         rank_display.load_text("Time Bonus", rank_font, rank_font_size, "Time Bonus");
         rank_display.load_text("Ring Bonus", rank_font, rank_font_size, "Ring Bonus");
         load_rank_images(rank_display);
+
+        rank_display.clear_render();
 
         while(!quit) {
             ox::sdl_check_error();
@@ -58,14 +61,19 @@ namespace gc::sonic_colors {
                 }
                 ranks = interpret_score_rank_data(stage);                
                 load_requirement_text(rank_display, ranks);
+                draw_score_text(rank_display, ranks);
             }
 
             if (result == -1) {
                 std::this_thread::sleep_until(end);
                 continue;
             }
-            
-            draw_score_progress(rank_display, ranks, interpret_score(game, stage));
+
+            auto scores = interpret_score(game, stage);
+            auto score_values = std::ranges::views::transform(scores, &score_data::score);
+            int total_score = std::accumulate(score_values.begin(), score_values.end(), 0);
+            draw_score_progress_bar(rank_display, scores, ranks.front().score);
+            draw_rank_markers_scores(rank_display, ranks, total_score, ranks.front().score);
             std::this_thread::sleep_until(end);
         }
     }

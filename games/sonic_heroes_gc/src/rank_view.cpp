@@ -14,7 +14,7 @@ namespace gc::sonic_heroes {
         normal_stages prototype{};
         void* buffer = &prototype;
 
-        std::array<rank_data, 4> s_ranks{};
+        std::array<score_data, 4> s_ranks{};
         std::array<time_rank_data, 4> t_ranks{};
 
         state current{-1, -1, -1};
@@ -63,13 +63,13 @@ namespace gc::sonic_heroes {
         dolphin_process dolphin{pid};
         normal_stages prototype{};
         void* buffer = &prototype;
-        std::array<rank_data, 4> s_ranks{};
+        std::array<score_data, 4> s_ranks{};
         std::array<time_rank_data, 4> t_ranks{};
         state current{-1, -1, -1};
         int result = 0;
 
         SDL_Event e;
-        ox::sdl_instance rank_display{"Sonic Hereos Ranks", true, {1920, 100}, {10, 10}};
+        ox::sdl_instance rank_display{"Sonic Hereos Ranks", true, {1920, 160}, {10, 10}};
         const std::chrono::milliseconds render_sleep = 16ms;
         bool quit = false;
 
@@ -78,6 +78,7 @@ namespace gc::sonic_heroes {
         rank_display.load_text("Fly Score", rank_font, rank_font_size, "Fly Score");
         rank_display.load_text("Power Score", rank_font, rank_font_size, "Power Score");
         rank_display.load_text("Under 90s Bonus", rank_font, rank_font_size, "90s Bonus");
+        load_rank_images(rank_display);
 
         while(!quit) {
             ox::sdl_check_error();
@@ -124,7 +125,8 @@ namespace gc::sonic_heroes {
                 std::array<u8, 3> time = get_current_time(dolphin);
                 draw_time_progress(rank_display, t_ranks, {time[0] * 60 + time[1], ox::named_colors::grey50});
             } else {
-                draw_score_progress(rank_display, s_ranks, interpret_score(dolphin), 50000);
+                auto score = interpret_score(dolphin);
+                draw_score_progress(rank_display, s_ranks, score, 50000);
             }
             std::this_thread::sleep_until(end);
         }

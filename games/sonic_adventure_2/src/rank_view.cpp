@@ -21,7 +21,7 @@ namespace sa2 {
         stage_score_rank prototype{};
         void* buffer = &prototype;
 
-        std::array<rank_data, 4> s_ranks{};
+        std::array<score_data, 4> s_ranks{};
         std::array<time_rank_data, 4> t_ranks{};
 
         state current{-1, -1, -1};
@@ -63,7 +63,7 @@ namespace sa2 {
         stage_score_rank prototype{};
         void* buffer = &prototype;
 
-        std::array<rank_data, 4> s_ranks{};
+        std::array<score_data, 4> s_ranks{};
         std::array<time_rank_data, 4> t_ranks{};
 
         state current{-1, -1, -1};
@@ -113,7 +113,8 @@ namespace sa2 {
                 minute_second time = get_time(game);
                 draw_time_progress(rank_display, t_ranks, {time.total_seconds(), ox::named_colors::grey50});
             } else {
-                draw_score_progress(rank_display, s_ranks, interpret_score(game), 10000);
+                auto scores = interpret_score(game);
+                draw_score_progress(rank_display, s_ranks, scores, 10000);
             }
 
             std::this_thread::sleep_until(end);

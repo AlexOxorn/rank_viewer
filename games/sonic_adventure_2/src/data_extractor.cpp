@@ -48,18 +48,18 @@ namespace sa2 {
         timebonus = timebonus < 0 ? 0 : timebonus;
 
         return std::array{
-            score_data{.score = timebonus, .foreground = ox::named_colors::DarkTurquoise, .name = "Time Bonus"},
-            score_data{.score = score, .foreground = ox::named_colors::DodgerBlue3, .name = "Score"}
+            score_data{.score = timebonus, .name = "Time Bonus", .foreground = ox::named_colors::DarkTurquoise},
+            score_data{.score = score, .name = "Score", .foreground = ox::named_colors::DodgerBlue3}
         };
     }
 
-    std::array<rank_data, 4> interpret_score_rank_data(stage_score_rank* stage) {
+    std::array<score_data, 4> interpret_score_rank_data(stage_score_rank* stage) {
         auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks);
         return std::array{
-            rank_data{ranks[0] * 100, "D"},
-            rank_data{ranks[1] * 100, "C"},
-            rank_data{ranks[2] * 100, "B"},
-            rank_data{ranks[3] * 100, "A"}
+            score_data{ranks[0] * 100, "D"},
+            score_data{ranks[1] * 100, "C"},
+            score_data{ranks[2] * 100, "B"},
+            score_data{ranks[3] * 100, "A"}
         };
     }
 

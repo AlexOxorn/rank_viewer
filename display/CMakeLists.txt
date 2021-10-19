@@ -2,6 +2,7 @@ add_library(
         "display"
         rank.hpp
         rankX.hpp
+        rankX.cpp
         position_dump.hpp
         common.hpp
         common.cpp

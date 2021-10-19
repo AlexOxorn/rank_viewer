@@ -9,6 +9,8 @@
 #include <concepts>
 #include <numeric>
 #include <iostream>
+#include <ranges>
+#include <span>
 #include <ox/formatting.h>
 #include <ox/terminal.h>
 #include <fmt/core.h>
@@ -16,94 +18,58 @@
 #include <ox/canvas.h>
 #include "common.hpp"
 
+
 struct dimensions {
-    int height = 25;
+    int height = rank_font_size;
     int start_x = 5;
-    int start_y = 5;
+    int start_y = 0;
+    int y_buffer = 5;
     double scale = 0.75;
+
+    int top() {
+        return start_y + y_buffer;
+    }
+
+    void clear_render (
+        ox::sdl_instance& win
+    ) const {
+        win.reset_renderer_color();
+        auto [screen_width, screen_height] = win.get_window_size();
+        SDL_Rect screen_portion{start_x, start_y, screen_width - 2*start_x, height + 2*y_buffer};
+        SDL_RenderFillRect(win.screen_renderer(), &screen_portion);
+    }
 };
 
-template<std::size_t N, std::size_t M>
 void draw_score_progress(
         ox::sdl_instance& win,
-        std::array<rank_data, N> ranks,
-        std::array<score_data, M> scores,
+        std::span<score_data> ranks,
+        std::span<score_data> scores,
         int min = -1,
         dimensions size = dimensions{}
-) {
-    SDL_Rect rank_image{0, 0, size.height, size.height};
-    win.set_renderer_color(ox::named_colors::black);
-    win.clear_render();
-    int fullwidth, fullheight;
-    SDL_GetWindowSize(win.window(), &fullwidth, &fullheight);
-    int width = fullwidth - 2 * size.start_x;
-    if (width <= 0)
-        return;
+);
 
-    auto max_marker_iter = std::max_element(ranks.begin(), ranks.end());
-    auto max_marker = max_marker_iter->score;
-    if (min > 0) {
-        max_marker = std::max(min, max_marker);
-    }
-    int divisor = static_cast<int>(max_marker / (width * size.scale)) + 1;
-    int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
-    double currentX = size.start_x;
+void draw_score_progress_bar(
+        ox::sdl_instance& win,
+        std::span<score_data> scores,
+        int highmark,
+        dimensions size = dimensions{}
+);
 
-    SDL_Rect last_text_rect;
-    const ox::sdl_instance::texture* last_text_texture = nullptr;
+template<std::regular_invocable<int, int> CompareFunc = std::greater_equal<int>>
+void draw_rank_markers_scores(
+    ox::sdl_instance& win,
+    std::span<score_data> ranks,
+    int total_points,
+    int highmark,
+    dimensions size = dimensions{},
+    CompareFunc comp = {}
+);
 
-    for (score_data& score : scores) {
-        if (score.score == 0) {
-            continue;
-        }
-        double score_ticks = static_cast<double>(score.score) / divisor;
-        double nextX = std::min(currentX + score_ticks, static_cast<double>(width));
-        int currentI = static_cast<int>(lround(currentX));
-        int nextI = static_cast<int>(lround(nextX));
-        auto text = win.get_texture(score.name);
-
-        win.set_renderer_color(score.foreground);
-        SDL_Rect r{currentI, size.start_y, nextI - currentI, size.height};
-        if (text) {
-            if(last_text_texture)
-                last_text_texture->render(last_text_rect.x, last_text_rect.y);
-            last_text_rect = r;
-            last_text_texture = text;
-        }
-        SDL_RenderFillRect(win.screen_renderer(), &r);
-        currentX = nextX;
-    }
-    if(last_text_texture)
-        last_text_texture->render(last_text_rect.x, last_text_rect.y);
-
-    int text_y = size.start_y + size.height + 5;
-    for (auto& rank : ranks) {
-        int rank_ticks = rank.score / divisor;
-        bool pass = total_points >= rank.score;
-        auto image = win.get_texture(fmt::format("{}{}", rank.name, pass));
-        auto image_pass = pass ? image : win.get_texture(fmt::format("{}true", rank.name));
-
-        if (image) {
-            image->render(rank_ticks + size.start_x, size.start_y, &rank_image);
-        } else {
-            win.set_renderer_color(pass ? ox::named_colors::DarkGreen : ox::named_colors::DarkRed);
-            SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
-            SDL_RenderFillRect(win.screen_renderer(), &r);
-        }
-
-        auto text = win.get_texture(rank.name + (image_pass ? "_text" : "_text_with_name"));
-        if (text) {
-            int score_start = size.start_x;
-            if (image_pass) {
-                image_pass->render(score_start, text_y, &rank_image);
-                score_start += size.height + 5;
-            }
-
-            text->render(score_start, text_y);
-        }
-        text_y += (size.height);
-    }
-}
+void draw_score_text(
+    ox::sdl_instance& win,
+    std::span<score_data> scores,
+    dimensions size = dimensions{rank_font_size, 5, 10 + rank_font_size, 0}
+);
 
 template<std::size_t N>
 void draw_time_progress(

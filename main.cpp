@@ -48,14 +48,13 @@ int main(int argc, char** argv) {
     }
 
     int pid = std::stoi(argv[1]);
-//    ox::foo();
-    // sa2::display_ranksX(pid);
-
-  //  gc::sonic_heroes::display_ranksX(pid);
-   gc::sonic_colors::display_ranksX(pid);
-//        ox::printX11Colours();
-  //  ox::foo2();
-  // ox::printX11Colours();
+//  ox::foo();
+//  sa2::display_ranksX(pid);
+//  gc::sonic_heroes::display_ranksX(pid);
+    gc::sonic_colors::display_ranksX(pid);
+//  ox::printX11Colours();
+//  ox::foo2();
+//  ox::printX11Colours();
 
 //    dolphin_process d{pid};
 //    while(true) {

@@ -15,7 +15,7 @@
 
 template<std::size_t N, std::size_t M>
 void print_current_progress(
-    std::array<rank_data, N> ranks,
+    std::array<score_data, N> ranks,
     std::array<score_data, M> scores,
     int min = -1,
     double scale = 0.75

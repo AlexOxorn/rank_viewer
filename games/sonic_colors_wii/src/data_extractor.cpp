@@ -44,13 +44,13 @@ namespace gc::sonic_colors {
         return 0;
     }
 
-    std::array<rank_data, 4> interpret_score_rank_data(stage_data& stage) {
+    std::array<score_data, 4> interpret_score_rank_data(stage_data& stage) {
         auto ranks = *reinterpret_cast<std::array<i32, 4> *>(&stage.rank_requirements);
         return std::array{
-            rank_data{ranks[0], "S"},
-            rank_data{ranks[1], "A"},
-            rank_data{ranks[2], "B"},
-            rank_data{ranks[3], "C"}
+            score_data{ranks[0], "S"},
+            score_data{ranks[1], "A"},
+            score_data{ranks[2], "B"},
+            score_data{ranks[3], "C"}
         };
     }
 
@@ -89,20 +89,20 @@ namespace gc::sonic_colors {
         for(auto c = ox::named_colors::dark_teal; i < 21; ++i, c.lighten(0.02)) {
             auto score_name = score_names[i];
             ox::color forground = score_name[0] == '_' ? ox::named_colors::DarkGreen : c;
-            to_return.at(i) = {.score = scores[i], .foreground = forground, .name = score_name};
+            to_return.at(i) = {.score = scores[i], .name = score_name, .foreground = forground};
         }
         for (auto [j, partial, c] = std::tuple{max_no_of_deaths, 0, ox::named_colors::DarkRed}; j > 0; j--, c.lighten(0.1)) {
             int part = stage.no_miss_bonus[j - 1] - partial;
             partial += part;
             to_return.at(i++) = {
                 .score = timebonus > 0 && deaths < j ? part : 0,
+                .name = j == max_no_of_deaths ? "Death Bonus" : std::string{},
                 .foreground = c,
-                .name = j == max_no_of_deaths ? "Death Bonus" : std::string{}
             };
         }
 
-        to_return.at(i++) = {.score = timebonus, .foreground = ox::named_colors::MediumAquamarine, .name = "Time Bonus"};
-        to_return.at(i++) = {.score = ringbonus, .foreground = ox::named_colors::gold, .name = "Ring Bonus"};
+        to_return.at(i++) = {.score = timebonus, .name = "Time Bonus", .foreground = ox::named_colors::MediumAquamarine};
+        to_return.at(i++) = {.score = ringbonus, .name = "Ring Bonus", .foreground = ox::named_colors::gold};
         return to_return;
     }
 }

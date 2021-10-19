@@ -78,26 +78,26 @@ namespace gc::sonic_heroes {
         }
 
         return std::array{
-            score_data{.score = timebonus, .foreground = ox::named_colors::grey50, .name = "Time Bonus"},
-            score_data{.score = static_cast<int>(scores[0]), .foreground = ox::named_colors::RoyalBlue, .name = "Speed Score"},
-            score_data{.score = static_cast<int>(scores[1]), .foreground = ox::named_colors::gold, .name = "Fly Score"},
-            score_data{.score = static_cast<int>(scores[2]), .foreground = ox::named_colors::IndianRed3, .name = "Power Score"},
-            score_data{.score = timebonus_rest, .foreground = ox::named_colors::gray30, .name = "Under 90s Bonus"}
+            score_data{.score = timebonus, .name = "Time Bonus", .foreground = ox::named_colors::grey50},
+            score_data{.score = static_cast<int>(scores[0]), .name = "Speed Score", .foreground = ox::named_colors::RoyalBlue},
+            score_data{.score = static_cast<int>(scores[1]), .name = "Fly Score", .foreground = ox::named_colors::gold},
+            score_data{.score = static_cast<int>(scores[2]), .name = "Power Score", .foreground = ox::named_colors::IndianRed3},
+            score_data{.score = timebonus_rest, .name = "Under 90s Bonus", .foreground = ox::named_colors::gray30}
         };
     }
 
     template<typename rank_type>
-    std::array<rank_data, 4> interpret_score_rank_data(rank_type* stage, int team) {
+    std::array<score_data, 4> interpret_score_rank_data(rank_type* stage, int team) {
         if constexpr (std::is_same_v<rank_type, extra_stages>) {
             team = team > 0;
         }
         auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks_array[team]);
 
         return std::array{
-            rank_data{ranks[0] * 100, "D"},
-            rank_data{ranks[1] * 100, "C"},
-            rank_data{ranks[2] * 100, "B"},
-            rank_data{ranks[3] * 100, "A"}
+            score_data{ranks[0] * 100, "D"},
+            score_data{ranks[1] * 100, "C"},
+            score_data{ranks[2] * 100, "B"},
+            score_data{ranks[3] * 100, "A"}
         };
     }
 
@@ -115,8 +115,8 @@ namespace gc::sonic_heroes {
         };
     }
 
-    template  std::array<rank_data,      4> interpret_score_rank_data<normal_stages>     (normal_stages* stage,      int team);
-    template  std::array<rank_data,      4> interpret_score_rank_data<extra_stages>      (extra_stages* stage,       int team);
+    template  std::array<score_data,     4> interpret_score_rank_data<normal_stages>     (normal_stages* stage,      int team);
+    template  std::array<score_data,     4> interpret_score_rank_data<extra_stages>      (extra_stages* stage,       int team);
     template  std::array<time_rank_data, 4> interpret_time_rank_data <extra_timed_stages>(extra_timed_stages* stage, int team);
     template  std::array<time_rank_data, 4> interpret_time_rank_data <boss_timed_stages> (boss_timed_stages* stage,  int team);
 }

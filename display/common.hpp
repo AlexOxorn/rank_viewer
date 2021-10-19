@@ -12,15 +12,6 @@ extern const int rank_font_size;
 
 void load_rank_images(ox::sdl_instance& s);
 
-struct rank_data {
-    int score;
-    std::string name;
-
-    bool operator<(const rank_data& other) {
-        return score < other.score;
-    }
-};
-
 struct time_rank_data {
     int seconds;
     std::string name;
@@ -32,9 +23,26 @@ struct time_rank_data {
 
 struct score_data {
     int score = 0;
+    std::string name{};
     ox::color foreground = ox::named_colors::black;
     ox::color background = foreground;
-    std::string name{};
+
+    std::strong_ordering operator<=>(const score_data& other) const {
+        return score <=> other.score;
+    }
+};
+
+struct rank_data {
+    int score;
+    std::string name;
+
+    std::strong_ordering operator<=>(const rank_data& other) {
+        return score <=> other.score;
+    }
+
+    operator score_data() const {
+        return score_data{score, name};
+    }
 };
 
 struct time_data {
@@ -46,7 +54,7 @@ struct time_data {
 
 
 template <std::size_t N>
-void load_requirement_text(ox::sdl_instance& win, std::array<rank_data, N>& s_ranks) {
+void load_requirement_text(ox::sdl_instance& win, std::array<score_data, N>& s_ranks) {
     for (auto& rank : s_ranks) {
         win.load_text(fmt::format("{}_text_with_name", rank.name), rank_font, rank_font_size, fmt::format("{}: {}", rank.name, rank.score), {255, 255, 255, 255});
         win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}", rank.score), {255, 255, 255, 255});

@@ -13,7 +13,7 @@ namespace gc::sonic_heroes {
     std::array<score_data, 5> interpret_score(dolphin_process& process);
 
     template<typename rank_type>
-    std::array<rank_data, 4> interpret_score_rank_data(rank_type* stage, int team);
+    std::array<score_data, 4> interpret_score_rank_data(rank_type* stage, int team);
 
     template<typename rank_type>
     std::array<time_rank_data, 4> interpret_time_rank_data(rank_type* stage, int team);
