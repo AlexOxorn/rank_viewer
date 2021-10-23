@@ -54,7 +54,7 @@ struct time_data {
 
 
 template <std::size_t N>
-void load_requirement_text(ox::sdl_instance& win, std::array<score_data, N>& s_ranks) {
+void load_requirement_text(ox::sdl_instance& win, const std::array<score_data, N>& s_ranks) {
     for (auto& rank : s_ranks) {
         win.load_text(fmt::format("{}_text_with_name", rank.name), rank_font, rank_font_size, fmt::format("{}: {}", rank.name, rank.score), {255, 255, 255, 255});
         win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}", rank.score), {255, 255, 255, 255});
@@ -62,7 +62,7 @@ void load_requirement_text(ox::sdl_instance& win, std::array<score_data, N>& s_r
 }
 
 template <std::size_t N>
-void load_requirement_text(ox::sdl_instance& win, std::array<time_rank_data, N>& t_ranks) {
+void load_requirement_text(ox::sdl_instance& win, const std::array<time_rank_data, N>& t_ranks) {
     for (auto& rank : t_ranks) {
         win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}: {}m {}s", rank.name, rank.seconds / 60, rank.seconds % 60), {255, 255, 255, 255});
     }

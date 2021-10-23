@@ -1,8 +1,8 @@
 #include <sonic_colors/data_extractor.hpp>
+#include <sonic_colors/variables.hpp>
 #include <helpers.hpp>
 #include <ox/formatting.h>
 #include <string_view>
-
 
 namespace gc::sonic_colors {
     constexpr int max_zone = 7;
@@ -34,18 +34,18 @@ namespace gc::sonic_colors {
         "Hover",
     };
 
-    int read_stage_data(dolphin_process& process, int zone, int act, stage_data& buffer) {
+    int read_stage_data(dolphin_process& process, int zone, int act, stage_data_struct& buffer) {
         if (zone >= max_zone || act >= max_act) {
             return -1;
         }
 
         int level = zone * max_act + act;
-        process.read_memory(stage_data_address + sizeof(stage_data) * level, &buffer);
+        process.read_memory(stage_data_address + sizeof(stage_data_struct) * level, &buffer);
         return 0;
     }
 
-    std::array<score_data, 4> interpret_score_rank_data(stage_data& stage) {
-        auto ranks = *reinterpret_cast<std::array<i32, 4> *>(&stage.rank_requirements);
+    std::array<score_data, 4> interpret_score_rank_data(const stage_data_struct& stage) {
+        auto ranks = ox::c_to_std_array(stage.rank_requirements);
         return std::array{
             score_data{ranks[0], "S"},
             score_data{ranks[1], "A"},
@@ -54,22 +54,22 @@ namespace gc::sonic_colors {
         };
     }
 
-    time_bonus interpret_time_bonus(stage_data& stage) {
+    time_bonus interpret_time_bonus(const stage_data_struct& stage) {
         return stage.time_bonus_data;
     }
 
-    i32 interpret_death_bonus(stage_data& stage, int number_of_deaths) {
+    i32 interpret_death_bonus(const stage_data_struct& stage, int number_of_deaths) {
         if (number_of_deaths >= max_no_of_deaths) {
             return 0;
         }
         return stage.no_miss_bonus[number_of_deaths];
     }
 
-    i32 interpret_ring_bonus(stage_data&, int rings) {
+    i32 interpret_ring_bonus(const stage_data_struct&, int rings) {
         return rings * per_ring_bonus;
     }
 
-    std::array<score_data, 28> interpret_score(dolphin_process& process, stage_data& stage) {
+    std::array<score_data, 28> interpret_score(dolphin_process& process, const stage_data_struct& stage) {
         int state1 = get_state1(process);
         int state2 = get_state2(process);
 

@@ -328,7 +328,7 @@ namespace gc::sonic_colors {
         i32 penalty;
     };
 
-    struct stage_data {
+    struct stage_data_struct {
         char stageName[16];         // 0
         char stageData1[16];        // 16
         char stageData2[16];        // 32

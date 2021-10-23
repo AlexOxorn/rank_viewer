@@ -14,7 +14,7 @@ namespace gc::sonic_colors {
     GAME_VARIABLE(i32, current_zone, 0x90AB6F44)
     GAME_VARIABLE(i32, current_act, 0x90AB6F48)
 
-    GAME_ARRAY_VARIABLE(stage_data, stage_data, 0x90BFD860, 75)
+    GAME_ARRAY_VARIABLE(stage_data_struct, stage_data, 0x90BFD860, 75)
 
     GAME_VARIABLE(i32, state1, 0x808511D4)
     GAME_VARIABLE(i32, state2, 0x808511C8)

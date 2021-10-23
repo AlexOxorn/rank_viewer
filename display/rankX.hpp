@@ -21,13 +21,18 @@
 
 struct dimensions {
     int height = rank_font_size;
-    int start_x = 5;
+    int start_x = 0;
     int start_y = 0;
     int y_buffer = 5;
+    int x_buffer = 5;
     double scale = 0.75;
 
-    int top() {
+    [[nodiscard]] int top() const {
         return start_y + y_buffer;
+    }
+
+    [[nodiscard]] int left() const {
+        return start_x + x_buffer;
     }
 
     void clear_render (
@@ -35,22 +40,22 @@ struct dimensions {
     ) const {
         win.reset_renderer_color();
         auto [screen_width, screen_height] = win.get_window_size();
-        SDL_Rect screen_portion{start_x, start_y, screen_width - 2*start_x, height + 2*y_buffer};
+        SDL_Rect screen_portion{start_x, start_y, screen_width, height + 2*y_buffer};
         SDL_RenderFillRect(win.screen_renderer(), &screen_portion);
     }
 };
 
 void draw_score_progress(
         ox::sdl_instance& win,
-        std::span<score_data> ranks,
-        std::span<score_data> scores,
+        std::span<const score_data> ranks,
+        std::span<const score_data> scores,
         int min = -1,
         dimensions size = dimensions{}
 );
 
 void draw_score_progress_bar(
         ox::sdl_instance& win,
-        std::span<score_data> scores,
+        std::span<const score_data> scores,
         int highmark,
         dimensions size = dimensions{}
 );
@@ -58,7 +63,7 @@ void draw_score_progress_bar(
 template<std::regular_invocable<int, int> CompareFunc = std::greater_equal<int>>
 void draw_rank_markers_scores(
     ox::sdl_instance& win,
-    std::span<score_data> ranks,
+    std::span<const score_data> ranks,
     int total_points,
     int highmark,
     dimensions size = dimensions{},
@@ -67,7 +72,7 @@ void draw_rank_markers_scores(
 
 void draw_score_text(
     ox::sdl_instance& win,
-    std::span<score_data> scores,
+    std::span<const score_data> scores,
     dimensions size = dimensions{rank_font_size, 5, 10 + rank_font_size, 0}
 );
 
@@ -99,8 +104,8 @@ void draw_time_progress(
     for (auto& rank : ranks) {
         int rank_ticks = rank.seconds / divisor;
         win.set_renderer_color(time.seconds >= rank.seconds ? ox::named_colors::DarkRed :  ox::named_colors::DarkGreen);
-        SDL_Rect r{rank_ticks + size.start_x, size.start_y, 2, size.height};
-        SDL_RenderFillRect(win.screen_renderer(), &r);
+        SDL_Rect rank_box{rank_ticks + size.start_x, size.start_y, 2, size.height};
+        SDL_RenderFillRect(win.screen_renderer(), &rank_box);
 
         auto text = win.get_texture(rank.name + "_text");
         if (text) {
