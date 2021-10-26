@@ -26,7 +26,7 @@ void draw_score_progress_bar(
     int width = fullwidth - 2 * size.left();
     if (width <= 0)
         return;
-    double divisor = highmark / (width * size.scale) + 1;
+    double divisor = highmark / (width * size.scale);
 
     size.clear_render(win);
     double currentX = size.left();
@@ -73,7 +73,7 @@ void draw_rank_markers_scores(
     int width = fullwidth - 2 * size.left();
     if (width <= 0)
         return;
-    double divisor = highmark / (width * size.scale) + 1;
+    double divisor = highmark / (width * size.scale);
 
     int text_y = size.top() + size.height + 5;
     for (auto& rank : ranks) {

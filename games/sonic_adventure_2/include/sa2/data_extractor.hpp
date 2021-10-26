@@ -15,5 +15,5 @@ namespace sa2 {
 
     std::array<score_data, 4> interpret_score_rank_data(stage_score_rank* stage);
 
-    std::array<time_rank_data, 4> interpret_time_rank_data(stage_time_rank* stage);
+    std::array<score_data, 4> interpret_time_rank_data(stage_time_rank* stage);
 }

@@ -63,13 +63,13 @@ namespace sa2 {
         };
     }
 
-    std::array<time_rank_data, 4> interpret_time_rank_data(stage_time_rank* stage) {
+    std::array<score_data, 4> interpret_time_rank_data(stage_time_rank* stage) {
         auto ranks = *reinterpret_cast<std::array<minute_second, 4> *>(&stage->ranks);
         return std::array{
-            time_rank_data{ranks[0].total_seconds(), "D"},
-            time_rank_data{ranks[1].total_seconds(), "C"},
-            time_rank_data{ranks[2].total_seconds(), "B"},
-            time_rank_data{ranks[3].total_seconds(), "A"}
+            score_data{ranks[0].total_seconds(), "D"},
+            score_data{ranks[1].total_seconds(), "C"},
+            score_data{ranks[2].total_seconds(), "B"},
+            score_data{ranks[3].total_seconds(), "A"}
         };
     }
 }

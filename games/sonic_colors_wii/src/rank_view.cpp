@@ -49,15 +49,15 @@ namespace gc::sonic_colors {
         "Ring Bonus"
     };
 
-    data::level_state data::read_level_state(data::process& game) {
+    data::level_state data::read_level_state(data::process_type& game) {
         return {get_current_zone(game), get_current_act(game)};
     }
 
-    void data::read_stage_data(process& game, data::static_calculations& state) {
+    void data::read_stage_data(data::process_type& game, data::static_calculations& state) {
         gc::sonic_colors::read_stage_data(game, state.level.zone, state.level.act, state.stage);
     }
 
-    void data::get_rank_data(data::static_calculations& state) {
+    void data::get_rank_data(data::process_type&, data::static_calculations& state) {
         state.ranks = interpret_score_rank_data(state.stage);
     }
 
@@ -69,7 +69,7 @@ namespace gc::sonic_colors {
         draw_score_text(window, state.ranks);
     }
 
-    data::calculation_temp data::calculate_data(data::process& game, const data::static_calculations& state) {
+    data::calculation_temp data::calculate_data(data::process_type& game, const data::static_calculations& state) {
         auto scores = interpret_score(game, state.stage);
         auto score_values = std::ranges::views::transform(scores, &score_data::score);
         int total_score = std::accumulate(score_values.begin(), score_values.end(), 0);

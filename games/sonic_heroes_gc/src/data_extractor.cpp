@@ -82,7 +82,7 @@ namespace gc::sonic_heroes {
             score_data{.score = static_cast<int>(scores[0]), .name = "Speed Score", .foreground = ox::named_colors::RoyalBlue},
             score_data{.score = static_cast<int>(scores[1]), .name = "Fly Score", .foreground = ox::named_colors::gold},
             score_data{.score = static_cast<int>(scores[2]), .name = "Power Score", .foreground = ox::named_colors::IndianRed3},
-            score_data{.score = timebonus_rest, .name = "Under 90s Bonus", .foreground = ox::named_colors::gray30}
+            score_data{.score = timebonus_rest, .name = "90s Bonus", .foreground = ox::named_colors::gray30}
         };
     }
 
@@ -102,21 +102,21 @@ namespace gc::sonic_heroes {
     }
 
     template<typename rank_type>
-    std::array<time_rank_data, 4> interpret_time_rank_data(rank_type* stage, int team) {
+    std::array<score_data, 4> interpret_time_rank_data(rank_type* stage, int team) {
         if constexpr (std::is_same_v<rank_type, extra_timed_stages>) {
             team = team - 1;
         }
         auto ranks = *reinterpret_cast<std::array<std::array<u8, 2>, 4> *>(&stage->ranks_array[team]);
         return std::array{
-            time_rank_data{ranks[0][0] * 60 + ranks[0][1], "D"},
-            time_rank_data{ranks[1][0] * 60 + ranks[1][1], "C"},
-            time_rank_data{ranks[2][0] * 60 + ranks[2][1], "B"},
-            time_rank_data{ranks[3][0] * 60 + ranks[3][1], "A"}
+            score_data{ranks[0][0] * 60 + ranks[0][1], "D"},
+            score_data{ranks[1][0] * 60 + ranks[1][1], "C"},
+            score_data{ranks[2][0] * 60 + ranks[2][1], "B"},
+            score_data{ranks[3][0] * 60 + ranks[3][1], "A"}
         };
     }
 
-    template  std::array<score_data,     4> interpret_score_rank_data<normal_stages>     (normal_stages* stage,      int team);
-    template  std::array<score_data,     4> interpret_score_rank_data<extra_stages>      (extra_stages* stage,       int team);
-    template  std::array<time_rank_data, 4> interpret_time_rank_data <extra_timed_stages>(extra_timed_stages* stage, int team);
-    template  std::array<time_rank_data, 4> interpret_time_rank_data <boss_timed_stages> (boss_timed_stages* stage,  int team);
+    template  std::array<score_data, 4> interpret_score_rank_data<normal_stages>     (normal_stages* stage,      int team);
+    template  std::array<score_data, 4> interpret_score_rank_data<extra_stages>      (extra_stages* stage,       int team);
+    template  std::array<score_data, 4> interpret_time_rank_data <extra_timed_stages>(extra_timed_stages* stage, int team);
+    template  std::array<score_data, 4> interpret_time_rank_data <boss_timed_stages> (boss_timed_stages* stage,  int team);
 }

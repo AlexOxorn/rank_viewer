@@ -15,7 +15,7 @@ void display_ranksX(int pid) {
     using namespace std::chrono_literals;
     
     // define process
-    typename game::process game_process{pid};
+    typename game::process_type game_process{pid};
     // define state buffer
     typename game::static_calculations state{};
     // define result_flag
@@ -58,11 +58,16 @@ void display_ranksX(int pid) {
             // ** read stage and rank data into buffers
             state.level = next;
             game::read_stage_data(game_process, state);
-            game::get_rank_data(state);
+            game::get_rank_data(game_process, state);
 
             // load requirements text
             game::load_rank_text(rank_display, state);
             // draw ranks
+            if (!state) {
+                std::this_thread::sleep_until(end);
+                rank_display.clear_render();
+                continue;
+            }
             game::draw_state(rank_display, state);
         }
 

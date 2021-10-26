@@ -16,7 +16,7 @@ namespace gc::sonic_colors {
     };
 
     struct sonic_colors_data {
-        using process = dolphin_process;
+        using process_type = dolphin_process;
         using stage_data = stage_data_struct;
         using rank_array = std::array<score_data, 4>;
         using level_state = state;
@@ -38,12 +38,12 @@ namespace gc::sonic_colors {
         const static std::chrono::milliseconds render_sleep;
         const static std::array<std::string, 28> score_names;
 
-        static level_state read_level_state(process& game);
-        static void read_stage_data(process& game, static_calculations& state);
-        static void get_rank_data(static_calculations& state);
+        static level_state read_level_state(process_type& game);
+        static void read_stage_data(process_type& game, static_calculations& state);
+        static void get_rank_data(process_type&, static_calculations& state);
         static void load_rank_text(ox::sdl_instance& window, const static_calculations& state);
         static void draw_state(ox::sdl_instance& window, const static_calculations& state);
-        static calculation_temp calculate_data(process& game, const static_calculations& state);
+        static calculation_temp calculate_data(process_type& game, const static_calculations& state);
         static void draw_data(ox::sdl_instance& window, const static_calculations& state, const calculation_temp& calc);
     };
 
