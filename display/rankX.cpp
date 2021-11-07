@@ -16,19 +16,20 @@ void draw_score_progress(
     draw_score_text(win, ranks);
 }
 
-void draw_score_progress_bar(
+int draw_score_progress_bar(
         ox::sdl_instance& win,
         const std::span<const score_data> scores,
         int highmark,
-        dimensions size
+        dimensions size,
+        bool clear_render
 ) {
     auto [fullwidth, fullheight] = win.get_window_size();
-    int width = fullwidth - 2 * size.left();
+    int width = fullwidth - 2 * size.x_buffer;
     if (width <= 0)
-        return;
+        return size.start_x;
     double divisor = highmark / (width * size.scale);
-
-    size.clear_render(win);
+    if (clear_render)
+        size.clear_render(win);
     double currentX = size.left();
 
     SDL_Rect last_text_rect;
@@ -50,13 +51,16 @@ void draw_score_progress_bar(
             if(last_text_texture)
                 last_text_texture->render(last_text_rect.x, last_text_rect.y);
             last_text_rect = r;
+            last_text_rect.x = std::min(last_text_rect.x, nextI);
             last_text_texture = text;
         }
         SDL_RenderFillRect(win.screen_renderer(), &r);
         currentX = nextX;
     }
     if(last_text_texture)
-        last_text_texture->render(last_text_rect.x, last_text_rect.y);    
+        last_text_texture->render(last_text_rect.x, last_text_rect.y);
+
+    return static_cast<int>(lround(currentX - size.x_buffer));
 }
 
 template<std::regular_invocable<int, int> CompareFunc>

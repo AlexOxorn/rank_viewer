@@ -23,6 +23,10 @@ struct score_data {
     std::strong_ordering operator<=>(const score_data& other) const {
         return score <=> other.score;
     }
+
+    friend int operator+(int l, const score_data& r) {
+        return l + r.score;
+    }
 };
 
 

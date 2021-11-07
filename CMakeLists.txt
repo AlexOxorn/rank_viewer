@@ -24,6 +24,7 @@ target_link_libraries("${PROJECT_NAME}" PRIVATE "fmt")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "display")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "sonic_heroes")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "sonic_colors")
+target_link_libraries("${PROJECT_NAME}" PRIVATE "shadow")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "sa2")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "memory")
 

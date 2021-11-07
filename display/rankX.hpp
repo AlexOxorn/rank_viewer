@@ -53,11 +53,12 @@ void draw_score_progress(
         dimensions size = dimensions{}
 );
 
-void draw_score_progress_bar(
+int draw_score_progress_bar(
         ox::sdl_instance& win,
         std::span<const score_data> scores,
         int highmark,
-        dimensions size = dimensions{}
+        dimensions size = dimensions{},
+        bool clear_render = true
 );
 
 template<std::regular_invocable<int, int> CompareFunc = std::greater_equal<int>>
