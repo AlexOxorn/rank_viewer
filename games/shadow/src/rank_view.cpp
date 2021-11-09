@@ -71,7 +71,7 @@ namespace gc::shadow {
             switch (level.goal) {
                 case 0:
                     penalty = {
-                            .score = -1 * std::min(scores[3].score, scores[2].score + scores[4].score),
+                            .score = -1 * scores[3].score,
                             .foreground = scores[3].foreground
                     };
                     scores[3].score *= 0;
@@ -82,7 +82,7 @@ namespace gc::shadow {
                     break;
                 case 2:
                     penalty = {
-                            .score = -1 * std::min(scores[4].score, scores[2].score + scores[3].score),
+                            .score = -1 * scores[4].score,
                             .foreground = scores[4].foreground
                     };
                     scores[4].score *= 0;
@@ -94,12 +94,11 @@ namespace gc::shadow {
             std::ranges::stable_partition(scores, [](int i) {return i >= 0;}, &score_data::score);
 //            auto score_values = std::ranges::views::transform(scores, &score_data::score);
 
-            auto score = std::max(0, std::accumulate(&scores[2], &scores[5], 0));
-            auto timebonus = std::accumulate(scores.data(), &scores[2], 0);
+            auto score = std::accumulate(scores.begin(), scores.end(), 0);
 
             auto max_element = std::ranges::max_element(ranks, std::less{}, [](auto a){return a.front().score;});
 
-            return {scores, penalty, score + timebonus, std::max(max_element->front().score, 50000)};
+            return {scores, penalty, score + penalty, std::max(max_element->front().score, 50000)};
         }
     }
 
