@@ -3,7 +3,6 @@
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <shadow/data_extractor.hpp>
 #include <fmt/core.h>
 #include <iostream>
 #include <ox/canvas.h>
@@ -34,15 +33,15 @@ namespace gc::shadow {
 
     void data::read_stage_data(data::process_type &game,
                                             data::static_calculations &state) {
-        state.result = get_ranks(game, state.level.level, &state.stage);
+        state.result = get_ranks(game, state.level.level, state.stage);
     }
 
     void data::get_rank_data(process& game, data::static_calculations &state) {
         auto& [ranks, time_ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
-            time_ranks = interpret_time_rank_data(&stage.boss_stage);
+            time_ranks = interpret_time_rank_data(&stage.boss);
         } else {
-            ranks = interpret_score_rank_data(&stage.normal_stage);
+            ranks = interpret_score_rank_data(&stage.stage);
         }
     }
 

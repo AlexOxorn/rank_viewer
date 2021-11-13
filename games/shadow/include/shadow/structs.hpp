@@ -23,29 +23,6 @@ namespace gc::shadow {
         }
     };
 
-    /*
-     * Westopolis Struct
-     * Ranks and Positions...
-     *
-     * -64
-     *
-     * -2840
-     * -9128
-     * 10976
-     */
-
-    /*
-     * r4 = r29(1) * 28 => 28
-     *
-     * bossID
-     * temp = bossID * 192
-     * rank_off = temp + 28 + (?) + 96
-     * rank = 0x8057a894 + rank_off
-     *
-     * stage_rank = stage_base + (current_stage - 5) * 0xC0
-     * boss_rank = boss_base + (current_stage - 28) * 0xC0
-     */
-
     struct boss_data {
         i32 ranks[4];
         char blank[176];
@@ -54,6 +31,11 @@ namespace gc::shadow {
             for (auto &rank: ranks)
                 ox::bswap(&rank);
         }
+    };
+
+    union stage_union {
+        boss_data boss;
+        stage_data stage;
     };
 
     static_assert(sizeof(stage_data) == 0xC0, "Incorrect struct size shadow::stage_data");

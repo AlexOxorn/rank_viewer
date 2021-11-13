@@ -11,7 +11,7 @@ namespace gc::shadow {
     constexpr int per_second_timebonus_penalty = 80;
     constexpr int max_timebonus_threshold = 90;
 
-    int get_ranks(dolphin_process& process, int level, void* buffer) {
+    int get_ranks(dolphin_process& process, int level, stage_union& buffer) {
         if (level < westopolis || level == (black_bull1 - 1)) {
             return -1;
         }
@@ -20,13 +20,11 @@ namespace gc::shadow {
         int offset = level - (boss ? black_bull1 : westopolis);
 
         if (boss) {
-            auto* rbuffer = reinterpret_cast<boss_data *>(buffer);
-            process.read_memory(bosses_address + sizeof(*rbuffer) * offset, rbuffer);
+            buffer.boss = get_bosses_at(process, offset);
             return BOSS_LEVEL | TIMED_LEVEL;
         }
 
-        auto* rbuffer = reinterpret_cast<stage_data *>(buffer);
-        process.read_memory(stages_address + sizeof(*rbuffer) * offset, rbuffer);
+        buffer.stage = get_stages_at(process, offset);
         return 0;
     }
 
@@ -38,21 +36,6 @@ namespace gc::shadow {
         int timebonus = max_timebonus - per_second_timebonus_penalty * seconds;
         int timebonus_rest = seconds <= max_timebonus_threshold ? max_timebonus - timebonus : 0;
         timebonus = timebonus < 0 ? 0 : timebonus;
-
-//        switch (goal) {
-//            case 0:
-//                scores[1] *= -1;
-//                break;
-//            case 1:
-//                scores[1] = 0;
-//                scores[2] = 0;
-//                break;
-//            case 3:
-//                scores[2] *= -1;
-//                break;
-//            default:
-//                break;
-//        }
 
         auto interpreted_scores = std::array{
             score_data{.score = timebonus, .name = "Time Bonus", .foreground = ox::named_colors::grey50},

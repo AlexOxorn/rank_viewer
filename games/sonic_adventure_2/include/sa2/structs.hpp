@@ -91,4 +91,9 @@ namespace sa2 {
         u16 play_counts[5];
         stage_score scores[5][3];
     };
+
+    union stage_union {
+        stage_time_rank timed;
+        stage_score_rank scored;
+    };
 }

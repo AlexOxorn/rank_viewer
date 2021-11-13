@@ -18,7 +18,7 @@ namespace gc::sonic_heroes {
     constexpr int points_per_level = 500;
     constexpr int state_level_completed = 0xC;
 
-    int get_ranks(dolphin_process& process, int level, int team, int mission, void* buffer) {
+    int get_ranks(dolphin_process& process, int level, int team, int mission, stage_union& buffer) {
         if (level != chaotix_rail_canyon && (level < seaside_hill || mission > 1 || level > metal_overlord)) {
             return -1;
         }
@@ -30,8 +30,7 @@ namespace gc::sonic_heroes {
         int offset = level - egg_hawk;
 
         if (level > final_fortress) {
-            auto* rbuffer = reinterpret_cast<boss_timed_stages *>(buffer);
-            process.read_memory(boss_times_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
+            buffer.boss_timed = get_boss_times_ranks_at(process, offset);
             return BOSS_LEVEL | TIMED_LEVEL;
         }
 
@@ -41,8 +40,7 @@ namespace gc::sonic_heroes {
             // Chaotix extra rails canyon
             if (offset > rail_canyon - seaside_hill)
                 offset++;
-            auto* rbuffer = reinterpret_cast<normal_stages *>(buffer);
-            process.read_memory(normal_stage_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
+            buffer.stage = get_normal_stage_ranks_at(process, offset);
             return 0;
         }
 
@@ -50,13 +48,11 @@ namespace gc::sonic_heroes {
             // Chaotix extra rails canyon
             if (offset >= rail_canyon - seaside_hill)
                 offset++;
-            auto* rbuffer = reinterpret_cast<extra_stages *>(buffer);
-            process.read_memory(extra_stage_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
+            buffer.extra = get_extra_stage_ranks_at(process, offset);
             return EXTRA_MISSION;
         }
 
-        auto* rbuffer = reinterpret_cast<extra_timed_stages *>(buffer);
-        process.read_memory(extra_times_ranks_address + sizeof(*rbuffer) * offset, rbuffer);
+        buffer.extra_timed = get_extra_times_ranks_at(process, offset);
         return EXTRA_MISSION | TIMED_LEVEL;
     }
 
@@ -87,11 +83,11 @@ namespace gc::sonic_heroes {
     }
 
     template<typename rank_type>
-    std::array<score_data, 4> interpret_score_rank_data(rank_type* stage, int team) {
+    std::array<score_data, 4> interpret_score_rank_data(rank_type& stage, int team) {
         if constexpr (std::is_same_v<rank_type, extra_stages>) {
             team = team > 0;
         }
-        auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks_array[team]);
+        auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage.ranks_array[team]);
 
         return std::array{
             score_data{ranks[0] * 100, "D"},
@@ -102,11 +98,11 @@ namespace gc::sonic_heroes {
     }
 
     template<typename rank_type>
-    std::array<score_data, 4> interpret_time_rank_data(rank_type* stage, int team) {
+    std::array<score_data, 4> interpret_time_rank_data(rank_type& stage, int team) {
         if constexpr (std::is_same_v<rank_type, extra_timed_stages>) {
             team = team - 1;
         }
-        auto ranks = *reinterpret_cast<std::array<std::array<u8, 2>, 4> *>(&stage->ranks_array[team]);
+        auto ranks = *reinterpret_cast<std::array<std::array<u8, 2>, 4> *>(&stage.ranks_array[team]);
         return std::array{
             score_data{ranks[0][0] * 60 + ranks[0][1], "D"},
             score_data{ranks[1][0] * 60 + ranks[1][1], "C"},
@@ -115,8 +111,8 @@ namespace gc::sonic_heroes {
         };
     }
 
-    template  std::array<score_data, 4> interpret_score_rank_data<normal_stages>     (normal_stages* stage,      int team);
-    template  std::array<score_data, 4> interpret_score_rank_data<extra_stages>      (extra_stages* stage,       int team);
-    template  std::array<score_data, 4> interpret_time_rank_data <extra_timed_stages>(extra_timed_stages* stage, int team);
-    template  std::array<score_data, 4> interpret_time_rank_data <boss_timed_stages> (boss_timed_stages* stage,  int team);
+    template  std::array<score_data, 4> interpret_score_rank_data<normal_stages>     (normal_stages& stage,      int team);
+    template  std::array<score_data, 4> interpret_score_rank_data<extra_stages>      (extra_stages& stage,       int team);
+    template  std::array<score_data, 4> interpret_time_rank_data <extra_timed_stages>(extra_timed_stages& stage, int team);
+    template  std::array<score_data, 4> interpret_time_rank_data <boss_timed_stages> (boss_timed_stages& stage,  int team);
 }

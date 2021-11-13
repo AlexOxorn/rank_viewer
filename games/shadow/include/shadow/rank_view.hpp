@@ -1,4 +1,5 @@
 #include <shadow/structs.hpp>
+#include <shadow/data_extractor.hpp>
 #include <variant>
 #include <dolphin_process.hpp>
 #include <common.hpp>
@@ -24,10 +25,6 @@ namespace gc::shadow {
             int high_mark = 0;
         };
         using static_calculations = struct static_calculations {
-            using stage_union = union {
-                boss_data boss_stage;
-                stage_data normal_stage;
-            };
             std::array<rank_array, 3> ranks;
             rank_array time_ranks;
             level_state level;

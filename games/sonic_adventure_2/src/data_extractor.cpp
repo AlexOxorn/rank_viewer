@@ -2,14 +2,10 @@
 #include <helpers.hpp>
 
 namespace sa2 {
-    int get_ranks(process& process, int level, int mission, int character, void* buffer) {
+    int get_ranks(process& process, int level, int mission, int character, stage_union& buffer) {
         if (level == KartRoutes) {
-            int char_offset = character == Characters_Rouge ? sizeof(stage_time_rank) * 5 : 0;
-            auto* rbuffer = reinterpret_cast<stage_time_rank *>(buffer);
-            process.read_memory(
-                kart_mission_ranks_address + sizeof(*rbuffer) * mission + char_offset,
-                rbuffer
-            );
+            int char_offset = character == Characters_Rouge ? 5 : 0;
+            buffer.timed = get_kart_mission_ranks_at(process, char_offset + mission);
             return TIMED_LEVEL;
         }
 
@@ -19,20 +15,16 @@ namespace sa2 {
         }
 
         if (mission == 0 || mission == 3 || mission == 4) {
-            auto* rbuffer = reinterpret_cast<stage_score_rank *>(buffer);
-            process.read_memory(
-                mission_rank_addresses.at(mission) + sizeof(*rbuffer) * index,
-                rbuffer
-            );
+            auto get_rank_at = get_score_mission_rank.at(mission);
+            if (get_rank_at)
+                buffer.scored = get_score_mission_rank.at(mission)(process, index);
             return 0;
         }
 
         if (mission == 1 || mission == 2) {
-            auto* rbuffer = reinterpret_cast<stage_time_rank *>(buffer);
-            process.read_memory(
-                mission_rank_addresses.at(mission) + sizeof(*rbuffer) * index,
-                rbuffer
-            );
+            auto get_rank_at = get_time_mission_rank.at(mission);
+            if (get_rank_at)
+                buffer.timed = get_time_mission_rank.at(mission)(process, index);
             return TIMED_LEVEL;
         }
 
@@ -53,8 +45,8 @@ namespace sa2 {
         };
     }
 
-    std::array<score_data, 4> interpret_score_rank_data(stage_score_rank* stage) {
-        auto ranks = *reinterpret_cast<std::array<u16, 4> *>(&stage->ranks);
+    std::array<score_data, 4> interpret_score_rank_data(stage_score_rank& stage) {
+        auto ranks = stage.ranks;
         return std::array{
             score_data{ranks[0] * 100, "D"},
             score_data{ranks[1] * 100, "C"},
@@ -63,8 +55,8 @@ namespace sa2 {
         };
     }
 
-    std::array<score_data, 4> interpret_time_rank_data(stage_time_rank* stage) {
-        auto ranks = *reinterpret_cast<std::array<minute_second, 4> *>(&stage->ranks);
+    std::array<score_data, 4> interpret_time_rank_data(stage_time_rank stage) {
+        auto ranks = stage.ranks;
         return std::array{
             score_data{ranks[0].total_seconds(), "D"},
             score_data{ranks[1].total_seconds(), "C"},

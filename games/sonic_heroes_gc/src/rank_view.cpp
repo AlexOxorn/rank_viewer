@@ -3,7 +3,6 @@
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <sonic_heroes/data_extractor.hpp>
 #include <fmt/core.h>
 #include <iostream>
 #include <ox/canvas.h>
@@ -12,8 +11,7 @@
 namespace gc::sonic_heroes {
     [[noreturn]] void display_ranks(int pid) {
         dolphin_process dolphin{pid};
-        normal_stages prototype{};
-        void* buffer = &prototype;
+        stage_union buffer{};
 
         std::array<score_data, 4> ranks{};
 
@@ -31,15 +29,15 @@ namespace gc::sonic_heroes {
                 result = get_ranks(dolphin, current.level, current.team, current.mission, buffer);
                 if((result & TIMED_LEVEL) != 0) {
                     if((result & BOSS_LEVEL) != 0) {
-                        ranks = interpret_time_rank_data(reinterpret_cast<boss_timed_stages *>(buffer), current.team);
+                        ranks = interpret_time_rank_data(buffer.boss_timed, current.team);
                     } else if ((result & EXTRA_MISSION) != 0) {
-                        ranks = interpret_time_rank_data(reinterpret_cast<extra_timed_stages *>(buffer), current.team);
+                        ranks = interpret_time_rank_data(buffer.extra_timed, current.team);
                     }
                 } else {
                     if((result & EXTRA_MISSION) != 0) {
-                        ranks = interpret_score_rank_data(reinterpret_cast<extra_stages *>(buffer), current.team);
+                        ranks = interpret_score_rank_data(buffer.extra, current.team);
                     } else {
-                        ranks = interpret_score_rank_data(reinterpret_cast<normal_stages *>(buffer), current.team);
+                        ranks = interpret_score_rank_data(buffer.stage, current.team);
                     }
                 }
             }
@@ -56,82 +54,6 @@ namespace gc::sonic_heroes {
             }
         }
     }
-
-    /*
-    void display_ranksX(int pid) {
-        using namespace std::chrono_literals;
-
-        dolphin_process dolphin{pid};
-        normal_stages prototype{};
-        void* buffer = &prototype;
-        std::array<score_data, 4> ranks{};
-        state current{-1, -1, -1};
-        int result = 0;
-
-        SDL_Event e;
-        ox::sdl_instance rank_display{"Sonic Hereos Ranks", true, {1920, 160}, {10, 10}};
-        const std::chrono::milliseconds render_sleep = 16ms;
-        bool quit = false;
-
-        rank_display.load_text("Time Bonus", rank_font, rank_font_size, "Time Bonus");
-        rank_display.load_text("Speed Score", rank_font, rank_font_size, "Speed Score");
-        rank_display.load_text("Fly Score", rank_font, rank_font_size, "Fly Score");
-        rank_display.load_text("Power Score", rank_font, rank_font_size, "Power Score");
-        rank_display.load_text("90s Bonus", rank_font, rank_font_size, "90s Bonus");
-        load_rank_images(rank_display);
-
-        while(!quit) {
-            ox::sdl_check_error();
-            auto now = std::chrono::steady_clock::now();
-            auto end = now + render_sleep;
-            while(SDL_PollEvent( &e )) {
-                switch (e.type) {
-                case SDL_QUIT:
-                    quit = true;
-                    continue;
-                }
-            }
-            state next{get_current_stage(dolphin), get_current_team(dolphin), get_current_mission(dolphin)};
-            rank_display.redraw();
-
-            if(next != current) {
-                current = next;
-                result = get_ranks(dolphin, current.level, current.team, current.mission, buffer);
-                if((result & TIMED_LEVEL) != 0) {
-                    if((result & BOSS_LEVEL) != 0) {
-                        ranks = interpret_time_rank_data(reinterpret_cast<boss_timed_stages *>(buffer), current.team);
-                        load_requirement_text(rank_display, ranks);
-                    } else if ((result & EXTRA_MISSION) != 0) {
-                        ranks = interpret_time_rank_data(reinterpret_cast<extra_timed_stages *>(buffer), current.team);
-                        load_requirement_text(rank_display, ranks);
-                    }
-                } else {
-                    if((result & EXTRA_MISSION) != 0) {
-                        ranks = interpret_score_rank_data(reinterpret_cast<extra_stages *>(buffer), current.team);
-                        load_requirement_text(rank_display, ranks);
-                    } else {
-                        ranks = interpret_score_rank_data(reinterpret_cast<normal_stages *>(buffer), current.team);
-                        load_requirement_text(rank_display, ranks);
-                    }
-                }
-            }
-
-            if (result == -1) {
-                std::this_thread::sleep_until(end);
-                continue;
-            }
-
-            if ((result & TIMED_LEVEL) != 0) {
-//                std::array<u8, 3> time = get_current_time(dolphin);
-//                draw_time_progress(rank_display, ranks, {time[0] * 60 + time[1], ox::named_colors::grey50});
-            } else {
-                auto score = interpret_score(dolphin);
-                draw_score_progress(rank_display, ranks, score, 50000);
-            }
-            std::this_thread::sleep_until(end);
-        }
-    }
-*/
 
     using data = sonic_heroes_data;
     using namespace std::chrono_literals;
@@ -157,22 +79,22 @@ namespace gc::sonic_heroes {
 
     void data::read_stage_data(data::process_type &game,
                                             data::static_calculations &state) {
-        state.result = get_ranks(game, state.level.level, state.level.team, state.level.mission, &state.stage);
+        state.result = get_ranks(game, state.level.level, state.level.team, state.level.mission, state.stage);
     }
 
     void data::get_rank_data(process& game, data::static_calculations &state) {
         auto& [ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
             if((result & BOSS_LEVEL) != 0) {
-                ranks = interpret_time_rank_data(&stage.boss_time, level.team);
+                ranks = interpret_time_rank_data(stage.boss_timed, level.team);
             } else if ((result & EXTRA_MISSION) != 0) {
-                ranks = interpret_time_rank_data(&stage.extra_timed, level.team);
+                ranks = interpret_time_rank_data(stage.extra_timed, level.team);
             }
         } else {
             if((result & EXTRA_MISSION) != 0) {
-                ranks = interpret_score_rank_data(&stage.extra_stage, level.team);
+                ranks = interpret_score_rank_data(stage.extra, level.team);
             } else {
-                ranks = interpret_score_rank_data(&stage.normal_stage, level.team);
+                ranks = interpret_score_rank_data(stage.stage, level.team);
             }
         }
         std::reverse(ranks.begin(), ranks.end());

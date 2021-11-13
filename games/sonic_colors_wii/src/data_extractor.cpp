@@ -40,7 +40,7 @@ namespace gc::sonic_colors {
         }
 
         int level = zone * max_act + act;
-        process.read_memory(stage_data_address + sizeof(stage_data_struct) * level, &buffer);
+        buffer = get_stage_data_at(process, level);
         return 0;
     }
 

@@ -78,6 +78,13 @@ namespace gc::sonic_heroes {
         }
     };
 
+    union stage_union {
+        boss_timed_stages boss_timed;
+        normal_stages stage;
+        extra_stages extra;
+        extra_timed_stages extra_timed;
+    };
+
     struct saved_score {
         u16 rings;
         u16 _blank;

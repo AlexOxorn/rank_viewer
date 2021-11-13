@@ -9,7 +9,7 @@ namespace gc::shadow {
     constexpr int BOSS_LEVEL = 1 << 2;
     constexpr int TIMED_LEVEL = 1 << 3;
 
-    int get_ranks(dolphin_process& process, int level, void* buffer);
+    int get_ranks(dolphin_process& process, int level, stage_union& buffer);
     std::array<score_data, 5> interpret_score(dolphin_process& process);
 
     std::array<score_data, 4> interpret_score_rank_data(stage_data* stage, int goal);

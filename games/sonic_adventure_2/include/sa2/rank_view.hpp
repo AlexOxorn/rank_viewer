@@ -1,5 +1,6 @@
 #include <process.hpp>
 #include <sa2/structs.hpp>
+#include <sa2/data_extractor.hpp>
 
 namespace sa2 {
     struct state {
@@ -21,10 +22,6 @@ namespace sa2 {
             int high_mark{};
         };
         using static_calculations = struct static_calculations {
-            using stage_union = union {
-                stage_time_rank time_rank;
-                stage_score_rank score_rank;
-            };
             rank_array ranks;
             level_state level{};
             stage_union stage{};

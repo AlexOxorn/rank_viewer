@@ -1,4 +1,5 @@
 #include <sonic_heroes/structs.hpp>
+#include <sonic_heroes/data_extractor.hpp>
 #include <variant>
 #include <dolphin_process.hpp>
 #include <common.hpp>
@@ -25,12 +26,6 @@ namespace gc::sonic_heroes {
             int high_mark;
         };
         using static_calculations = struct static_calculations {
-            using stage_union = union {
-                boss_timed_stages boss_time;
-                normal_stages normal_stage;
-                extra_stages extra_stage;
-                extra_timed_stages extra_timed;
-            };
             rank_array ranks;
             level_state level;
             stage_union stage{};
