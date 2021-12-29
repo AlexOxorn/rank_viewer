@@ -55,7 +55,7 @@ namespace sa2 {
         };
     }
 
-    std::array<score_data, 4> interpret_time_rank_data(stage_time_rank stage) {
+    std::array<score_data, 4> interpret_time_rank_data(stage_time_rank& stage) {
         auto ranks = stage.ranks;
         return std::array{
             score_data{ranks[0].total_seconds(), "D"},

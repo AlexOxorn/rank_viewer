@@ -28,6 +28,7 @@
 #include <csignal>
 #include <cstdlib>
 #include <unistd.h>
+#include <random>
 #include <numeric>
 #include <fstream>
 
@@ -54,9 +55,9 @@ int main(int argc, char** argv) {
 
     int pid = std::stoi(argv[1]);
 //  ox::foo();
-//    sa2::display_ranksX(pid);
+    sa2::display_ranksX(pid);
 //  gc::sonic_heroes::display_ranksX(pid);
-    gc::shadow::display_ranksX(pid);
+//  gc::shadow::display_ranksX(pid);
 //  gc::sonic_colors::display_ranksX(pid);
 //  ox::printX11Colours();
 //  ox::foo2();
