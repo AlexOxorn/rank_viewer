@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include <ox/file.h>
+#include <ox/io.h>
 
 const int rank_font_size = 25;
 const std::filesystem::path rank_font{"/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf"};

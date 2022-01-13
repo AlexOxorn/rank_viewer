@@ -2,7 +2,7 @@
 #include <thread>
 #include <iostream>
 
-#include <ox/common.h>
+#include <ox/array.h>
 #include <fmt/core.h>
 #include <sonic_heroes/variables.hpp>
 #include <sonic_heroes/rank_view.hpp>

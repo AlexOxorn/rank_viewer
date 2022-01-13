@@ -2,6 +2,7 @@
 #include <sonic_colors/variables.hpp>
 #include <helpers.hpp>
 #include <ox/formatting.h>
+#include <ox/array.h>
 #include <string_view>
 
 namespace gc::sonic_colors {

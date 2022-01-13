@@ -1,6 +1,6 @@
 #pragma once
 #include <ox/types.h>
-#include <ox/triple.h>
+#include <ox/utils.h>
 #include <ox/colors.h>
 #include <ox/canvas.h>
 #include <fmt/core.h>
@@ -11,6 +11,7 @@
 
 extern const std::filesystem::path rank_font;
 extern const int rank_font_size;
+using namespace ox::int_alias;
 
 void load_rank_images(ox::sdl_instance& s);
 

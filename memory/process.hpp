@@ -3,9 +3,11 @@
 #include <filesystem>
 #include <array>
 #include <type_traits>
-#include <ox/file.h>
+#include <ox/io.h>
 #include <ox/types.h>
 #include <ox/bytes.h>
+
+using namespace ox::int_alias;
 
 class process {
 protected:

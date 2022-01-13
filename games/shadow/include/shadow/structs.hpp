@@ -2,6 +2,7 @@
 
 #include <ox/types.h>
 #include <ox/bytes.h>
+using namespace ox::int_alias;
 
 namespace gc::shadow {
     struct stage_data {

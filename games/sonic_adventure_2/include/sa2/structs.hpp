@@ -3,12 +3,12 @@
 #include <ox/types.h>
 #include <ox/bytes.h>
 #include <common.hpp>
-#include <ox/ptr.h>
-#include <ox/triple.h>
-
-using ox::ptr;
+#include <ox/utils.h>
 
 namespace sa2 {
+    template <typename T>
+    using ptr = u32;
+
     struct minute_second {
         u8 minutes;
         u8 seconds;
