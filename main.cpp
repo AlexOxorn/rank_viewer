@@ -16,6 +16,8 @@
 #include <sonic_colors/rank_view.hpp>
 #include <sonic_colors/variables.hpp>
 
+#include <jsr/variables.hpp>
+
 #include <shadow/structs.hpp>
 #include <shadow/enum.hpp>
 #include <shadow/variables.hpp>
@@ -54,8 +56,16 @@ int main(int argc, char** argv) {
     }
 
     int pid = std::stoi(argv[1]);
+    process jsr(pid);
+
+    while(true) {
+        auto x = jsr::get_cans(jsr);
+        auto y = jsr::get_score(jsr);
+        printf("\033[2J\033[1;1H%d: -> %ld\n", x, y);
+    }
+
 //  ox::foo();
-    sa2::display_ranksX(pid);
+//    sa2::display_ranksX(pid);
 //  gc::sonic_heroes::display_ranksX(pid);
 //  gc::shadow::display_ranksX(pid);
 //  gc::sonic_colors::display_ranksX(pid);
