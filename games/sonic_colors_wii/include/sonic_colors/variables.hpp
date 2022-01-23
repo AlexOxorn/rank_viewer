@@ -3,7 +3,7 @@
 #include <ox/types.h>
 #include "structs.hpp"
 #include <common.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 
 namespace gc::sonic_colors {
     GAME_ARRAY_VARIABLE(i32, scores, 0x90AB717C, 21)

@@ -3,7 +3,7 @@
 #include <ox/types.h>
 #include "structs.hpp"
 #include <common.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 
 namespace gc::shadow {
     GAME_ARRAY_VARIABLE(stage_data, stages, 0x8057ACB4, 22)

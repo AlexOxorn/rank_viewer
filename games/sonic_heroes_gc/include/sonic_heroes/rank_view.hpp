@@ -1,6 +1,7 @@
 #include <sonic_heroes/structs.hpp>
+#include <sonic_heroes/data_extractor.hpp>
 #include <variant>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <common.hpp>
 
 namespace gc::sonic_heroes {
@@ -25,12 +26,6 @@ namespace gc::sonic_heroes {
             int high_mark;
         };
         using static_calculations = struct static_calculations {
-            using stage_union = union {
-                boss_timed_stages boss_time;
-                normal_stages normal_stage;
-                extra_stages extra_stage;
-                extra_timed_stages extra_timed;
-            };
             rank_array ranks;
             level_state level;
             stage_union stage{};
@@ -47,7 +42,7 @@ namespace gc::sonic_heroes {
 
         static level_state read_level_state(process_type& game);
         static void read_stage_data(process_type& game, static_calculations& state);
-        static void get_rank_data(process& game, static_calculations& state);
+        static void get_rank_data(native_process& game, static_calculations& state);
         static void load_rank_text(ox::sdl_instance& window, const static_calculations& state);
         static void draw_state(ox::sdl_instance& window, const static_calculations& state);
         static calculation_temp calculate_data(process_type& game, const static_calculations& state);

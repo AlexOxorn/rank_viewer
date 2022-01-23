@@ -1,9 +1,8 @@
 #include <sa2/rank_view.hpp>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <sa2/data_extractor.hpp>
 #include <fmt/core.h>
 #include <display_rank.hpp>
 
@@ -11,9 +10,8 @@ namespace sa2 {
     constexpr int stall_time_milli = 2500;
 
     [[noreturn]] void display_ranks(int pid) {
-        process game{pid};
-        stage_score_rank prototype{};
-        void* buffer = &prototype;
+        native_process game{pid};
+        stage_union buffer{};
 
         std::array<score_data, 4> s_ranks{};
         std::array<time_rank_data, 4> t_ranks{};
@@ -31,9 +29,9 @@ namespace sa2 {
                 current = next;
                 result = get_ranks(game, current.level, current.mission, current.character, buffer);
                 if((result & TIMED_LEVEL) != 0) {
-                    s_ranks = interpret_time_rank_data(reinterpret_cast<stage_time_rank *>(buffer));
+                    s_ranks = interpret_time_rank_data(buffer.timed);
                 } else {
-                    s_ranks = interpret_score_rank_data(reinterpret_cast<stage_score_rank *>(buffer));
+                    s_ranks = interpret_score_rank_data(buffer.scored);
                 }
             }
 
@@ -57,7 +55,7 @@ namespace sa2 {
         ::display_ranksX<data>(pid);
     }
 
-    const std::string data::display_name = "Sonic Heroes Ranks";
+    const std::string data::display_name = "Sonic Adventure Ranks";
     const std::pair<int, int> data::display_dimensions = std::make_pair(1920, 160);
     const std::chrono::milliseconds data::render_sleep = 16ms;
     const std::array<std::string, 5> data::score_names{
@@ -71,15 +69,15 @@ namespace sa2 {
 
     void data::read_stage_data(data::process_type &game,
                                data::static_calculations &state) {
-        state.result = get_ranks(game, state.level.level, state.level.mission, state.level.character, &state.stage);
+        state.result = get_ranks(game, state.level.level, state.level.mission, state.level.character, state.stage);
     }
 
-    void data::get_rank_data(process& game, data::static_calculations &state) {
+    void data::get_rank_data(native_process& game, data::static_calculations &state) {
         auto& [ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
-            ranks = interpret_time_rank_data(&stage.time_rank);
+            ranks = interpret_time_rank_data(stage.timed);
         } else {
-            ranks = interpret_score_rank_data(&stage.score_rank);
+            ranks = interpret_score_rank_data(stage.scored);
         }
         std::reverse(ranks.begin(), ranks.end());
     }

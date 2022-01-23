@@ -1,5 +1,5 @@
 #include <sonic_colors/rank_view.hpp>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>

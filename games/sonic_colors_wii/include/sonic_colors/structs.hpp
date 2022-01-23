@@ -7,6 +7,8 @@
 #include <cstdio>
 #include <bit>
 
+using namespace ox::int_alias;
+
 namespace gc::sonic_colors {
     template <typename T, int Size = sizeof(T)>
     T endian_swap(T thing) {

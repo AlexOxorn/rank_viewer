@@ -1,7 +1,8 @@
 #include <sonic_colors/data_extractor.hpp>
 #include <sonic_colors/variables.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 #include <ox/formatting.h>
+#include <ox/array.h>
 #include <string_view>
 
 namespace gc::sonic_colors {
@@ -40,7 +41,7 @@ namespace gc::sonic_colors {
         }
 
         int level = zone * max_act + act;
-        process.read_memory(stage_data_address + sizeof(stage_data_struct) * level, &buffer);
+        buffer = get_stage_data_at(process, level);
         return 0;
     }
 

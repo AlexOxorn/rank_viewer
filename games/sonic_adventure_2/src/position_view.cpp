@@ -1,5 +1,5 @@
 #include <sa2/position_view.hpp>
-#include <ox/common.h>
+#include <ox/array.h>
 #include <chrono>
 #include <thread>
 #include <fmt/core.h>
@@ -15,7 +15,7 @@ namespace sa2 {
     constexpr auto stall_time = 100ms;
 
     [[noreturn]] void print_position(std::filesystem::path dir, int pid) {
-        process game{pid};
+        native_process game{pid};
 
         int current_level = -1;
         ox::file stage_file = nullptr;

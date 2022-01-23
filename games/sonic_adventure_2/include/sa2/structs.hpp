@@ -3,12 +3,12 @@
 #include <ox/types.h>
 #include <ox/bytes.h>
 #include <common.hpp>
-#include <ox/ptr.h>
-#include <ox/triple.h>
-
-using ox::ptr;
+#include <ox/utils.h>
 
 namespace sa2 {
+    template <typename T>
+    using ptr = u32;
+
     struct minute_second {
         u8 minutes;
         u8 seconds;
@@ -90,5 +90,10 @@ namespace sa2 {
         u8 ranks[6];
         u16 play_counts[5];
         stage_score scores[5][3];
+    };
+
+    union stage_union {
+        stage_time_rank timed;
+        stage_score_rank scored;
     };
 }

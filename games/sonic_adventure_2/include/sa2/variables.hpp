@@ -4,7 +4,7 @@
 #include "enum.hpp"
 #include "structs.hpp"
 #include <unordered_map>
-#include <helpers.hpp>
+#include <helpers.h>
 
 namespace sa2 {
     GAME_VARIABLE(int, score, 0x174B050)
@@ -36,6 +36,22 @@ namespace sa2 {
         mission3_ranks_address,
         mission4_ranks_address,
         mission5_ranks_address
+    };
+
+    constexpr std::array<stage_time_rank(*)(process&, unsigned), 5> get_time_mission_rank {
+        nullptr,
+        get_mission2_ranks_at,
+        get_mission3_ranks_at,
+        nullptr,
+        nullptr
+    };
+
+    constexpr std::array<stage_score_rank(*)(process&, unsigned), 5> get_score_mission_rank {
+        get_mission1_ranks_at,
+        nullptr,
+        nullptr,
+        get_mission4_ranks_at,
+        get_mission5_ranks_at
     };
 
     constexpr std::array<char, 45> stage_index {

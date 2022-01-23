@@ -2,6 +2,7 @@
 
 #include <ox/types.h>
 #include <ox/bytes.h>
+using namespace ox::int_alias;
 
 namespace gc::sonic_heroes {
     struct scores {
@@ -76,6 +77,13 @@ namespace gc::sonic_heroes {
         void endian_swap() {
             ox::bswap(&level_id);
         }
+    };
+
+    union stage_union {
+        boss_timed_stages boss_timed;
+        normal_stages stage;
+        extra_stages extra;
+        extra_timed_stages extra_timed;
     };
 
     struct saved_score {
