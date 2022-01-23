@@ -3,7 +3,7 @@
 #include <ox/types.h>
 #include "structs.hpp"
 #include <common.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 
 #define EACH_HERO_BASE_POINTER(number, address)\
 GAME_VARIABLE_OFFSET(u32, lead_pointer_##number, address, current_leader);\

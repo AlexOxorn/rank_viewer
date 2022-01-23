@@ -1,7 +1,7 @@
 #include <shadow/structs.hpp>
 #include <shadow/data_extractor.hpp>
 #include <variant>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <common.hpp>
 
 namespace gc::shadow {
@@ -42,7 +42,7 @@ namespace gc::shadow {
 
         static level_state read_level_state(process_type& game);
         static void read_stage_data(process_type& game, static_calculations& state);
-        static void get_rank_data(process& game, static_calculations& state);
+        static void get_rank_data(native_process& game, static_calculations& state);
         static void load_rank_text(ox::sdl_instance& window, const static_calculations& state);
         static void draw_state(ox::sdl_instance& window, const static_calculations& state);
         static calculation_temp calculate_data(process_type& game, const static_calculations& state);

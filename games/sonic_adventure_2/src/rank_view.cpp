@@ -1,5 +1,5 @@
 #include <sa2/rank_view.hpp>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
@@ -10,7 +10,7 @@ namespace sa2 {
     constexpr int stall_time_milli = 2500;
 
     [[noreturn]] void display_ranks(int pid) {
-        process game{pid};
+        native_process game{pid};
         stage_union buffer{};
 
         std::array<score_data, 4> s_ranks{};
@@ -72,7 +72,7 @@ namespace sa2 {
         state.result = get_ranks(game, state.level.level, state.level.mission, state.level.character, state.stage);
     }
 
-    void data::get_rank_data(process& game, data::static_calculations &state) {
+    void data::get_rank_data(native_process& game, data::static_calculations &state) {
         auto& [ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
             ranks = interpret_time_rank_data(stage.timed);

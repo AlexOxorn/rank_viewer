@@ -1,6 +1,6 @@
 #include <sonic_colors/data_extractor.hpp>
 #include <sonic_colors/variables.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 #include <ox/formatting.h>
 #include <ox/array.h>
 #include <string_view>

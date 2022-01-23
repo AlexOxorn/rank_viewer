@@ -4,7 +4,7 @@
 #include "enum.hpp"
 #include "structs.hpp"
 #include <unordered_map>
-#include <helpers.hpp>
+#include <helpers.h>
 
 namespace sa2 {
     GAME_VARIABLE(int, score, 0x174B050)

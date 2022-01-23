@@ -1,5 +1,5 @@
 #include <sonic_heroes/rank_view.hpp>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
@@ -82,7 +82,7 @@ namespace gc::sonic_heroes {
         state.result = get_ranks(game, state.level.level, state.level.team, state.level.mission, state.stage);
     }
 
-    void data::get_rank_data(process& game, data::static_calculations &state) {
+    void data::get_rank_data(native_process& game, data::static_calculations &state) {
         auto& [ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
             if((result & BOSS_LEVEL) != 0) {

@@ -1,16 +1,16 @@
 add_library(
-  "memory"
-  helpers.hpp
-  dolphin_process.cpp
-  dolphin_process.hpp
-  process.cpp
-  process.hpp
+        "memory"
+        include/helpers.h
+        unix/dolphin_process.cpp
+        unix/dolphin_process.hpp
+        unix/native_process.cpp
+        unix/native_process.hpp
 )
 
 target_link_libraries("memory" "ox")
 
 target_include_directories(
-  "memory"
-  PUBLIC
-  "${CMAKE_CURRENT_SOURCE_DIR}"
+        "memory"
+        PUBLIC
+        "include"
 )

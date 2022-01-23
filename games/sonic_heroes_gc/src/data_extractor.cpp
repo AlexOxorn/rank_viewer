@@ -1,5 +1,5 @@
 #include <sonic_heroes/data_extractor.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 #include <ox/formatting.h>
 
 namespace gc::sonic_heroes {

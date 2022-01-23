@@ -1,4 +1,4 @@
-#include <process.hpp>
+#include <process.h>
 #include <sa2/structs.hpp>
 #include <sa2/data_extractor.hpp>
 
@@ -12,7 +12,7 @@ namespace sa2 {
     };
 
     struct sonic_adventure_2_data {
-        using process_type = process;
+        using process_type = native_process;
         using rank_array = std::array<score_data, 4>;
         using level_state = state;
         using calculation_temp = struct calculation_temp {
@@ -36,12 +36,12 @@ namespace sa2 {
         const static std::chrono::milliseconds render_sleep;
         const static std::array<std::string, 5> score_names;
 
-        static level_state read_level_state(process& game);
-        static void read_stage_data(process& game, static_calculations& state);
-        static void get_rank_data(process& game, static_calculations& state);
+        static level_state read_level_state(native_process& game);
+        static void read_stage_data(native_process& game, static_calculations& state);
+        static void get_rank_data(native_process& game, static_calculations& state);
         static void load_rank_text(ox::sdl_instance& window, const static_calculations& state);
         static void draw_state(ox::sdl_instance& window, const static_calculations& state);
-        static calculation_temp calculate_data(process& game, const static_calculations& state);
+        static calculation_temp calculate_data(native_process& game, const static_calculations& state);
         static void draw_data(ox::sdl_instance& window, const static_calculations& state, const calculation_temp& calc);
     };
 

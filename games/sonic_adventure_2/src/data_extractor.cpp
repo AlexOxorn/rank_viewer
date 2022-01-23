@@ -1,8 +1,8 @@
 #include <sa2/data_extractor.hpp>
-#include <helpers.hpp>
+#include <helpers.h>
 
 namespace sa2 {
-    int get_ranks(process& process, int level, int mission, int character, stage_union& buffer) {
+    int get_ranks(native_process& process, int level, int mission, int character, stage_union& buffer) {
         if (level == KartRoutes) {
             int char_offset = character == Characters_Rouge ? 5 : 0;
             buffer.timed = get_kart_mission_ranks_at(process, char_offset + mission);
@@ -34,7 +34,7 @@ namespace sa2 {
         return -1;
     }
 
-    std::array<score_data, 2> interpret_score(process& process) {
+    std::array<score_data, 2> interpret_score(native_process& process) {
         int score = get_score(process);
         minute_second time = get_time(process);
 

@@ -1,4 +1,4 @@
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <filesystem>
 
 namespace gc::sonic_heroes {

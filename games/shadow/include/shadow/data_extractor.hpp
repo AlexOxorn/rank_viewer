@@ -1,5 +1,5 @@
 #pragma once
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <rank.hpp>
 #include "structs.hpp"
 #include "variables.hpp"

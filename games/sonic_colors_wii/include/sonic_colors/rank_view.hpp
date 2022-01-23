@@ -1,7 +1,7 @@
 #pragma once
 
 #include <compare>
-#include <dolphin_process.hpp>
+#include <process.h>
 #include <sonic_colors/structs.hpp>
 #include <common.hpp>
 
