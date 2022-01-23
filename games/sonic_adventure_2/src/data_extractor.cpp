@@ -20,14 +20,14 @@ namespace sa2 {
         if (mission == 0 || mission == 3 || mission == 4) {
             auto get_rank_at = get_score_mission_rank.at(mission);
             if (get_rank_at)
-                buffer.scored = get_score_mission_rank.at(mission)(process, index);
+                buffer.scored = get_rank_at(process, index);
             return 0;
         }
 
         if (mission == 1 || mission == 2) {
             auto get_rank_at = get_time_mission_rank.at(mission);
             if (get_rank_at)
-                buffer.timed = get_time_mission_rank.at(mission)(process, index);
+                buffer.timed = get_rank_at(process, index);
             return TIMED_LEVEL;
         }
 
