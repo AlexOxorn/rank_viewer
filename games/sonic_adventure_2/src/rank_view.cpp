@@ -55,7 +55,7 @@ namespace sa2 {
         ::display_ranksX<data>(pid);
     }
 
-    const std::string data::display_name = "Sonic Heroes Ranks";
+    const std::string data::display_name = "Sonic Adventure Ranks";
     const std::pair<int, int> data::display_dimensions = std::make_pair(1920, 160);
     const std::chrono::milliseconds data::render_sleep = 16ms;
     const std::array<std::string, 5> data::score_names{

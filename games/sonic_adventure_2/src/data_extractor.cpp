@@ -9,6 +9,9 @@ namespace sa2 {
             return TIMED_LEVEL;
         }
 
+        if (level >= stage_index.size()) {
+            return -1;
+        }
         auto index = stage_index[level];
         if (index < 0) {
             return -1;
