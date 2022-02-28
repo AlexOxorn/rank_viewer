@@ -78,9 +78,9 @@ void display_ranksX(int pid) {
         }
 
         // ** calculate scores
-        auto calculations = game::calculate_data(game_process, state);
-        // ** draw scores
-        game::draw_data(rank_display, state, calculations);
+        rank_display.clear_render();
+        game::draw_state(rank_display, state);
+        game::draw_data(rank_display, state, game::calculate_data(game_process, state));
 
         std::this_thread::sleep_until(end);
     }
