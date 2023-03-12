@@ -33,7 +33,7 @@ namespace gc::sonic_colors {
         "Blue Rings",
         "Lost Rings",
         "Special",
-        "_1B4",
+        "Super Sonic",
         "Drill",
         "Laser",
         "Spike",

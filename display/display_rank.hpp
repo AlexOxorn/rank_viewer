@@ -22,7 +22,7 @@ void display_ranksX(int pid) {
     unsigned general_purpose_results_flag;
 
     // define window
-    ox::sdl_instance rank_display{game::display_name, true, game::display_dimensions};
+    ox::sdl_instance rank_display{"Rank Viewer", true, game::display_dimensions};
     SDL_Event e;
     bool quit = false;
 
@@ -51,6 +51,7 @@ void display_ranksX(int pid) {
         }
         // redraw
         rank_display.redraw();
+        rank_display.clear_render();
 
         // read current state
         typename game::level_state next = game::read_level_state(game_process);

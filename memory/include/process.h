@@ -6,10 +6,14 @@
 #define RANK_VIEWER_PROCESS_H
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+  #include "../windows/native_process.hpp"
+  #define NATIVE_PROCESSES
+using native_process = WINDOWS::native_process;
 #elif __unix__
-
   #include "../unix/native_process.hpp"
   #include "../unix/dolphin_process.hpp"
+  #define NATIVE_PROCESSES
+  #define DOLPHIN_PROCESSES
 using native_process = UNIX::native_process;
 using dolphin_process = UNIX::dolphin_process;
 

@@ -1,9 +1,14 @@
 #include <fmt/core.h>
+#include <process.h>
+
 #include <sa2/rank_view.hpp>
+#include <jsr/variables.hpp>
+
+#ifdef DOLPHIN_PROCESSES
 #include <sonic_heroes/rank_view.hpp>
 #include <sonic_colors/rank_view.hpp>
 #include <shadow/rank_view.hpp>
-#include <jsr/variables.hpp>
+#endif
 
 #include <cstdio>
 #include <execinfo.h>
@@ -36,14 +41,17 @@ int main(int argc, char** argv) {
 
     if ("sa2"sv == argv[1])
         display_func = sa2::display_ranksX;
+#ifdef DOLPHIN_PROCESSES
     else if ("heroes"sv == argv[1])
         display_func = gc::sonic_heroes::display_ranksX;
     else if ("shadow"sv == argv[1])
         display_func = gc::shadow::display_ranksX;
     else if ("colors"sv == argv[1] || "colours"sv == argv[1])
         display_func = gc::sonic_colors::display_ranksX;
+#endif
 
     if (!display_func) {
+        printf("Hello World\n");
         exit(-1);
     }
 

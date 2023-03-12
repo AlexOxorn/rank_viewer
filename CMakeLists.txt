@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(OXLIB_CANVAS ON)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    SET(CMAKE_CXX_FLAGS "-Og -Wall -Wextra -fdiagnostics-color=always -fsanitize=address,undefined -g -fconcepts-diagnostics-depth=5")
+    SET(CMAKE_CXX_FLAGS "-Og -Wall -Wextra -fdiagnostics-color=always -fsanitize=address,undefined -g")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     SET(CMAKE_CXX_FLAGS "-O3 -fdiagnostics-color=always -march=native")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Perf")

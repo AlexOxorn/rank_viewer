@@ -14,5 +14,4 @@ namespace UNIX {
         mem_file.flush();
         return write_result;
     }
-
 }
