@@ -2,16 +2,16 @@
 
 namespace UNIX {
     size_t native_process::read_memory_raw(u64 address, void* buffer, size_t size, int length) {
-        mem_file.seek(address, SEEK_SET);
-        size_t read_result = mem_file.read(buffer, size, length);
-        fflush(mem_file);
+        fseek(mem_file.get(), static_cast<long>(address), SEEK_SET);
+        size_t read_result = fread(buffer, size, length, mem_file.get());
+        fflush(mem_file.get());
         return read_result;
     }
 
     size_t native_process::write_memory_raw(u64 address, void* value, size_t size, int length) {
-        mem_file.seek(address, SEEK_SET);
-        size_t write_result = mem_file.write(value, size, length);
-        mem_file.flush();
+        fseek(mem_file.get(), static_cast<long>(address), SEEK_SET);
+        size_t write_result = fwrite(value, size, length, mem_file.get());
+        fflush(mem_file.get());
         return write_result;
     }
 }

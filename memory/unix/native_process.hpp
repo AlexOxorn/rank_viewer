@@ -11,21 +11,27 @@
 using namespace ox::int_alias;
 
 namespace UNIX {
+    using file = std::unique_ptr<FILE, decltype([](FILE* f){fclose(f);})>;
+
     class native_process : public abstract_process {
     protected:
         std::filesystem::path proc_dir;
         std::filesystem::path mem_path;
 
-        ox::file mem_file;
+        file mem_file;
     public:
-        [[nodiscard]] bool wrong_endian() const override {
+        [[nodiscard]] bool wrong_endian(u64) const override {
             return false;
         }
 
         explicit native_process(int _pid) :
                 abstract_process{_pid},
                 proc_dir{std::filesystem::path{"/proc"} / std::to_string(pid)},
-                mem_file{proc_dir / "mem", "r+b"} {}
+                mem_file{fopen((proc_dir / "mem").c_str(), "r+b")} {
+            if (not mem_file.get()) {
+                throw no_file_exception(this->mem_path.c_str());
+            }
+        }
 
         native_process(const native_process& other) = delete;
         native_process& operator=(const native_process& other) = delete;

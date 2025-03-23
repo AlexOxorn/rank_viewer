@@ -3,6 +3,10 @@
 #include <ranges>
 #include <filesystem>
 
+#include <random>
+
+std::uniform_real_distribution g(0.0, 1.0);
+
 namespace UNIX {
     dolphin_process::dolphin_process(int _pid) : native_process{_pid} {
         std::ifstream maps_file{proc_dir / "maps"};

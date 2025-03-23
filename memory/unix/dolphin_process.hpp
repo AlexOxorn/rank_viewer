@@ -3,6 +3,7 @@
 #include "ox/types.h"
 #include "ox/bytes.h"
 #include "native_process.hpp"
+#include <bit>
 
 namespace UNIX {
     class dolphin_process : public native_process {
@@ -12,7 +13,7 @@ namespace UNIX {
         u64 mem2_address = 0;
         bool mem2_present = false;
     protected:
-        [[nodiscard]] bool wrong_endian() const override { return ox::O32_HOST_ORDER != ox::O32_BIG_ENDIAN; }
+        [[nodiscard]] bool wrong_endian(u64) const override { return std::endian::native != std::endian::big; }
 
         [[nodiscard]] u64 mapped_address(u64 address) const;
     public:

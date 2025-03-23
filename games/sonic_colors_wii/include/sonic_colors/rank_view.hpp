@@ -44,7 +44,7 @@ namespace gc::sonic_colors {
         static void load_rank_text(ox::sdl_instance& window, const static_calculations& state);
         static void draw_state(ox::sdl_instance& window, const static_calculations& state);
         static calculation_temp calculate_data(process_type& game, const static_calculations& state);
-        static void draw_data(ox::sdl_instance& window, const static_calculations& state, const calculation_temp& calc);
+        static void draw_data(ox::sdl_instance& window, const static_calculations& state, const calculation_temp& calculations);
     };
 
     void display_ranks(int pid);

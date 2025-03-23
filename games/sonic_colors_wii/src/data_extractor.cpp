@@ -46,7 +46,7 @@ namespace gc::sonic_colors {
     }
 
     std::array<score_data, 4> interpret_score_rank_data(const stage_data_struct& stage) {
-        auto ranks = ox::c_to_std_array(stage.rank_requirements);
+        const i32* ranks = stage.rank_requirements;
         return std::array{
             score_data{ranks[0], "S"},
             score_data{ranks[1], "A"},
@@ -71,16 +71,12 @@ namespace gc::sonic_colors {
     }
 
     std::array<score_data, 28> interpret_score(dolphin_process& process, const stage_data_struct& stage) {
-        int state1 = get_state1(process);
-        int state2 = get_state2(process);
-
         float seconds = get_current_time(process);
         int rings = get_previous_rings(process);
         time_bonus timebonus_data = interpret_time_bonus(stage);
         int deaths = get_death_count(process);
 
         int timebonus = std::max(timebonus_data.base - timebonus_data.penalty * static_cast<int>(seconds), 0);
-        int deathbonus = timebonus == 0 ? 0 : interpret_death_bonus(stage, deaths);
         int ringbonus = timebonus == 0 ? 0 : interpret_ring_bonus(stage, rings);
         auto scores = get_scores(process);
 

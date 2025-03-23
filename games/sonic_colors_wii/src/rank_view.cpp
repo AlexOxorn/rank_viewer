@@ -76,9 +76,9 @@ namespace gc::sonic_colors {
         return {scores, total_score};
     }
 
-    void data::draw_data(ox::sdl_instance& window, const data::static_calculations& state, const data::calculation_temp& calulcations) {
-        draw_score_progress_bar(window, std::span(calulcations.scores), state.ranks.front().score);
-        draw_rank_markers_scores(window, state.ranks, calulcations.total_score, state.ranks.front().score);
+    void data::draw_data(ox::sdl_instance& window, const data::static_calculations& state, const data::calculation_temp& calculations) {
+        draw_score_progress_bar(window, std::span(calculations.scores), state.ranks.front().score);
+        draw_rank_markers_scores(window, state.ranks, calculations.total_score, state.ranks.front().score);
     }
 
     void display_ranksX(int pid) {
