@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION "3.16.3")
 
 # set the project name and version
 project(rank_viewer VERSION 0.5)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(OXLIB_CANVAS ON)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    SET(CMAKE_CXX_FLAGS "-Og -Wall -Wextra -fdiagnostics-color=always -fsanitize=address,undefined -g")
+    SET(CMAKE_CXX_FLAGS "-O0 -Wall -Wextra -fdiagnostics-color=always -fsanitize=address,undefined -g")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     SET(CMAKE_CXX_FLAGS "-O3 -fdiagnostics-color=always -march=native")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Perf")
@@ -35,6 +35,7 @@ target_link_libraries("${PROJECT_NAME}" PRIVATE "shadow")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "sa2")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "jsr")
 target_link_libraries("${PROJECT_NAME}" PRIVATE "memory")
+target_link_libraries("${PROJECT_NAME}" PRIVATE "unleashed")
 
 include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)

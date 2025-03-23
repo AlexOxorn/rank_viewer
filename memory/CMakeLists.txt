@@ -10,6 +10,8 @@ add_library(
         unix/dolphin_process.hpp
         unix/native_process.cpp
         unix/native_process.hpp
+        unix/unleashed_process.cpp
+        unix/unleashed_process.hpp
         >
 )
 

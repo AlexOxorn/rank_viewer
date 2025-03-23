@@ -12,9 +12,12 @@ using native_process = WINDOWS::native_process;
 #elif __unix__
   #include "../unix/native_process.hpp"
   #include "../unix/dolphin_process.hpp"
+  #include "../unix/unleashed_process.hpp"
   #define NATIVE_PROCESSES
   #define DOLPHIN_PROCESSES
+  #define UNLEASHED_PROCESSES
 using native_process = UNIX::native_process;
+using unleashed_process = UNIX::unleashed_process;
 using dolphin_process = UNIX::dolphin_process;
 
 #endif
