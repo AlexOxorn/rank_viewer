@@ -23,7 +23,7 @@ namespace unleashed {
         using rank_array = std::array<score_data, 5>;
         using level_state = StageInfo;
         using calculation_temp = struct calculation_temp {
-            std::array<score_data, 9> scores;
+            std::array<score_data, LAST> scores;
             int total_score{};
             int high_mark{};
         };

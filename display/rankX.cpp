@@ -106,9 +106,9 @@ template void draw_rank_markers_scores<std::less_equal<int>> (
 );
 
 void draw_score_text(
-    ox::sdl_instance& win,
-    const std::span<const score_data> scores,
-    dimensions size
+        ox::sdl_instance& win,
+        const std::span<const score_data> scores,
+        dimensions size
 ) {
     SDL_Rect rank_image{0, 0, size.height, size.height};
 
@@ -117,7 +117,7 @@ void draw_score_text(
         auto image_pass = win.get_texture(fmt::format("{}true", score.name));
         auto text = win.get_texture(score.name + (image_pass ? "_text" : "_text_with_name"));
         size.clear_render(win);
-        
+
         if (text) {
             int score_start = size.left();
             if (image_pass) {
@@ -128,5 +128,32 @@ void draw_score_text(
             text->render(score_start, size.top());
         }
         text_y += (size.height);
+    }
+}
+
+void draw_score_text_horizontal(
+        ox::sdl_instance& win,
+        const std::span<const score_data> scores,
+        dimensions size
+) {
+    SDL_Rect rank_image{0, 0, size.height, size.height};
+
+    int width = size.width().value_or(win.get_window_size().first - 2 * size.x_buffer);
+    int left = size.left();
+
+    for (auto& score : scores) {
+        auto image_pass = win.get_texture(fmt::format("{}true", score.name));
+        auto text = win.get_texture(score.name + (image_pass ? "_text" : "_text_with_name"));
+        if (text) {
+            if (image_pass) {
+                image_pass->render(left, size.top(), &rank_image);
+                left += size.height + 5;
+            }
+
+            SDL_Point text_dim;
+            SDL_QueryTexture(text->get(), NULL, NULL, &text_dim.x, &text_dim.y);
+            text->render(left, size.top());
+            left += text_dim.x + 30;
+        }
     }
 }

@@ -6,8 +6,23 @@
 #include <rank.hpp>
 
 namespace unleashed {
+    enum ScoreType {
+        TimeBonus,
+        EnemyBonus,
+        TrickBonus,
+        SpeedBonus1,
+        SpeedBonus2,
+        SpeedBonus3,
+        ComboBonus,
+        CrushBonus,
+        RingBonus,
+        RingBonus2,
+        LAST
+    };
+
+
     struct interpret_ret {
-        std::array<score_data, 9> scores;
+        std::array<score_data, LAST> scores;
         SScoreInfo data;
     };
 

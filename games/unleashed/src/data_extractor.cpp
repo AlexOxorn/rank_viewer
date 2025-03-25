@@ -2,24 +2,12 @@
 #include <helpers.h>
 
 namespace unleashed {
-    enum ScoreType {
-        TimeBonus,
-        RingBonus,
-        EnemyBonus,
-        SpeedBonus1,
-        SpeedBonus2,
-        SpeedBonus3,
-        TrickBonus,
-        ComboBonus,
-        CrushBonus
-    };
-
-    static_assert(CrushBonus == 8);
+    static_assert(LAST == 10);
 
     interpret_ret interpret_data(unleashed_process& process) {
         std::string name = get_stage_name(process).data();
         SScoreInfo level_data = get_score_data(process);
-        u32 rings = 0;
+        i32 rings = 0;
         std::optional<night_context> night;
 
         if (level_data.MaxSpeedCount > 3)
@@ -32,13 +20,25 @@ namespace unleashed {
             rings = night->Rings;
         }
 
-        std::array<score_data, 9> scores{};
+        std::array<score_data, int(LAST)> scores{};
         i32 timebonus = std::max(0,
                                  i32(-level_data.TimeBonusScale * std::max(0.0f, unleashed::get_current_time(process))
                                      + level_data.TimeBonusStart * level_data.TimeBonusScale));
         i32 ringbonus = 100 * rings;
+
+        bool is_night = unleashed::get_werehog_base(process) != 0;
+
         scores[TimeBonus] = {.score = timebonus, .name = "Time", .foreground = ox::named_colors::MediumAquamarine};
-        scores[RingBonus] = {.score = ringbonus, .name = "Rings", .foreground = ox::named_colors::gold};
+        if (is_night) {
+            scores[RingBonus] = {.score = ringbonus, .name = "Rings", .foreground = ox::named_colors::gold};
+        } else {
+            int loseable_rings = std::min(std::max(rings / 2 + 1, 20), rings);
+            auto c = ox::named_colors::gold;
+            scores[RingBonus] = {.score = std::max(0, rings - loseable_rings) * 100, .name = "Rings", .foreground = c};
+            c.darken(0.2);
+            scores[RingBonus2] = {
+                    .score = loseable_rings * 100, .name = rings - loseable_rings ? "" : "Rings", .foreground = c};
+        }
 
         if (name.contains("Boss")) {
             return {scores, level_data};
@@ -47,7 +47,7 @@ namespace unleashed {
         scores[EnemyBonus] = {
                 .score = (i32) level_data.EnemyScore, .name = "Enemy", .foreground = ox::named_colors::maroon};
 
-        if (unleashed::get_werehog_base(process) != 0 or name.contains("Eggman")) {
+        if (is_night or name.contains("Eggman")) {
             scores[ComboBonus] = {.score = (i32) (night ? night->ComboScore : 0),
                                   .name = "Combo",
                                   .foreground = ox::named_colors::dark_teal};

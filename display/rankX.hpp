@@ -26,6 +26,8 @@ struct dimensions {
     int y_buffer = 5;
     int x_buffer = 5;
     double scale = 0.75;
+    std::optional<int> end_x{};
+    std::optional<int> end_y{};
 
     [[nodiscard]] int top() const {
         return start_y + y_buffer;
@@ -33,6 +35,18 @@ struct dimensions {
 
     [[nodiscard]] int left() const {
         return start_x + x_buffer;
+    }
+    [[nodiscard]] std::optional<int> right() const {
+        return end_x.transform([this](int i) { return i - x_buffer; });
+    }
+    [[nodiscard]] std::optional<int> bottom() const {
+        return end_y.transform([this](int i) { return i - y_buffer; });
+    }
+    [[nodiscard]] std::optional<int> width() const {
+        return end_x.transform([this](int i) { return i - start_x - 2 * x_buffer; });
+    }
+    [[nodiscard]] std::optional<int> tall() const {
+        return end_y.transform([this](int i) { return i - start_y - 2 * y_buffer; });
     }
 
     void clear_render (
@@ -76,6 +90,11 @@ void draw_score_text(
     std::span<const score_data> scores,
     dimensions size = dimensions{rank_font_size, 5, 10 + rank_font_size, 0}
 );
+void draw_score_text_horizontal(
+    ox::sdl_instance& win,
+    std::span<const score_data> scores,
+    dimensions size = dimensions{rank_font_size, 5, 10 + rank_font_size, 0}
+);
 
 template<std::size_t N>
 void draw_time_progress(
@@ -92,7 +111,7 @@ void draw_time_progress(
     int width = fullwidth - 2 * size.start_x;
     if (width <= 0)
         return;
-    
+
     int max_marker = ranks.front().seconds;
     double divisor = (max_marker / (width * size.scale));
 

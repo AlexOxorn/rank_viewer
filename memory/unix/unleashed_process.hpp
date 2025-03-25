@@ -50,10 +50,7 @@ namespace UNIX {
             while (std::getline(map_file, map_line)) {
                 if (!map_line.contains("UnleashedRecomp"))
                     continue;
-//                if (!map_line.contains("rw-"))
-//                    continue;
                 sscanf(map_line.c_str(), "%lx", &_werehog_address);
-                printf("map: %lx\n", _werehog_address);
                 break;
             }
 

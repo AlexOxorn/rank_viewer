@@ -26,9 +26,19 @@ namespace unleashed {
                                [](i32 score, char rank) { return score_data{score, std::string{rank}}; });
     }
 
-    void data::load_rank_text(ox::sdl_instance &window, const data::static_calculations &state) {
+    void data::load_rank_text(ox::sdl_instance& window, const data::static_calculations& state) {
         auto& [level, ranks, result] = state;
         load_requirement_text(window, state.ranks);
+        window.load_text("time_bonus_limit",
+                         rank_font,
+                         rank_font_size,
+                         hour_min_second_formatter()("Time Bonus Limit\t\t", (int)state.level.TimeBonusStart),
+                         {255, 255, 255, 255});
+        window.load_text("time_bonus_factor",
+                         rank_font,
+                         rank_font_size,
+                         std::format("Time Bonus/second\t\t: {}", state.level.TimeBonusScale),
+                         {255, 255, 255, 255});
     }
 
     data::calculation_temp data::calculate_data(data::process_type &game, const data::static_calculations &state) {
@@ -47,11 +57,25 @@ namespace unleashed {
         ::display_ranksX<data>(pid);
     }
 
+    void draw_time_bonus_factors(
+            ox::sdl_instance& win,
+            const std::span<const score_data> scores,
+            dimensions size = dimensions{rank_font_size, 5, 10 + rank_font_size, 0}
+    ) {
+        draw_score_text_horizontal(win, scores, size);
+        size.start_y += size.height;
+        auto limit_text = win.get_texture("time_bonus_limit");
+        auto factor_text = win.get_texture("time_bonus_factor");
+
+        limit_text->render(size.left(), size.top());
+        factor_text->render(size.left(), size.top() + size.height);
+    }
+
     const std::string data::display_name = "Sonic Unleashed Ranks";
     const std::pair<int, int> data::display_dimensions = std::make_pair(1920, 160);
     const std::chrono::milliseconds data::render_sleep = 16ms;
     void data::draw_state(ox::sdl_instance &window, const data::static_calculations &state) {
-        draw_score_text(window, state.ranks);
+        draw_time_bonus_factors(window, state.ranks);
     }
     void data::draw_data(ox::sdl_instance &window, const data::static_calculations &state, const data::calculation_temp &calc) {
         auto& [level, ranks, result] = state;

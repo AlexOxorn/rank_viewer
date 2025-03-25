@@ -85,6 +85,25 @@ struct min_second_formatter {
     }
 };
 
+struct hour_min_second_formatter {
+    std::string operator ()(const std::string& name, int total_second) {
+        int hours = total_second/3600;
+        int minutes = (total_second%3600)/60;
+        int seconds = (total_second%60);
+        if (hours)
+            return fmt::format("{}: {}:{:02d}:{:02d}", name, hours, minutes, seconds);
+        return fmt::format("{}: {}:{:02d}", name, minutes, seconds);
+    }
+    std::string operator ()(int total_second) {
+        int hours = total_second/3600;
+        int minutes = (total_second%3600)/60;
+        int seconds = (total_second%60);
+        if (hours)
+            return fmt::format("{}:{:2d}:{:2d}", hours, minutes, seconds);
+        return fmt::format("{}:{:2d}", minutes, seconds);
+    }
+};
+
 template <std::size_t N, std::invocable<std::string, int> Formatter = score_formatter>
 void load_requirement_text(ox::sdl_instance& win, const std::array<score_data, N>& s_ranks, Formatter f = Formatter{}) {
     for (auto& rank : s_ranks) {
