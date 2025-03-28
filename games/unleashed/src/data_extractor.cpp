@@ -40,12 +40,12 @@ namespace unleashed {
                     .score = loseable_rings * 100, .name = rings - loseable_rings ? "" : "Rings", .foreground = c};
         }
 
+        scores[EnemyBonus] = {
+                .score = (i32) level_data.EnemyScore, .name = "Enemy", .foreground = ox::named_colors::maroon};
+
         if (name.contains("Boss")) {
             return {scores, level_data};
         }
-
-        scores[EnemyBonus] = {
-                .score = (i32) level_data.EnemyScore, .name = "Enemy", .foreground = ox::named_colors::maroon};
 
         if (is_night or name.contains("Eggman")) {
             scores[ComboBonus] = {.score = (i32) (night ? night->ComboScore : 0),
