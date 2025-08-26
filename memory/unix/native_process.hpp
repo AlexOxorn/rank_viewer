@@ -11,7 +11,10 @@
 using namespace ox::int_alias;
 
 namespace UNIX {
-    using file = std::unique_ptr<FILE, decltype([](FILE* f){fclose(f);})>;
+    struct file_deleter {
+        static void operator()(FILE* f) { fclose(f); }
+    };
+    using file = std::unique_ptr<FILE, file_deleter>;
 
     class native_process : public abstract_process {
     protected:

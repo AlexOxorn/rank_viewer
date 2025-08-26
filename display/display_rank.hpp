@@ -14,14 +14,14 @@ template<typename game>
 void display_ranksX(int pid) {
     using namespace std::chrono_literals;
     
-    // define process
+    // define a process
     typename game::process_type game_process{pid};
     // define state buffer
     typename game::static_calculations state{};
     // define result_flag
     unsigned general_purpose_results_flag;
 
-    // define window
+    // define a window
     ox::sdl_instance rank_display{"Rank Viewer", true, game::display_dimensions};
     SDL_Event e;
     bool quit = false;
@@ -33,7 +33,7 @@ void display_ranksX(int pid) {
         rank_display.load_text(s, rank_font, rank_font_size, s);
     }
     load_rank_images(rank_display);
-    // clear_render / choose background colour
+    // clear_render / choose a background colour
 
     rank_display.clear_render();
 

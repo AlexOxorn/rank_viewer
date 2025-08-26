@@ -18,9 +18,9 @@ std::array<type, length> get_array_address(process& process, T address) {
     return to_return;
 }
 
-template <typename type = int, int length = 3>
+template <typename type = int, int length = 3, std::convertible_to<u64> T>
 requires std::is_trivially_copyable_v<type>
-type get_array_address_at(process& process, u32 address, unsigned index) {
+type get_array_address_at(process& process, T address, unsigned index) {
     type to_return{};
     process.read_memory(address + (index * sizeof(type)), &to_return);
     return to_return;

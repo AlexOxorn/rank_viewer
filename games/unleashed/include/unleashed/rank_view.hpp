@@ -14,6 +14,7 @@ namespace unleashed {
         float TimeBonusStart;
         i32 TimeBonusScale;
         GameMode Mode;
+        bool loading;
 
         bool operator<=>(const StageInfo&) const = default;
     };
@@ -26,6 +27,7 @@ namespace unleashed {
             std::array<score_data, LAST> scores;
             int total_score{};
             int high_mark{};
+            SScoreInfo data;
         };
         using static_calculations = struct static_calculations {
             StageInfo level;

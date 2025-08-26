@@ -32,6 +32,20 @@ void handler(int sig) {
     exit(1);
 }
 
+void extract_unleashed_save_data(const char* filename) {
+    FILE* save = fopen(filename, "rb");
+    fseek(save, 0x994, SEEK_SET);
+    int count = 0;
+    while (ftell(save) < 0x8970) {
+        unleashed::StageRecords ss;
+        int data_read = fread(&ss, sizeof(ss), 1, save);
+        ss.endian_swap();
+        count++;
+        std::cout << ss << std::endl;
+    }
+    printf("%lx\n", count * sizeof(unleashed::StageRecords) + 0x994);
+}
+
 int main(int argc, char** argv) {
     signal(SIGSEGV, handler);
     using namespace std::string_view_literals;
