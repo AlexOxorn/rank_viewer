@@ -62,7 +62,7 @@ namespace UNIX {
             _werehog_address += werehog_file_offset;
         }
 
-        [[nodiscard]] bool wrong_endian(u64 addr) const override {
+        [[nodiscard]] bool wrong_endian([[maybe_unused]] u64 addr) const override {
             return (std::endian::native != std::endian::big); // and (addr < 0x100000000);
         }
         size_t read_memory_raw(u64 address, void* buffer, size_t size, int length) override;

@@ -13,7 +13,6 @@ add_library(
 )
 
 target_link_libraries("sonic_heroes" "ox")
-target_link_libraries("sonic_heroes" "fmt")
 target_link_libraries("sonic_heroes" "display")
 target_link_libraries("sonic_heroes" "memory")
 

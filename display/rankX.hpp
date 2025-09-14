@@ -13,8 +13,8 @@
 #include <span>
 #include <ox/formatting.h>
 #include <ox/terminal.h>
-#include <fmt/core.h>
-#include <fmt/color.h>
+// #include <fmt/core.h>
+// #include <fmt/color.h>
 #include <ox/canvas.h>
 #include "common.hpp"
 

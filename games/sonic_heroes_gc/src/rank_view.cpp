@@ -3,7 +3,7 @@
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <iostream>
 #include <ox/canvas.h>
 #include <display_rank.hpp>
@@ -24,7 +24,9 @@ namespace gc::sonic_heroes {
             std::cout << std::flush;
 
             if(next != current) {
-                fmt::print("{}{}", ox::format{ox::escape::reset}, ox::clear_screen{ox::escape::all});
+                std::cout << std::format("{}{}",
+                    static_cast<const char*>(ox::format{ox::escape::reset}),
+                    static_cast<const char*>(ox::clear_screen{ox::escape::all}));
                 current = next;
                 result = get_ranks(dolphin, current.level, current.team, current.mission, buffer);
                 if((result & TIMED_LEVEL) != 0) {
@@ -82,7 +84,7 @@ namespace gc::sonic_heroes {
         state.result = get_ranks(game, state.level.level, state.level.team, state.level.mission, state.stage);
     }
 
-    void data::get_rank_data(native_process& game, data::static_calculations &state) {
+    void data::get_rank_data([[maybe_unused]] native_process& game, data::static_calculations &state) {
         auto& [ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
             if((result & BOSS_LEVEL) != 0) {

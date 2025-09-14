@@ -3,8 +3,8 @@
 #include <ox/utils.h>
 #include <ox/colors.h>
 #include <ox/canvas.h>
-#include <fmt/core.h>
-#include <fmt/format.h>
+// #include <fmt/core.h>
+// #include <fmt/format.h>
 #include <filesystem>
 #include <ox/canvas.h>
 #include <concepts>
@@ -67,21 +67,21 @@ struct time_data {
 
 struct score_formatter {
     std::string operator ()(const std::string& name, int score) {
-        return fmt::format("{}: {}", name, score);
+        return std::format("{}: {}", name, score);
     }
     std::string operator ()(int score) {
-        return fmt::to_string(score);
+        return std::to_string(score);
     }
 };
 
 struct min_second_formatter {
     std::string operator ()(const std::string& name, int total_second) {
         auto [minutes, seconds] = std::make_pair(total_second / 60, total_second % 60);
-        return fmt::format("{}: {}:{:2d}", name, minutes, seconds);
+        return std::format("{}: {}:{:2d}", name, minutes, seconds);
     }
     std::string operator ()(int total_second) {
         auto [minutes, seconds] = std::make_pair(total_second / 60, total_second % 60);
-        return fmt::format("{}:{:02d}", minutes, seconds);
+        return std::format("{}:{:02d}", minutes, seconds);
     }
 };
 
@@ -91,16 +91,16 @@ struct hour_min_second_formatter {
         int minutes = (total_second%3600)/60;
         int seconds = (total_second%60);
         if (hours)
-            return fmt::format("{}: {}:{:02d}:{:02d}", name, hours, minutes, seconds);
-        return fmt::format("{}: {}:{:02d}", name, minutes, seconds);
+            return std::format("{}: {}:{:02d}:{:02d}", name, hours, minutes, seconds);
+        return std::format("{}: {}:{:02d}", name, minutes, seconds);
     }
     std::string operator ()(int total_second) {
         int hours = total_second/3600;
         int minutes = (total_second%3600)/60;
         int seconds = (total_second%60);
         if (hours)
-            return fmt::format("{}:{:2d}:{:2d}", hours, minutes, seconds);
-        return fmt::format("{}:{:2d}", minutes, seconds);
+            return std::format("{}:{:2d}:{:2d}", hours, minutes, seconds);
+        return std::format("{}:{:2d}", minutes, seconds);
     }
 };
 struct hour_min_second_milli_formatter {
@@ -110,31 +110,31 @@ struct hour_min_second_milli_formatter {
         int seconds = int(total_second)%60;
         int milliseconds = int(total_second*1000)%1000;
         if (hours)
-            return fmt::format("{}: {}:{:02d}:{:02d}.{:03d}", name, hours, minutes, seconds, milliseconds);
-        return fmt::format("{}: {}:{:02d}.{:03d}", name, minutes, seconds, milliseconds);
+            return std::format("{}: {}:{:02d}:{:02d}.{:03d}", name, hours, minutes, seconds, milliseconds);
+        return std::format("{}: {}:{:02d}.{:03d}", name, minutes, seconds, milliseconds);
     }
     std::string operator ()(int total_second) {
         int hours = total_second/3600;
         int minutes = (total_second%3600)/60;
         int seconds = (total_second%60);
         if (hours)
-            return fmt::format("{}:{:2d}:{:2d}", hours, minutes, seconds);
-        return fmt::format("{}:{:2d}", minutes, seconds);
+            return std::format("{}:{:2d}:{:2d}", hours, minutes, seconds);
+        return std::format("{}:{:2d}", minutes, seconds);
     }
 };
 
 template <std::size_t N, std::invocable<std::string, int> Formatter = score_formatter>
 void load_requirement_text(ox::sdl_instance& win, const std::array<score_data, N>& s_ranks, Formatter f = Formatter{}) {
     for (auto& rank : s_ranks) {
-        win.load_text(fmt::format("{}_text_with_name", rank.name), rank_font, rank_font_size, f(rank.name, rank.score), {255, 255, 255, 255});
-        win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, f(rank.score), {255, 255, 255, 255});
+        win.load_text(std::format("{}_text_with_name", rank.name), rank_font, rank_font_size, f(rank.name, rank.score), {255, 255, 255, 255});
+        win.load_text(std::format("{}_text", rank.name), rank_font, rank_font_size, f(rank.score), {255, 255, 255, 255});
     }
 }
 
 template <std::size_t N>
 void load_requirement_text(ox::sdl_instance& win, const std::array<time_rank_data, N>& t_ranks) {
     for (auto& rank : t_ranks) {
-        win.load_text(fmt::format("{}_text", rank.name), rank_font, rank_font_size, fmt::format("{}: {}m {}s", rank.name, rank.seconds / 60, rank.seconds % 60), {255, 255, 255, 255});
+        win.load_text(std::format("{}_text", rank.name), rank_font, rank_font_size, std::format("{}: {}m {}s", rank.name, rank.seconds / 60, rank.seconds % 60), {255, 255, 255, 255});
     }
 }
 

@@ -13,7 +13,6 @@ add_library(
 )
 
 target_link_libraries("sa2" "ox")
-target_link_libraries("sa2" "fmt")
 target_link_libraries("sa2" "display")
 target_link_libraries("sa2" "memory")
 

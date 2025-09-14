@@ -3,7 +3,7 @@
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <ox/canvas.h>
 #include <iostream>
 #include <concepts>
@@ -19,7 +19,7 @@ void display_ranksX(int pid) {
     // define state buffer
     typename game::static_calculations state{};
     // define result_flag
-    unsigned general_purpose_results_flag;
+    // unsigned general_purpose_results_flag;
 
     // define a window
     ox::sdl_instance rank_display{"Rank Viewer", true, game::display_dimensions};

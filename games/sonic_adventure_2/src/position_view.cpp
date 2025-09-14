@@ -2,7 +2,7 @@
 #include <ox/array.h>
 #include <chrono>
 #include <thread>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <iostream>
 #include <sa2/variables.hpp>
 #include <position_dump.hpp>
@@ -27,7 +27,7 @@ namespace sa2 {
 
             if(next_level != current_level) {
                 if(stage_file) {
-                    fmt::print("closing file\n");
+                    std::printf("closing file\n");
                     stage_file = nullptr;
                 }
                 current_level = next_level;
@@ -35,7 +35,7 @@ namespace sa2 {
                 std::string file_name = std::to_string(current_level) + ".csv";
                 std::filesystem::path outfile_path = dir / file_name;
                 if (index >= 0) {
-                    fmt::print("opening file: {}\n", outfile_path.c_str());
+                    std::cout << std::format("opening file: {}\n", outfile_path.c_str());
                     stage_file = ox::file{
                         outfile_path.c_str(),
                         "w"
@@ -57,7 +57,7 @@ namespace sa2 {
                 position_array.end(),
                 string_positions.begin(),
                 [](float f) -> std::string {
-                    return fmt::format("{:2f}", f);
+                    return std::format("{:2f}", f);
                 }
             );
             print_csv_file(stage_file, string_positions);

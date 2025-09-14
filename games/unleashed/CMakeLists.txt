@@ -13,7 +13,6 @@ add_library(
 )
 
 target_link_libraries("unleashed" "ox")
-target_link_libraries("unleashed" "fmt")
 target_link_libraries("unleashed" "display")
 target_link_libraries("unleashed" "memory")
 

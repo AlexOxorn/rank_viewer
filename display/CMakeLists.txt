@@ -10,7 +10,7 @@ add_library(
 )
 
 target_link_libraries("display" "ox")
-target_link_libraries("display" "fmt")
+target_link_libraries(display m)
 
 target_include_directories(
   "display"

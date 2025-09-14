@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <ox/array.h>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <sonic_colors/variables.hpp>
 #include <sonic_colors/rank_view.hpp>
 #include <sonic_colors/position_view.hpp>

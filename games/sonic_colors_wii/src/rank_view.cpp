@@ -5,14 +5,14 @@
 #include <ox/formatting.h>
 #include <sonic_colors/data_extractor.hpp>
 #include <display_rank.hpp>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <ox/canvas.h>
 #include <iostream>
 #include <ranges>
 #include <span>
 
 namespace gc::sonic_colors {
-    void display_ranks(int pid) {}
+    void display_ranks([[maybe_unused]] int pid) {}
     using namespace std::chrono_literals;
     using data = sonic_colors_data;
     const std::string data::display_name = "Sonic Colors Ranks";

@@ -1,4 +1,4 @@
-#include <process.h>
+#pragma once
 #include <filesystem>
 
 namespace sa2 {

@@ -3,7 +3,7 @@
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <fmt/core.h>
+#include <format>
 #include <display_rank.hpp>
 
 namespace sa2 {
@@ -25,7 +25,8 @@ namespace sa2 {
             std::cout << std::flush;
 
             if(next != current) {
-                fmt::print("{}{}", ox::format{ox::escape::reset}, ox::clear_screen{ox::escape::all});
+                auto out = std::format("{}{}", ox::format{ox::escape::reset}, ox::clear_screen{ox::escape::all});
+                std::cout << out << std::endl;
                 current = next;
                 result = get_ranks(game, current.level, current.mission, current.character, buffer);
                 if((result & TIMED_LEVEL) != 0) {
@@ -67,12 +68,12 @@ namespace sa2 {
         return {get_current_level(game), get_current_mission(game), get_current_character(game)};
     }
 
-    void data::read_stage_data(data::process_type &game,
-                               data::static_calculations &state) {
+    void data::read_stage_data([[maybe_unused]] data::process_type &game,
+                               [[maybe_unused]] data::static_calculations &state) {
         state.result = get_ranks(game, state.level.level, state.level.mission, state.level.character, state.stage);
     }
 
-    void data::get_rank_data(native_process& game, data::static_calculations &state) {
+    void data::get_rank_data([[maybe_unused]] native_process& game, data::static_calculations &state) {
         auto& [ranks, level, stage, result] = state;
         if((result & TIMED_LEVEL) != 0) {
             ranks = interpret_time_rank_data(stage.timed);

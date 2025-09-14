@@ -1,8 +1,8 @@
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <process.h>
 
 #include <sa2/rank_view.hpp>
-#include <jsr/variables.hpp>
+#include <jsr/rank_view.hpp>
 
 #ifdef DOLPHIN_PROCESSES
   #include <sonic_heroes/rank_view.hpp>
@@ -59,6 +59,9 @@ int main(int argc, char** argv) {
 
     if ("sa2"sv == argv[1])
         display_func = sa2::display_ranksX;
+    else if ("jsr"sv == argv[1]) {
+        display_func = jsr::display_ranksX;
+    }
 #ifdef UNLEASHED_PROCESSES
     else if ("unleashed"sv == argv[1]) {
         display_func = unleashed::display_ranksX;

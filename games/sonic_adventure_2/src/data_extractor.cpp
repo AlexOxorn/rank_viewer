@@ -9,7 +9,7 @@ namespace sa2 {
             return TIMED_LEVEL;
         }
 
-        if (level >= stage_index.size()) {
+        if (std::cmp_greater_equal(level, stage_index.size())) {
             return -1;
         }
         auto index = stage_index[level];

@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <ox/array.h>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <sonic_heroes/variables.hpp>
 #include <sonic_heroes/rank_view.hpp>
 #include <sonic_heroes/position_view.hpp>
@@ -34,9 +34,9 @@ namespace gc::sonic_heroes {
 
             if (!stage_file) {
                 if (game_state == 4 || game_state == 5 || game_state == 12 || game_state == 6) {
-                    std::string file_name = fmt::format("{}-{}.csv", current.level, current.team);
+                    std::string file_name = std::format("{}-{}.csv", current.level, current.team);
                     std::filesystem::path outfile_path = dir / file_name;
-                    fmt::print("opening file: {}\n", outfile_path.c_str());
+                    std::cout << std::format("opening file: {}\n", outfile_path.c_str());
                     stage_file = ox::file{
                         outfile_path.c_str(),
                         "w"
@@ -67,7 +67,7 @@ namespace gc::sonic_heroes {
                 full_position_array.end(),
                 string_positions.begin(),
                 [](float f) -> std::string {
-                    return fmt::format("{:2f}", f);
+                    return std::format("{:2f}", f);
                 }
             );
             string_positions[9] = std::to_string(get_current_leader(game));

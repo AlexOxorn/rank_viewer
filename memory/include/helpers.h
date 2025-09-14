@@ -38,14 +38,32 @@ type get_array_address_at(process& process, T address, unsigned index) {
     } \
     inline u64 name##_address(process& p) { \
         return get_##base(p) + offset; \
+    } \
+    inline std::optional<type> safe_get_##name(process& p) { \
+        auto _base = get_##base(p); \
+        if (!_base) \
+            return std::nullopt; \
+        return get_address<type>(p, _base, offset); \
     }
 
 #define GAME_INDIRECT_ARRAY(type, name, base, offset, size) \
     inline std::array<type, size> get_##name(process& p) { \
         return get_array_address<type, size>(p, get_##base(p) + offset); \
     } \
+    inline std::optional<std::array<type, size>> safe_get_##name(process& p) { \
+        auto _base = get_##base(p); \
+        if (!_base) \
+            return std::nullopt; \
+        return get_array_address<type, size>(p, _base + offset); \
+    } \
     inline type get_##name##_at(process& p, unsigned index) { \
         return get_array_address_at<type, size>(p, get_##base(p) + offset, index); \
+    } \
+    inline std::optional<type> safe_get_##name##_at(process& p, unsigned index) { \
+        auto _base = get_##base(p); \
+        if (!_base) \
+            return std::nullopt; \
+        return get_array_address_at<type, size>(p, _base + offset, index); \
     } \
     inline u64 name##_address(process& p) { \
         return get_##base(p) + offset; \

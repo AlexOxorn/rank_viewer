@@ -3,7 +3,7 @@
 #include <rank.hpp>
 #include <rankX.hpp>
 #include <ox/formatting.h>
-#include <fmt/core.h>
+// #include <fmt/core.h>
 #include <display_rank.hpp>
 
 namespace unleashed {

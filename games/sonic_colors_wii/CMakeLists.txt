@@ -13,7 +13,6 @@ add_library(
 )
 
 target_link_libraries("sonic_colors" "ox")
-target_link_libraries("sonic_colors" "fmt")
 target_link_libraries("sonic_colors" "display")
 target_link_libraries("sonic_colors" "memory")
 

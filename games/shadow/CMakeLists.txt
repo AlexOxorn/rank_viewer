@@ -10,7 +10,6 @@ add_library(
 )
 
 target_link_libraries("shadow" "ox")
-target_link_libraries("shadow" "fmt")
 target_link_libraries("shadow" "display")
 target_link_libraries("shadow" "memory")
 

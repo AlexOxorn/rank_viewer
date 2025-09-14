@@ -9,8 +9,8 @@
 #include <iostream>
 #include <ox/formatting.h>
 #include <ox/terminal.h>
-#include <fmt/core.h>
-#include <fmt/color.h>
+// #include <fmt/core.h>
+// #include <fmt/color.h>
 #include "common.hpp"
 
 template<std::size_t N, std::size_t M>
@@ -28,32 +28,32 @@ void print_current_progress(
     int divisor = max_marker / (size.columns * scale) + 1;
     int total_points = std::accumulate(scores.begin(), scores.end(), int{}, [](int sum, const score_data& n) -> int {return sum + n.score;});
 
-    fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
+    std::cout << std::format("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
 
     for (auto score : scores) {
         int score_ticks = score.score / divisor;
-        fmt::print("{}{}",
+        std::cout << std::format("{}{}",
                    ox::format{ox::escape::direct_color, 2, score.foreground.r, score.foreground.g, score.foreground.b},
                    ox::format{ox::escape::background_direct, 2, score.background.r, score.background.g, score.background.b});
         for (int i = 0; i < score_ticks; i++) {
-            fmt::print("|");
+            std::cout << std::format("|");
         }
     }
 
-    fmt::print("{}", ox::format{ox::escape::reset});
+    std::cout << std::format("{}", ox::format{ox::escape::reset});
 
     for (int i = 0; i < static_cast<int>(ranks.size()); i++ ) {
         auto rank = ranks[i];
         int rank_ticks = rank.score / divisor;
 
-        auto format = total_points >= rank.score ?
-            fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
-            fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
+        // auto format = total_points >= rank.score ?
+        //     fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
+        //     fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
 
-        fmt::print(format, "{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
-        fmt::print("{}{}: {}{}", ox::move_cursor{i+2, 0}, rank.name, rank.score, ox::clear_line{ox::escape::to_end});
+        std::cout << std::format("{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
+        std::cout << std::format("{}{}: {}{}", ox::move_cursor{i+2, 0}, rank.name, rank.score, ox::clear_line{ox::escape::to_end});
     }
-    fmt::print("{}", ox::format{ox::escape::reset});
+    std::cout << std::format("{}", ox::format{ox::escape::reset});
 }
 
 template<std::size_t N>
@@ -65,30 +65,30 @@ void print_current_progress(
     ox::terminal_size size = ox::get_terminal_size();
     int divisor = ranks.front().seconds / (size.columns * scale) + 1;
 
-    fmt::print("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
+    std::cout << std::format("{}{}", ox::move_cursor{0, 0}, ox::clear_line{ox::escape::all});
 
     int time_ticks = time.seconds / divisor;
-    fmt::print(
+    std::cout << std::format(
             "{}{}",
             ox::format{ox::escape::direct_color, 2, time.foreground.r, time.foreground.r, time.foreground.r},
             ox::format{ox::escape::background_direct, 2, time.background.r, time.background.r, time.background.r}
             );
     for (int i = 0; i < time_ticks; i++) {
-        fmt::print("|");
+        std::cout << std::format("|");
     }
 
-    fmt::print("{}", ox::format{ox::escape::reset});
+    std::cout << std::format("{}", ox::format{ox::escape::reset});
 
     for(int i = 0; i < static_cast<int>(ranks.size()); i++) {
         auto rank = ranks[i];
         int rank_ticks = rank.seconds / divisor;
 
-        auto format = time.seconds < rank.seconds ?
-          fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
-          fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
+        // auto format = time.seconds < rank.seconds ?
+        //   fg(fmt::color::black) | bg(fmt::color::green) | fmt::emphasis::bold :
+        //   fg(fmt::color::white) | bg(fmt::color::red) | fmt::emphasis::bold;
 
-        fmt::print(format, "{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
-        fmt::print(
+        std::cout << std::format("{}{}", ox::move_cursor{0, rank_ticks}, rank.name);
+        std::cout << std::format(
             "{}{}: {}m {:02}s{}",
             ox::move_cursor{i+2, 0},
             rank.name,
